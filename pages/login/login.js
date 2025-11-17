@@ -110,5 +110,23 @@ Page({
         })
       }
     })
+  },
+
+  // 分享到好友
+  onShareAppMessage: function() {
+    return {
+      title: '六景寻密令 - 探索六景，收集密令！',
+      path: '/pages/login/login',
+      imageUrl: '/images/logo.png'
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function() {
+    return {
+      title: '六景寻密令 - 寻密探索游戏',
+      query: '',
+      imageUrl: '/images/logo.png'
+    }
   }
 })

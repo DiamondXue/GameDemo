@@ -134,5 +134,41 @@ Page({
       content: `正确密令：${this.data.finalCode}`,
       showCancel: false
     })
+  },
+
+  // 分享到好友
+  onShareAppMessage: function() {
+    const { verified, finalCode } = this.data
+    if (verified) {
+      return {
+        title: '六景寻密令 - 我已成功破解密令！',
+        path: '/pages/login/login',
+        imageUrl: '/images/logo.png'
+      }
+    } else {
+      return {
+        title: '六景寻密令 - 来挑战密令验证！',
+        path: '/pages/login/login',
+        imageUrl: '/images/logo.png'
+      }
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function() {
+    const { verified } = this.data
+    if (verified) {
+      return {
+        title: '六景寻密令 - 我已成功破解！',
+        query: '',
+        imageUrl: '/images/logo.png'
+      }
+    } else {
+      return {
+        title: '六景寻密令 - 密令验证挑战',
+        query: '',
+        imageUrl: '/images/logo.png'
+      }
+    }
   }
 })

@@ -106,5 +106,23 @@ Page({
     wx.switchTab({
       url: '/pages/progress/progress'
     })
+  },
+
+  // 分享到好友
+  onShareAppMessage: function() {
+    return {
+      title: '六景寻密令 - 一起来探索六景之美！',
+      path: '/pages/login/login',
+      imageUrl: '/images/logo.png'
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function() {
+    return {
+      title: '六景寻密令 - 探索六景之美',
+      query: '',
+      imageUrl: '/images/logo.png'
+    }
   }
 })

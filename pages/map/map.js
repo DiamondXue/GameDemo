@@ -153,5 +153,24 @@ Page({
         icon: 'success'
       })
     }, 1000)
+  },
+
+  // 分享到好友
+  onShareAppMessage: function() {
+    const teamNumber = this.data.teamInfo ? this.data.teamInfo.teamNumber : ''
+    return {
+      title: '六景寻密令 - 快来一起探索景点吧！',
+      path: '/pages/login/login',
+      imageUrl: '/images/logo.png'
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function() {
+    return {
+      title: '六景寻密令 - 景点探索之旅',
+      query: '',
+      imageUrl: '/images/logo.png'
+    }
   }
 })

@@ -1,0 +1,290 @@
+[
+  {
+    "_id": "team-1-sequence-1",
+    "teamNumber": 1,
+    "spotId": 1,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "滩沙塑驹朝汐立，双浪分波印浅涂"
+  },
+  {
+    "_id": "team-1-sequence-2",
+    "teamNumber": 1,
+    "spotId": 2,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "五阶潮柱标危汛，浪打滩头警色来"
+  },
+  {
+    "_id": "team-1-sequence-3",
+    "teamNumber": 1,
+    "spotId": 3,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "南天坊接四隅境，雕栏刻古向沧溟"
+  },
+  {
+    "_id": "team-2-sequence-1",
+    "teamNumber": 2,
+    "spotId": 2,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "潮柱五阶标险汛，浪打滩头警色来"
+  },
+  {
+    "_id": "team-2-sequence-2",
+    "teamNumber": 2,
+    "spotId": 3,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "坊接南天四隅境，古刻雕栏向海溟"
+  },
+  {
+    "_id": "team-2-sequence-3",
+    "teamNumber": 2,
+    "spotId": 4,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "石题园号临滩岸，花绕碑边伴汐生"
+  },
+  {
+    "_id": "team-3-sequence-1",
+    "teamNumber": 3,
+    "spotId": 2,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "潮柱分阶标五色，滩头浪打汛声来"
+  },
+  {
+    "_id": "team-3-sequence-2",
+    "teamNumber": 3,
+    "spotId": 1,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "沙上神驹朝汐立，双波分色染滩涂"
+  },
+  {
+    "_id": "team-3-sequence-3",
+    "teamNumber": 3,
+    "spotId": 4,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "碑题园名临岸起，花围石侧伴潮生"
+  },
+  {
+    "_id": "team-4-sequence-1",
+    "teamNumber": 4,
+    "spotId": 3,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "坊连四境南天立，古刻雕栏接海溟"
+  },
+  {
+    "_id": "team-4-sequence-2",
+    "teamNumber": 4,
+    "spotId": 5,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "贤像临园传古论，法思载卷惠时人"
+  },
+  {
+    "_id": "team-4-sequence-3",
+    "teamNumber": 4,
+    "spotId": 6,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "浪雕蓝影开六窍，风过空栏响汐声"
+  },
+  {
+    "_id": "team-5-sequence-1",
+    "teamNumber": 5,
+    "spotId": 5,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "古贤塑立传法意，册载思论惠世人"
+  },
+  {
+    "_id": "team-5-sequence-2",
+    "teamNumber": 5,
+    "spotId": 6,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "蓝浪雕身含六隙，风穿空处起潮音"
+  },
+  {
+    "_id": "team-5-sequence-3",
+    "teamNumber": 5,
+    "spotId": 1,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "沙上神驹朝汐立，双波分色染滩涂"
+  },
+  {
+    "_id": "team-6-sequence-1",
+    "teamNumber": 6,
+    "spotId": 6,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "蓝浪雕空藏六窍，风穿镂处响潮声"
+  },
+  {
+    "_id": "team-6-sequence-2",
+    "teamNumber": 6,
+    "spotId": 3,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "南天坊接四隅地，古刻雕栏向海溟"
+  },
+  {
+    "_id": "team-6-sequence-3",
+    "teamNumber": 6,
+    "spotId": 4,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "石题园名临岸畔，花围碑侧伴潮生"
+  },
+  {
+    "_id": "team-7-sequence-1",
+    "teamNumber": 7,
+    "spotId": 4,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "碑题园号临滩岸，花绕石边伴汐生"
+  },
+  {
+    "_id": "team-7-sequence-2",
+    "teamNumber": 7,
+    "spotId": 2,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "潮柱标阶分五色，滩头浪警汛情来"
+  },
+  {
+    "_id": "team-7-sequence-3",
+    "teamNumber": 7,
+    "spotId": 5,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "贤像临园传古意，法论载册惠今人"
+  },
+  {
+    "_id": "team-8-sequence-1",
+    "teamNumber": 8,
+    "spotId": 1,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "沙驹迎汐滩头立，双浪分波染浅涂"
+  },
+  {
+    "_id": "team-8-sequence-2",
+    "teamNumber": 8,
+    "spotId": 6,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "蓝浪雕身开六窍，风穿空隙起潮音"
+  },
+  {
+    "_id": "team-8-sequence-3",
+    "teamNumber": 8,
+    "spotId": 3,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "坊立南天连四境，古雕栏柱接沧溟"
+  },
+  {
+    "_id": "team-9-sequence-1",
+    "teamNumber": 9,
+    "spotId": 2,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "潮柱分阶标五色，滩头浪警汛声来"
+  },
+  {
+    "_id": "team-9-sequence-2",
+    "teamNumber": 9,
+    "spotId": 4,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "碑题园名临岸起，花围石侧伴潮生"
+  },
+  {
+    "_id": "team-9-sequence-3",
+    "teamNumber": 9,
+    "spotId": 1,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "沙上神驹朝汐立，双波分色染滩涂"
+  },
+  {
+    "_id": "team-10-sequence-1",
+    "teamNumber": 10,
+    "spotId": 3,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "南天坊接四隅境，古刻雕栏向海溟"
+  },
+  {
+    "_id": "team-10-sequence-2",
+    "teamNumber": 10,
+    "spotId": 5,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "贤像临园传法意，册载思论惠世人"
+  },
+  {
+    "_id": "team-10-sequence-3",
+    "teamNumber": 10,
+    "spotId": 2,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "潮柱标阶分五色，滩头浪警汛情来"
+  },
+  {
+    "_id": "team-11-sequence-1",
+    "teamNumber": 11,
+    "spotId": 5,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "古贤塑立传思论，法意载卷惠时人"
+  },
+  {
+    "_id": "team-11-sequence-2",
+    "teamNumber": 11,
+    "spotId": 6,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "蓝浪雕空藏六隙，风穿镂处响潮声"
+  },
+  {
+    "_id": "team-11-sequence-3",
+    "teamNumber": 11,
+    "spotId": 4,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "石题园号临滩岸，花绕碑边伴汐生"
+  },
+  {
+    "_id": "team-12-sequence-1",
+    "teamNumber": 12,
+    "spotId": 6,
+    "digit": 1,
+    "sequence": 1,
+    "poem": "蓝浪雕身开六窍，风穿空处起潮音"
+  },
+  {
+    "_id": "team-12-sequence-2",
+    "teamNumber": 12,
+    "spotId": 1,
+    "digit": 2,
+    "sequence": 2,
+    "poem": "沙上神驹朝汐立，双浪分波染浅涂"
+  },
+  {
+    "_id": "team-12-sequence-3",
+    "teamNumber": 12,
+    "spotId": 3,
+    "digit": 3,
+    "sequence": 3,
+    "poem": "坊立南天连四境，古雕栏柱接沧溟"
+  }
+]

@@ -78,5 +78,25 @@ Page({
     wx.navigateTo({
       url: '/pages/checkin/checkin'
     })
+  },
+
+  // 分享到好友
+  onShareAppMessage: function() {
+    const { collectedDigits, totalSpots } = this.data
+    const count = collectedDigits.length
+    return {
+      title: `六景寻密令 - 我已收集 ${count}/${totalSpots} 个密令数字！`,
+      path: '/pages/login/login',
+      imageUrl: '/images/logo.png'
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function() {
+    return {
+      title: '六景寻密令 - 寻密探索挑战',
+      query: '',
+      imageUrl: '/images/logo.png'
+    }
   }
 })

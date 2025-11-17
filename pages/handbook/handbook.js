@@ -60,5 +60,23 @@ Page({
         })
       }
     })
+  },
+
+  // 分享到好友
+  onShareAppMessage: function() {
+    return {
+      title: '六景寻密令 - 快来收集诗句线索！',
+      path: '/pages/login/login',
+      imageUrl: '/images/logo.png'
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function() {
+    return {
+      title: '六景寻密令 - 诗词寻密之旅',
+      query: '',
+      imageUrl: '/images/logo.png'
+    }
   }
 })
