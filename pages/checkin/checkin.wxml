@@ -2,7 +2,7 @@
 <view class="checkin-container">
   <view class="header-section card">
     <text class="header-title">📍 景点打卡</text>
-    <text class="header-subtitle">选择景点并在附近50米内打卡</text>
+    <text class="header-subtitle">选择景点并在附近10米内打卡</text>
   </view>
 
   <view class="loading" wx:if="{{loading}}">
@@ -53,7 +53,7 @@
     <text class="tips-title">💡 打卡提示</text>
     <view class="tip-item">
       <text class="tip-icon">📌</text>
-      <text class="tip-text">请确保已到达景点附近50米范围内</text>
+      <text class="tip-text">请确保已到达景点附近10米范围内</text>
     </view>
     <view class="tip-item">
       <text class="tip-icon">📱</text>

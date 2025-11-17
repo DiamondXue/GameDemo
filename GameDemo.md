@@ -22,7 +22,7 @@
     ◦   显示当前位置与各景点的距离
 
 5.  地理位置签到
-    ◦   获取用户精确定位，并校验是否在景点50米范围内
+    ◦   获取用户精确定位，并校验是否在景点10米范围内
     
     ◦   防止作弊，确保真实到达景点
 
@@ -123,7 +123,7 @@ pages/
   name: string,              // 景点名称
   description: string,       // 景点描述
   geoPoint: GeoPoint,        // 景点经纬度
-  radius: number,            // 有效打卡半径 (米，默认50)
+  radius: number,            // 有效打卡半径 (米，默认10)
   image: string              // 景点图片URL
 }
 
@@ -526,7 +526,7 @@ function toRadians(degrees) {
     "name": "景点一：海滩沙驹",
     "description": "滩沙塑驹朝汐立，双浪分波印浅涂",
     "geoPoint": { "latitude": 23.1234, "longitude": 113.2345 },
-    "radius": 50,
+    "radius": 10,
     "image": "cloud://xxx.jpg"
   },
   {
@@ -534,7 +534,7 @@ function toRadians(degrees) {
     "name": "景点二：五色潮柱",
     "description": "五阶潮柱标危汛，浪打滩头警色来",
     "geoPoint": { "latitude": 23.1235, "longitude": 113.2346 },
-    "radius": 50,
+    "radius": 10,
     "image": "cloud://xxx.jpg"
   },
   {
@@ -542,7 +542,7 @@ function toRadians(degrees) {
     "name": "景点三：南天古坊",
     "description": "南天坊接四隅境，雕栏刻古向沧溟",
     "geoPoint": { "latitude": 23.1236, "longitude": 113.2347 },
-    "radius": 50,
+    "radius": 10,
     "image": "cloud://xxx.jpg"
   },
   {
@@ -550,7 +550,7 @@ function toRadians(degrees) {
     "name": "景点四：花园石碑",
     "description": "石题园号临滩岸，花绕碑边伴汐生",
     "geoPoint": { "latitude": 23.1237, "longitude": 113.2348 },
-    "radius": 50,
+    "radius": 10,
     "image": "cloud://xxx.jpg"
   },
   {
@@ -558,7 +558,7 @@ function toRadians(degrees) {
     "name": "景点五：古贤雕像",
     "description": "古贤立像传思意，法论载册惠今人",
     "geoPoint": { "latitude": 23.1238, "longitude": 113.2349 },
-    "radius": 50,
+    "radius": 10,
     "image": "cloud://xxx.jpg"
   },
   {
@@ -566,7 +566,7 @@ function toRadians(degrees) {
     "name": "景点六：蓝浪石窟",
     "description": "蓝浪雕空含六窍，风穿镂隙起潮声",
     "geoPoint": { "latitude": 23.1239, "longitude": 113.2350 },
-    "radius": 50,
+    "radius": 10,
     "image": "cloud://xxx.jpg"
   }
 ]

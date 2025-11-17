@@ -15,7 +15,7 @@ exports.main = async (event, context) => {
     let config = {
       isActive: true,
       totalSpots: 6,
-      checkInRadius: 50
+      checkInRadius: 10
     }
     
     if (configRes.data.length > 0) {
@@ -35,7 +35,7 @@ exports.main = async (event, context) => {
       config: {
         isActive: true,
         totalSpots: 6,
-        checkInRadius: 50
+        checkInRadius: 10
       }
     }
   }

@@ -19,7 +19,7 @@ CONTENTS:
 
 2. Game Configuration
    - isActive: true
-   - checkInRadius: 50 meters
+   - checkInRadius: 10 meters
    - totalSpots: 6
 
 3. Team Spot Mapping (36 total entries)

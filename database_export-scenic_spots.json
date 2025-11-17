@@ -1,6 +1,6 @@
-{"_id":"22be1a426919e91f03c7b70f5e58fe8d","radius":50.0,"spotId":1.0,"description":"滩沙塑驹朝汐立，双浪分波印浅涂","geoPoint":{"coordinates":[113.198113,23.159789],"type":"Point"},"image":"1","name":"景点一：海滩沙驹"}
-{"_id":"dab5292a6919e95003c922810ed1b683","image":"2","name":"景点二：五色潮柱","radius":50.0,"spotId":2.0,"description":"五阶潮柱标危汛，浪打滩头警色来","geoPoint":{"coordinates":[113.198113,23.159789],"type":"Point"}}
-{"_id":"22be1a426919e96403c7b96845165f4b","name":"景点三：南天古坊","radius":50.0,"spotId":3.0,"description":"南天坊接四隅境，雕栏刻古向沧溟","geoPoint":{"coordinates":[113.198113,23.159789],"type":"Point"},"image":"3"}
-{"_id":"cc84495d6919e97603c189d54d4e76a9","image":"4","name":"景点四：花园石碑","radius":50.0,"spotId":4.0,"description":"石题园号临滩岸，花绕碑边伴汐生","geoPoint":{"coordinates":[113.2348,23.1237],"type":"Point"}}
-{"_id":"a23524646919e98303c507da4cab34d8","name":"景点五：古贤雕像","radius":50.0,"spotId":5.0,"description":"古贤立像传思意，法论载册惠今人","geoPoint":{"coordinates":[113.2349,23.1238],"type":"Point"},"image":"5"}
+{"_id":"22be1a426919e91f03c7b70f5e58fe8d","radius":10.0,"spotId":1.0,"description":"滩沙塑驹朝汐立，双浪分波印浅涂","geoPoint":{"coordinates":[113.198113,23.159789],"type":"Point"},"image":"1","name":"景点一：海滩沙驹"}
+{"_id":"dab5292a6919e95003c922810ed1b683","image":"2","name":"景点二：五色潮柱","radius":10.0,"spotId":2.0,"description":"五阶潮柱标危汛，浪打滩头警色来","geoPoint":{"coordinates":[113.198113,23.159789],"type":"Point"}}
+{"_id":"22be1a426919e96403c7b96845165f4b","name":"景点三：南天古坊","radius":10.0,"spotId":3.0,"description":"南天坊接四隅境，雕栏刻古向沧溟","geoPoint":{"coordinates":[113.198113,23.159789],"type":"Point"},"image":"3"}
+{"_id":"cc84495d6919e97603c189d54d4e76a9","image":"4","name":"景点四：花园石碑","radius":10.0,"spotId":4.0,"description":"石题园号临滩岸，花绕碑边伴汐生","geoPoint":{"coordinates":[113.2348,23.1237],"type":"Point"}}
+{"_id":"a23524646919e98303c507da4cab34d8","name":"景点五：古贤雕像","radius":10.0,"spotId":5.0,"description":"古贤立像传思意，法论载册惠今人","geoPoint":{"coordinates":[113.2349,23.1238],"type":"Point"},"image":"5"}
 {"_id":"da8988ea6919e99303cb006873826dcc","description":"蓝浪雕空含六窍，风穿镂隙起潮声","geoPoint":{"type":"Point","coordinates":[113.235,23.1239]},"image":"6","name":"景点六：蓝浪石窟","radius":50.0,"spotId":6.0}

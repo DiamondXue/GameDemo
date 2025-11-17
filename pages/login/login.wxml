@@ -48,7 +48,7 @@
   <view class="tips">
     <text class="tip-text">💡 温馨提示</text>
     <text class="tip-content">1. 每个组号对应不同的寻密路线</text>
-    <text class="tip-content">2. 需到达景点附近50米内才能打卡</text>
+    <text class="tip-content">2. 需到达景点附近10米内才能打卡</text>
     <text class="tip-content">3. 收集3个数字即可组成最终密令</text>
   </view>
 </view>

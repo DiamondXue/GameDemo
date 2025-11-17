@@ -8,9 +8,9 @@
         "description": "滩沙塑驹朝汐立，双浪分波印浅涂",
         "geoPoint": {
           "type": "Point",
-          "coordinates": [113.197152, 23.15883]
+          "coordinates": [113.617671,22.747206]
         },
-        "radius": 50,
+        "radius": 10,
         "image": ""
       },
       {
@@ -19,9 +19,9 @@
         "description": "五阶潮柱标危汛，浪打滩头警色来",
         "geoPoint": {
           "type": "Point",
-          "coordinates": [113.197171,23.160591]
+          "coordinates": [113.623698,22.753579]
         },
-        "radius": 50,
+        "radius": 10,
         "image": ""
       },
       {
@@ -30,9 +30,9 @@
         "description": "南天坊接四隅境，雕栏刻古向沧溟",
         "geoPoint": {
           "type": "Point",
-          "coordinates": [113.198113,23.159789]
+          "coordinates": [113.621348,22.74925]
         },
-        "radius": 50,
+        "radius": 10,
         "image": ""
       },
       {
@@ -41,9 +41,9 @@
         "description": "石题园号临滩岸，花绕碑边伴汐生",
         "geoPoint": {
           "type": "Point",
-          "coordinates": [113.2348, 23.1237]
+          "coordinates": [113.623113, 22.754447]
         },
-        "radius": 50,
+        "radius": 10,
         "image": ""
       },
       {
@@ -52,9 +52,9 @@
         "description": "古贤立像传思意，法论载册惠今人",
         "geoPoint": {
           "type": "Point",
-          "coordinates": [113.2349, 23.1238]
+          "coordinates": [113.622331, 22.751409]
         },
-        "radius": 50,
+        "radius": 10,
         "image": ""
       },
       {
@@ -63,16 +63,16 @@
         "description": "蓝浪雕空含六窍，风穿镂隙起潮声",
         "geoPoint": {
           "type": "Point",
-          "coordinates": [113.2350, 23.1239]
+          "coordinates": [113.622249, 22.758561]
         },
-        "radius": 50,
+        "radius": 10,
         "image": ""
       }
     ],
     "game_config": [
       {
         "isActive": true,
-        "checkInRadius": 50,
+        "checkInRadius": 10,
         "totalSpots": 6
       }
     ],

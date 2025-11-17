@@ -27,7 +27,7 @@ exports.main = async (event, context) => {
       description: spot.description,
       latitude: spot.geoPoint.latitude,
       longitude: spot.geoPoint.longitude,
-      radius: spot.radius || 50,
+      radius: spot.radius || 10,
       image: spot.image || '',
       checked: checkedSpotIds.includes(spot.spotId)
     }))
