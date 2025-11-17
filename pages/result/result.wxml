@@ -1,0 +1,81 @@
+<!--pages/result/result.wxml-->
+<view class="result-container">
+  <view class="header-section">
+    <text class="header-icon">🎯</text>
+    <text class="header-title">密令验证</text>
+    <text class="header-subtitle">输入您收集到的密令</text>
+  </view>
+
+  <!-- 已收集数字展示 -->
+  <view class="digits-display card">
+    <text class="section-title">已收集数字</text>
+    <view class="digits-list">
+      <view class="digit-box" wx:for="{{collectedDigits}}" wx:key="sequence">
+        <text class="digit-number">{{item.digit}}</text>
+        <text class="digit-label">第{{item.sequence}}个</text>
+      </view>
+    </view>
+    <view class="hint-text">
+      <text class="hint-icon">💡</text>
+      <text>请按照收集顺序组合成3位数字密令</text>
+    </view>
+  </view>
+
+  <!-- 密令输入 -->
+  <view class="input-section card">
+    <text class="section-title">输入密令</text>
+    <view class="code-input-wrapper">
+      <input 
+        class="code-input"
+        type="number"
+        placeholder="请输入3位数字密令"
+        value="{{inputCode}}"
+        bindinput="onCodeInput"
+        maxlength="3"
+      />
+    </view>
+    <button 
+      class="btn-primary verify-btn" 
+      bindtap="verifyCode"
+      loading="{{verifying}}"
+      disabled="{{verifying || verified}}"
+    >
+      {{verifying ? '验证中...' : verified ? '已验证成功' : '验证密令'}}
+    </button>
+  </view>
+
+  <!-- 验证成功 -->
+  <view class="success-section card" wx:if="{{verified}}">
+    <text class="success-icon">🎊</text>
+    <text class="success-title">验证成功！</text>
+    <text class="success-text">恭喜完成《六景寻密令》游戏</text>
+    <view class="success-code">
+      <text class="code-label">正确密令：</text>
+      <text class="code-value">{{finalCode}}</text>
+    </view>
+  </view>
+
+  <!-- 提示信息 -->
+  <view class="tips-section card" wx:if="{{!verified}}">
+    <text class="tips-title">💡 温馨提示</text>
+    <view class="tip-item">
+      <text class="tip-dot">•</text>
+      <text class="tip-text">密令由3个数字组成</text>
+    </view>
+    <view class="tip-item">
+      <text class="tip-dot">•</text>
+      <text class="tip-text">请按照景点打卡的顺序组合数字</text>
+    </view>
+    <view class="tip-item">
+      <text class="tip-dot">•</text>
+      <text class="tip-text">如果忘记密令，可以返回查看进度</text>
+    </view>
+  </view>
+
+  <!-- 查看答案按钮 (仅开发测试用) -->
+  <!-- <view class="answer-section">
+    <button class="btn-secondary answer-btn" bindtap="showAnswer">
+      查看答案（测试）
+    </button>
+  </view> -->
+</view>

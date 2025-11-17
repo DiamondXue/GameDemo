@@ -1,0 +1,167 @@
+/* pages/index/index.wxss */
+.index-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20rpx;
+}
+
+.welcome-section {
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  color: #ffffff;
+  padding: 40rpx;
+  margin-bottom: 20rpx;
+}
+
+.team-info {
+  margin-bottom: 30rpx;
+}
+
+.team-number {
+  display: block;
+  font-size: 44rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.welcome-text {
+  display: block;
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+.progress-section {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  backdrop-filter: blur(10rpx);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.progress-label {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.progress-value {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.rules-section {
+  margin-bottom: 20rpx;
+}
+
+.section-header {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+}
+
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+}
+
+.rule-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44rpx;
+  height: 44rpx;
+  background-color: #ff6b6b;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 24rpx;
+  font-weight: bold;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.rule-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #555555;
+  line-height: 44rpx;
+}
+
+.actions-section {
+  margin-bottom: 20rpx;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.action-item {
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.action-item:active {
+  transform: scale(0.95);
+}
+
+.action-icon {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+.icon-text {
+  font-size: 48rpx;
+}
+
+.action-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.action-desc {
+  font-size: 24rpx;
+  color: #999999;
+  text-align: center;
+}
+
+.status-tip {
+  background-color: #fff3cd;
+  border-left: 4rpx solid #ffc107;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.tip-icon {
+  font-size: 40rpx;
+  margin-right: 16rpx;
+}
+
+.tip-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #856404;
+}

@@ -1,0 +1,71 @@
+<!--pages/checkin/checkin.wxml-->
+<view class="checkin-container">
+  <view class="header-section card">
+    <text class="header-title">📍 景点打卡</text>
+    <text class="header-subtitle">选择景点并在附近50米内打卡</text>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="spots-section" wx:else>
+    <view 
+      class="spot-item card {{selectedSpotId === item.spotId ? 'selected' : ''}} {{item.checked ? 'checked' : ''}}"
+      wx:for="{{spots}}" 
+      wx:key="spotId"
+      bindtap="selectSpot"
+      data-spot-id="{{item.spotId}}"
+    >
+      <view class="spot-header">
+        <view class="spot-number-badge">
+          <text class="spot-number">{{item.spotId}}</text>
+        </view>
+        <view class="spot-info">
+          <text class="spot-name">{{item.name}}</text>
+          <text class="spot-desc">{{item.description}}</text>
+        </view>
+        <view class="spot-status">
+          <text wx:if="{{item.checked}}" class="status-badge status-success">已打卡 ✓</text>
+          <text wx:else class="status-badge status-pending">未打卡</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{spots.length === 0}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无可打卡景点</text>
+    </view>
+  </view>
+
+  <view class="checkin-action">
+    <button 
+      class="btn-primary checkin-btn" 
+      bindtap="handleCheckIn"
+      loading="{{checking}}"
+      disabled="{{checking || !selectedSpotId}}"
+    >
+      {{checking ? '打卡中...' : '确认打卡'}}
+    </button>
+  </view>
+
+  <view class="tips-section card">
+    <text class="tips-title">💡 打卡提示</text>
+    <view class="tip-item">
+      <text class="tip-icon">📌</text>
+      <text class="tip-text">请确保已到达景点附近50米范围内</text>
+    </view>
+    <view class="tip-item">
+      <text class="tip-icon">📱</text>
+      <text class="tip-text">打卡需要开启位置权限</text>
+    </view>
+    <view class="tip-item">
+      <text class="tip-icon">⚠️</text>
+      <text class="tip-text">每个景点只能打卡一次</text>
+    </view>
+    <view class="tip-item">
+      <text class="tip-icon">🎯</text>
+      <text class="tip-text">收集3个数字即可组成密令</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/handbook/handbook",
+    "pages/checkin/checkin",
+    "pages/map/map",
+    "pages/progress/progress",
+    "pages/result/result"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ff6b6b",
+    "navigationBarTitleText": "六景寻密令",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#ff6b6b",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/map/map",
+        "text": "地图",
+        "iconPath": "images/map.png",
+        "selectedIconPath": "images/map-active.png"
+      },
+      {
+        "pagePath": "pages/handbook/handbook",
+        "text": "手册",
+        "iconPath": "images/handbook.png",
+        "selectedIconPath": "images/handbook-active.png"
+      },
+      {
+        "pagePath": "pages/progress/progress",
+        "text": "进度",
+        "iconPath": "images/progress.png",
+        "selectedIconPath": "images/progress-active.png"
+      }
+    ]
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "需要获取您的位置信息，用于景点打卡验证"
+    }
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

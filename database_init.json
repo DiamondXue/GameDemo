@@ -1,0 +1,107 @@
+{
+  "instructions": "Import these collections into your cloud database",
+  "collections": {
+    "scenic_spots": [
+      {
+        "spotId": 1,
+        "name": "景点一：海滩沙驹",
+        "description": "滩沙塑驹朝汐立，双浪分波印浅涂",
+        "geoPoint": {
+          "type": "Point",
+          "coordinates": [113.197152, 23.15883]
+        },
+        "radius": 50,
+        "image": ""
+      },
+      {
+        "spotId": 2,
+        "name": "景点二：五色潮柱",
+        "description": "五阶潮柱标危汛，浪打滩头警色来",
+        "geoPoint": {
+          "type": "Point",
+          "coordinates": [113.197171,23.160591]
+        },
+        "radius": 50,
+        "image": ""
+      },
+      {
+        "spotId": 3,
+        "name": "景点三：南天古坊",
+        "description": "南天坊接四隅境，雕栏刻古向沧溟",
+        "geoPoint": {
+          "type": "Point",
+          "coordinates": [113.198113,23.159789]
+        },
+        "radius": 50,
+        "image": ""
+      },
+      {
+        "spotId": 4,
+        "name": "景点四：花园石碑",
+        "description": "石题园号临滩岸，花绕碑边伴汐生",
+        "geoPoint": {
+          "type": "Point",
+          "coordinates": [113.2348, 23.1237]
+        },
+        "radius": 50,
+        "image": ""
+      },
+      {
+        "spotId": 5,
+        "name": "景点五：古贤雕像",
+        "description": "古贤立像传思意，法论载册惠今人",
+        "geoPoint": {
+          "type": "Point",
+          "coordinates": [113.2349, 23.1238]
+        },
+        "radius": 50,
+        "image": ""
+      },
+      {
+        "spotId": 6,
+        "name": "景点六：蓝浪石窟",
+        "description": "蓝浪雕空含六窍，风穿镂隙起潮声",
+        "geoPoint": {
+          "type": "Point",
+          "coordinates": [113.2350, 23.1239]
+        },
+        "radius": 50,
+        "image": ""
+      }
+    ],
+    "game_config": [
+      {
+        "isActive": true,
+        "checkInRadius": 50,
+        "totalSpots": 6
+      }
+    ],
+    "team_spot_mapping_example": [
+      {
+        "_id": "team-1-sequence-1",
+        "teamNumber": 1,
+        "spotId": 1,
+        "digit": 1,
+        "sequence": 1,
+        "poem": "滩沙塑驹朝汐立，双浪分波印浅涂"
+      },
+      {
+        "_id": "team-1-sequence-2",
+        "teamNumber": 1,
+        "spotId": 2,
+        "digit": 2,
+        "sequence": 2,
+        "poem": "五阶潮柱标危汛，浪打滩头警色来"
+      },
+      {
+        "_id": "team-1-sequence-3",
+        "teamNumber": 1,
+        "spotId": 3,
+        "digit": 3,
+        "sequence": 3,
+        "poem": "南天坊接四隅境，雕栏刻古向沧溟"
+      }
+    ]
+  },
+  "note": "Update scenic spot coordinates to real locations before importing. Create similar mappings for teams 2-12."
+}

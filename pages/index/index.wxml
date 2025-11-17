@@ -1,0 +1,89 @@
+<!--pages/index/index.wxml-->
+<view class="index-container">
+  <!-- 顶部欢迎区域 -->
+  <view class="welcome-section card">
+    <view class="team-info">
+      <text class="team-number">第 {{teamInfo.teamNumber}} 组</text>
+      <text class="welcome-text">欢迎参加寻密游戏！</text>
+    </view>
+    <view class="progress-section">
+      <view class="progress-info">
+        <text class="progress-label">收集进度</text>
+        <text class="progress-value">{{collectedCount}}/{{totalSpots}}</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{progress}}%"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 游戏规则 -->
+  <view class="rules-section card">
+    <view class="section-header">
+      <text class="section-title">🎮 游戏规则</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-number">1</text>
+      <text class="rule-text">前往6个景点中的任意3个景点打卡</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-number">2</text>
+      <text class="rule-text">每个景点解锁一个数字（1-6）</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-number">3</text>
+      <text class="rule-text">根据诗句线索找到正确的景点</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-number">4</text>
+      <text class="rule-text">按顺序组成3位数字密令</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-number">5</text>
+      <text class="rule-text">验证密令完成游戏</text>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="actions-section">
+    <view class="action-grid">
+      <view class="action-item" bindtap="goToHandbook">
+        <view class="action-icon" style="background-color: #4ecdc4;">
+          <text class="icon-text">📖</text>
+        </view>
+        <text class="action-text">寻密手册</text>
+        <text class="action-desc">查看诗句线索</text>
+      </view>
+
+      <view class="action-item" bindtap="goToMap">
+        <view class="action-icon" style="background-color: #ff6b6b;">
+          <text class="icon-text">🗺️</text>
+        </view>
+        <text class="action-text">景点地图</text>
+        <text class="action-desc">导航到景点</text>
+      </view>
+
+      <view class="action-item" bindtap="goToCheckIn">
+        <view class="action-icon" style="background-color: #feca57;">
+          <text class="icon-text">📍</text>
+        </view>
+        <text class="action-text">景点打卡</text>
+        <text class="action-desc">解锁数字</text>
+      </view>
+
+      <view class="action-item" bindtap="goToProgress">
+        <view class="action-icon" style="background-color: #a29bfe;">
+          <text class="icon-text">📊</text>
+        </view>
+        <text class="action-text">我的进度</text>
+        <text class="action-desc">查看已解锁</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 游戏状态提示 -->
+  <view class="status-tip card" wx:if="{{!isGameActive}}">
+    <text class="tip-icon">⚠️</text>
+    <text class="tip-text">游戏暂未开始或已结束</text>
+  </view>
+</view>

@@ -1,0 +1,54 @@
+<!--pages/handbook/handbook.wxml-->
+<view class="handbook-container">
+  <view class="header-section card">
+    <text class="header-title">📖 寻密手册</text>
+    <text class="header-subtitle">根据诗句线索找到对应景点</text>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="poems-section" wx:else>
+    <view class="poem-card card" wx:for="{{poems}}" wx:key="spotId">
+      <view class="poem-header">
+        <view class="spot-badge">
+          <text class="spot-number">{{item.sequence}}</text>
+        </view>
+        <text class="spot-name">{{item.spotName}}</text>
+      </view>
+      <view class="poem-content">
+        <text class="poem-text">{{item.poem}}</text>
+      </view>
+      <view class="poem-hint">
+        <text class="hint-label">💡 提示：</text>
+        <text class="hint-text">到达景点附近50米内即可打卡解锁数字</text>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{poems.length === 0}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无线索</text>
+    </view>
+  </view>
+
+  <view class="guide-section card">
+    <text class="guide-title">🧭 使用指南</text>
+    <view class="guide-item">
+      <text class="guide-step">1.</text>
+      <text class="guide-text">仔细阅读诗句，找到对应的景点</text>
+    </view>
+    <view class="guide-item">
+      <text class="guide-step">2.</text>
+      <text class="guide-text">使用地图导航前往景点</text>
+    </view>
+    <view class="guide-item">
+      <text class="guide-step">3.</text>
+      <text class="guide-text">到达景点后进行打卡</text>
+    </view>
+    <view class="guide-item">
+      <text class="guide-step">4.</text>
+      <text class="guide-text">按序号顺序收集数字组成密令</text>
+    </view>
+  </view>
+</view>

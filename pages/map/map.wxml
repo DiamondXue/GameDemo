@@ -1,0 +1,49 @@
+<!--pages/map/map.wxml-->
+<view class="map-container">
+  <map 
+    id="scenicMap" 
+    longitude="{{centerLon}}" 
+    latitude="{{centerLat}}" 
+    scale="14" 
+    markers="{{markers}}" 
+    show-location="{{true}}"
+    bindmarkertap="onMarkerTap"
+    class="map-view"
+  >
+  </map>
+
+  <view class="refresh-btn" bindtap="refreshLocation">
+    <text class="refresh-icon">🔄</text>
+  </view>
+
+  <view class="spot-list">
+    <view class="list-header">
+      <text class="list-title">景点列表</text>
+      <text class="list-count">共 {{spots.length}} 个景点</text>
+    </view>
+    
+    <scroll-view scroll-y class="spot-scroll">
+      <view 
+        class="spot-item {{item.checked ? 'checked' : ''}}" 
+        wx:for="{{spots}}" 
+        wx:key="spotId"
+        bindtap="navigateToSpot"
+        data-spot="{{item}}"
+      >
+        <view class="spot-main">
+          <view class="spot-badge">
+            <text class="spot-number">{{item.spotId}}</text>
+          </view>
+          <view class="spot-info">
+            <text class="spot-name">{{item.name}}</text>
+            <text class="spot-distance">距离: {{item.distanceText || '计算中...'}}</text>
+          </view>
+        </view>
+        <view class="spot-action">
+          <text wx:if="{{item.checked}}" class="checked-badge">已打卡 ✓</text>
+          <text wx:else class="nav-icon">📍</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

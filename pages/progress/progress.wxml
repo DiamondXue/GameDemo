@@ -1,0 +1,87 @@
+<!--pages/progress/progress.wxml-->
+<view class="progress-container">
+  <view class="header-section card">
+    <text class="header-title">📊 我的进度</text>
+    <text class="header-subtitle">第 {{teamInfo.teamNumber}} 组</text>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="content-section" wx:else>
+    <!-- 进度概览 -->
+    <view class="overview-card card">
+      <view class="overview-header">
+        <text class="overview-title">收集进度</text>
+        <text class="overview-value">{{collectedDigits.length}}/{{totalSpots}}</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{(collectedDigits.length / totalSpots) * 100}}%"></view>
+      </view>
+      <text class="progress-text">
+        {{collectedDigits.length === totalSpots ? '已完成！' : '还需收集 ' + (totalSpots - collectedDigits.length) + ' 个数字'}}
+      </text>
+    </view>
+
+    <!-- 已解锁数字 -->
+    <view class="digits-section card">
+      <text class="section-title">已解锁数字</text>
+      <view class="digits-grid">
+        <view 
+          class="digit-item {{item.unlocked ? '' : 'locked'}}" 
+          wx:for="{{[1, 2, 3]}}" 
+          wx:key="*this"
+        >
+          <view class="digit-card">
+            <text class="digit-number" wx:if="{{collectedDigits[item - 1]}}">
+              {{collectedDigits[item - 1].digit}}
+            </text>
+            <text class="digit-lock" wx:else>🔒</text>
+          </view>
+          <text class="digit-label">第 {{item}} 个</text>
+          <text class="digit-spot" wx:if="{{collectedDigits[item - 1]}}">
+            {{collectedDigits[item - 1].spotName}}
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 最终密令 -->
+    <view class="code-section card" wx:if="{{finalCode}}">
+      <text class="section-title">🎉 最终密令</text>
+      <view class="final-code">
+        <text class="code-text">{{finalCode}}</text>
+      </view>
+      <button class="btn-primary verify-btn" bindtap="goToResult">
+        验证密令
+      </button>
+    </view>
+
+    <view class="code-section card" wx:else>
+      <text class="section-title">继续收集</text>
+      <view class="empty-code">
+        <text class="empty-icon">🎯</text>
+        <text class="empty-text">收集完3个数字即可获得密令</text>
+      </view>
+      <button class="btn-secondary" bindtap="goToCheckIn">
+        前往打卡
+      </button>
+    </view>
+
+    <!-- 打卡记录 -->
+    <view class="records-section card" wx:if="{{collectedDigits.length > 0}}">
+      <text class="section-title">打卡记录</text>
+      <view class="record-item" wx:for="{{collectedDigits}}" wx:key="spotId">
+        <view class="record-icon">✓</view>
+        <view class="record-info">
+          <text class="record-spot">{{item.spotName}}</text>
+          <text class="record-time">{{item.checkInTime}}</text>
+        </view>
+        <view class="record-digit">
+          <text class="digit-badge">{{item.digit}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

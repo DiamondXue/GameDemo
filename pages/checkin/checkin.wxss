@@ -1,0 +1,164 @@
+/* pages/checkin/checkin.wxss */
+.checkin-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20rpx;
+  padding-bottom: 180rpx;
+}
+
+.header-section {
+  background: linear-gradient(135deg, #feca57, #ff6b6b);
+  color: #ffffff;
+  padding: 40rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.header-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+.loading {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999999;
+}
+
+.spots-section {
+  margin-bottom: 20rpx;
+}
+
+.spot-item {
+  margin-bottom: 20rpx;
+  padding: 24rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.spot-item.selected {
+  border-color: #ff6b6b;
+  box-shadow: 0 4rpx 16rpx rgba(255, 107, 107, 0.2);
+}
+
+.spot-item.checked {
+  opacity: 0.6;
+}
+
+.spot-header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.spot-number-badge {
+  width: 56rpx;
+  height: 56rpx;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.spot-number {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.spot-info {
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.spot-name {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.spot-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1.5;
+}
+
+.spot-status {
+  flex-shrink: 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 100rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.checkin-action {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx;
+  background-color: #ffffff;
+  box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.checkin-btn {
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 34rpx;
+}
+
+.tips-section {
+  margin-bottom: 20rpx;
+}
+
+.tips-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+
+.tip-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+}
+
+.tip-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.tip-text {
+  flex: 1;
+  font-size: 26rpx;
+  color: #666666;
+  line-height: 1.6;
+}
