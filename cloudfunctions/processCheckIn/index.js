@@ -29,7 +29,7 @@ exports.main = async (event, context) => {
     )
     
     // 3. 验证是否在有效范围内
-    const validRadius = spot.radius || 10
+    const validRadius = spot.radius || 20
     if (distance > validRadius) {
       return { 
         success: false, 

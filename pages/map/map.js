@@ -6,8 +6,8 @@ Page({
     teamInfo: null,
     spots: [],
     markers: [],
-    centerLat: 23.1236,
-    centerLon: 113.2347,
+    centerLat: 22.75398,
+    centerLon: 113.622984,
     userLocation: null
   },
 

@@ -22,7 +22,7 @@
       </view>
       <view class="poem-hint">
         <text class="hint-label">💡 提示：</text>
-        <text class="hint-text">到达景点附近10米内即可打卡解锁数字</text>
+        <text class="hint-text">到达景点附近20米内即可打卡解锁数字</text>
       </view>
     </view>
 
