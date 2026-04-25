@@ -1,5 +1,5 @@
 {
-  "libVersion": "3.11.2",
+  "libVersion": "3.15.2",
   "projectname": "GameDemo",
   "setting": {
     "urlCheck": true,
@@ -9,6 +9,14 @@
     "preloadBackgroundData": false,
     "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
-    "compileHotReLoad": true
-  }
+    "compileHotReLoad": true,
+    "useApiHook": true,
+    "useStaticServer": false,
+    "useLanDebug": false,
+    "showES6CompileOption": false,
+    "checkInvalidKey": true,
+    "ignoreDevUnusedFiles": true,
+    "bigPackageSizeSupport": false
+  },
+  "condition": {}
 }
