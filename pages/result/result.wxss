@@ -116,6 +116,10 @@
   height: 96rpx;
   line-height: 96rpx;
   font-size: 34rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .success-section {
@@ -206,4 +210,8 @@
 
 .answer-btn {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }

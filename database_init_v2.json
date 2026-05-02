@@ -1,0 +1,106 @@
+{
+  "instructions": "新的数据库集合（需在云开发控制台手动创建以下集合并导入对应数据）",
+  "collections": {
+    "employees": [
+      {
+        "_id": "emp-001",
+        "employeeId": "43334382",
+        "name": "张三",
+        "department": "技术部",
+        "createdAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "emp-002",
+        "employeeId": "43334383",
+        "name": "李四",
+        "department": "市场部",
+        "createdAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "emp-003",
+        "employeeId": "43334384",
+        "name": "王五",
+        "department": "技术部",
+        "createdAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "emp-004",
+        "employeeId": "43334385",
+        "name": "赵六",
+        "department": "财务部",
+        "createdAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "emp-005",
+        "employeeId": "43334386",
+        "name": "孙七",
+        "department": "市场部",
+        "createdAt": "2026-04-26T10:00:00Z"
+      }
+    ],
+    "games": [
+      {
+        "_id": "game-example",
+        "name": "团建寻密活动",
+        "description": "2026年Q2团建活动",
+        "creatorId": "43334382",
+        "status": "active",
+        "groupCount": 2,
+        "memberPerGroup": 3,
+        "spotIds": [1, 2, 3, 4, 5, 6],
+        "spotsPerGroup": 3,
+        "participantCount": 5,
+        "createdAt": "2026-04-26T10:00:00Z",
+        "updatedAt": "2026-04-26T10:00:00Z"
+      }
+    ],
+    "game_participants": [
+      {
+        "_id": "gp-001",
+        "gameId": "game-example",
+        "employeeId": "43334382",
+        "department": "技术部",
+        "name": "张三",
+        "groupNumber": 1,
+        "joinedAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "gp-002",
+        "gameId": "game-example",
+        "employeeId": "43334383",
+        "department": "市场部",
+        "name": "李四",
+        "groupNumber": 1,
+        "joinedAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "gp-003",
+        "gameId": "game-example",
+        "employeeId": "43334385",
+        "department": "财务部",
+        "name": "赵六",
+        "groupNumber": 1,
+        "joinedAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "gp-004",
+        "gameId": "game-example",
+        "employeeId": "43334384",
+        "department": "技术部",
+        "name": "王五",
+        "groupNumber": 2,
+        "joinedAt": "2026-04-26T10:00:00Z"
+      },
+      {
+        "_id": "gp-005",
+        "gameId": "game-example",
+        "employeeId": "43334386",
+        "department": "市场部",
+        "name": "孙七",
+        "groupNumber": 2,
+        "joinedAt": "2026-04-26T10:00:00Z"
+      }
+    ]
+  },
+  "note": "需要创建的集合：employees, games, game_participants。已有的 scenic_spots, team_spot_mapping, checkin_records 保留但需适配新的 gameId 字段。原有的 teams, game_config 集合可删除。"
+}

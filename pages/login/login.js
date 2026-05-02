@@ -1,64 +1,35 @@
 // pages/login/login.js
 Page({
   data: {
-    teamNumber: '',
-    members: ['', '', '', '', ''],
+    employeeId: '',
     loading: false
   },
 
   onLoad: function() {
     // 检查是否已登录
-    const app = getApp()
-    if (app.globalData.isLoggedIn) {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
       wx.switchTab({
-        url: '/pages/index/index'
+        url: '/pages/games/games'
       })
     }
   },
 
-  // 输入组号
-  onTeamNumberInput: function(e) {
-    let value = e.detail.value
-    // 限制输入1-12
-    if (value) {
-      value = parseInt(value)
-      if (value < 1) value = 1
-      if (value > 12) value = 12
-    }
-    this.setData({
-      teamNumber: value.toString()
-    })
-  },
-
-  // 输入成员姓名
-  onMemberInput: function(e) {
-    const index = e.currentTarget.dataset.index
-    const value = e.detail.value
-    const members = this.data.members
-    members[index] = value
-    this.setData({
-      members: members
-    })
+  // 输入员工号
+  onEmployeeIdInput: function(e) {
+    let value = e.detail.value.replace(/\D/g, '') // 只允许数字
+    if (value.length > 8) value = value.slice(0, 8)
+    this.setData({ employeeId: value })
   },
 
   // 登录
   handleLogin: function() {
-    const { teamNumber, members } = this.data
-    
-    // 验证组号
-    if (!teamNumber || teamNumber < 1 || teamNumber > 12) {
-      wx.showToast({
-        title: '请输入正确的组号（1-12）',
-        icon: 'none'
-      })
-      return
-    }
+    const { employeeId } = this.data
 
-    // 验证成员
-    const validMembers = members.filter(m => m.trim() !== '')
-    if (validMembers.length === 0) {
+    // 验证员工号
+    if (!employeeId || employeeId.length !== 8) {
       wx.showToast({
-        title: '请至少输入一位成员姓名',
+        title: '请输入8位员工号',
         icon: 'none'
       })
       return
@@ -66,23 +37,34 @@ Page({
 
     this.setData({ loading: true })
 
+    // 测试账号 00000000 跳过云函数验证
+    if (employeeId === '00000000') {
+      const userInfo = {
+        employeeId: '00000000',
+        name: '测试用户',
+        department: '测试部'
+      }
+      wx.setStorageSync('userInfo', userInfo)
+      this.setData({ loading: false })
+      wx.showToast({ title: '登录成功', icon: 'success' })
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/games/games' })
+      }, 1000)
+      return
+    }
+
     // 调用云函数登录
     wx.cloud.callFunction({
-      name: 'teamLogin',
+      name: 'employeeLogin',
       data: {
-        teamNumber: parseInt(teamNumber),
-        members: validMembers
+        employeeId: employeeId
       },
       success: res => {
         this.setData({ loading: false })
         if (res.result.success) {
           // 保存登录信息
-          const teamInfo = res.result.teamInfo
-          wx.setStorageSync('teamInfo', teamInfo)
-          
-          const app = getApp()
-          app.globalData.isLoggedIn = true
-          app.globalData.teamInfo = teamInfo
+          const userInfo = res.result.userInfo
+          wx.setStorageSync('userInfo', userInfo)
 
           wx.showToast({
             title: '登录成功',
@@ -90,23 +72,24 @@ Page({
           })
 
           setTimeout(() => {
-            wx.switchTab({ 
-              url: '/pages/index/index' 
+            wx.switchTab({
+              url: '/pages/games/games'
             })
           }, 1000)
         } else {
-          wx.showToast({ 
-            title: res.result.message || '登录失败', 
-            icon: 'none' 
+          wx.showToast({
+            title: res.result.message || '登录失败',
+            icon: 'none',
+            duration: 3000
           })
         }
       },
       fail: err => {
         this.setData({ loading: false })
         console.error('登录失败:', err)
-        wx.showToast({ 
-          title: '登录失败，请检查网络', 
-          icon: 'none' 
+        wx.showToast({
+          title: '登录失败，请检查网络',
+          icon: 'none'
         })
       }
     })

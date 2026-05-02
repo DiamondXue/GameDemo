@@ -1,0 +1,127 @@
+<!--pages/create-game/create-game.wxml-->
+<view class="create-container">
+  <!-- 游戏基本信息 -->
+  <view class="section card">
+    <text class="section-title">游戏信息</text>
+    <view class="form-item">
+      <text class="label">游戏名称 *</text>
+      <input class="input" placeholder="例如：团建寻密活动" value="{{name}}" bindinput="onNameInput" maxlength="30" />
+    </view>
+    <view class="form-item">
+      <text class="label">游戏描述</text>
+      <textarea class="textarea" placeholder="可选：游戏说明" value="{{description}}" bindinput="onDescInput" maxlength="200" />
+    </view>
+  </view>
+
+  <!-- 分组设置 -->
+  <view class="section card">
+    <text class="section-title">分组设置</text>
+    <view class="setting-row">
+      <text class="setting-label">组数</text>
+      <view class="stepper">
+        <view class="stepper-btn" bindtap="changeGroupCount" data-action="minus">-</view>
+        <text class="stepper-value">{{groupCount}}</text>
+        <view class="stepper-btn" bindtap="changeGroupCount" data-action="plus">+</view>
+      </view>
+    </view>
+    <view class="setting-row">
+      <text class="setting-label">每组人数</text>
+      <view class="stepper">
+        <view class="stepper-btn" bindtap="changeMemberPerGroup" data-action="minus">-</view>
+        <text class="stepper-value">{{memberPerGroup}}</text>
+        <view class="stepper-btn" bindtap="changeMemberPerGroup" data-action="plus">+</view>
+      </view>
+    </view>
+    <view class="setting-row">
+      <text class="setting-label">每组景点数</text>
+      <view class="stepper">
+        <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="minus">-</view>
+        <text class="stepper-value">{{spotsPerGroup}}</text>
+        <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="plus">+</view>
+      </view>
+    </view>
+    <view class="capacity-info">
+      <text>容量上限：{{groupCount * memberPerGroup}} 人</text>
+      <text class="capacity-current {{selectedIds.length > groupCount * memberPerGroup ? 'over' : ''}}">已选：{{selectedIds.length}} 人</text>
+    </view>
+  </view>
+
+  <!-- 选择参与者 -->
+  <view class="section card">
+    <view class="select-header">
+      <text class="section-title">选择参与者</text>
+      <text class="select-all" bindtap="toggleSelectAll">全选/取消</text>
+    </view>
+
+    <!-- 搜索 -->
+    <view class="search-bar">
+      <input class="search-input" placeholder="搜索员工号或姓名" value="{{keyword}}" bindinput="onSearchInput" />
+      <view class="dept-filter-btn" bindtap="toggleDeptFilter">
+        <text class="dept-filter-text">{{currentDept}}</text>
+        <text class="dept-arrow">{{showDeptFilter ? '▲' : '▼'}}</text>
+      </view>
+    </view>
+
+    <!-- 部门筛选 -->
+    <view class="dept-list" wx:if="{{showDeptFilter}}">
+      <view class="dept-item {{currentDept === '全部' ? 'active' : ''}}" bindtap="selectDept" data-dept="全部">
+        <text>全部 ({{employees.length}})</text>
+      </view>
+      <view class="dept-item {{currentDept === item ? 'active' : ''}}" wx:for="{{departments}}" wx:key="*this" bindtap="selectDept" data-dept="{{item}}">
+        <text>{{item}} ({{deptMap[item].length}})</text>
+      </view>
+    </view>
+
+    <wxs module="utils">
+module.exports = {
+  isSelected: function(selectedIds, id) {
+    if (!selectedIds || !selectedIds.length) return false
+    for (var i = 0; i < selectedIds.length; i++) {
+      if (selectedIds[i] === id) return true
+    }
+    return false
+  }
+}
+</wxs>
+
+<!--员工列表 -->
+    <view class="loading" wx:if="{{loading}}">
+      <text>加载员工列表中...</text>
+    </view>
+
+    <view class="emp-list" wx:elif="{{filteredEmployees.length > 0}}">
+      <view
+        class="emp-item {{utils.isSelected(selectedIds, item.employeeId) ? 'selected' : ''}}"
+        wx:for="{{filteredEmployees}}"
+        wx:key="employeeId"
+        bindtap="toggleEmployee"
+        data-id="{{item.employeeId}}"
+      >
+        <view class="emp-check">
+          <text wx:if="{{utils.isSelected(selectedIds, item.employeeId)}}">✓</text>
+        </view>
+        <view class="emp-info">
+          <text class="emp-id">{{item.employeeId}}</text>
+          <text class="emp-name">{{item.name || '-'}}</text>
+        </view>
+        <text class="emp-dept">{{item.department}}</text>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:else>
+      <text class="empty-text">暂无匹配员工</text>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-section">
+    <button
+      class="btn-primary submit-btn"
+      bindtap="handleSubmit"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+    >
+      创建游戏
+    </button>
+  </view>
+</view>

@@ -12,6 +12,29 @@
   margin-bottom: 20rpx;
 }
 
+.game-name-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.game-name {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.back-btn {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 30rpx;
+  padding: 8rpx 20rpx;
+}
+
+.back-text {
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
 .team-info {
   margin-bottom: 30rpx;
 }

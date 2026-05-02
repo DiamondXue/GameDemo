@@ -1,0 +1,58 @@
+<!--pages/games/games.wxml-->
+<view class="games-container">
+  <!-- 用户信息 -->
+  <view class="user-section card">
+    <view class="user-info">
+      <view class="user-avatar">
+        <text class="avatar-text">{{userInfo.employeeId ? userInfo.employeeId.slice(-4) : '?'}}</text>
+      </view>
+      <view class="user-detail">
+        <text class="user-name">{{userInfo.name || userInfo.employeeId}}</text>
+        <text class="user-dept">{{userInfo.department}}</text>
+      </view>
+    </view>
+    <view class="action-btn" bindtap="goToCreateGame">
+      <text class="action-text">+ 创建游戏</text>
+    </view>
+  </view>
+
+  <!-- 游戏列表 -->
+  <view class="section-header">
+    <text class="section-title">我的游戏</text>
+    <text class="section-count">共 {{games.length}} 个</text>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="games-section" wx:elif="{{games.length > 0}}">
+    <view class="game-card card" wx:for="{{games}}" wx:key="gameId" bindtap="enterGame" data-game="{{item}}">
+      <view class="game-header">
+        <view class="game-status {{item.status}}">
+          <text>{{item.status === 'active' ? '进行中' : item.status === 'finished' ? '已结束' : '已取消'}}</text>
+        </view>
+        <text class="game-date">{{item.createdAt}}</text>
+      </view>
+      <text class="game-name">{{item.name}}</text>
+      <text class="game-desc" wx:if="{{item.description}}">{{item.description}}</text>
+      <view class="game-footer">
+        <view class="game-tag">
+          <text class="tag-text">第 {{item.groupNumber}} 组</text>
+        </view>
+        <view class="game-tag">
+          <text class="tag-text">{{item.participantCount}} 人参与</text>
+        </view>
+        <view class="game-tag">
+          <text class="tag-text">{{item.groupCount}} 个组</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <text class="empty-icon">🎮</text>
+    <text class="empty-text">暂无可参与的游戏</text>
+    <text class="empty-hint">点击上方"创建游戏"开始新游戏</text>
+  </view>
+</view>

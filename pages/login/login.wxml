@@ -8,47 +8,31 @@
 
   <view class="login-form card">
     <view class="form-item">
-      <text class="label">选择组号</text>
-      <input 
+      <text class="label">员工号登录</text>
+      <input
         class="input"
         type="number"
-        placeholder="请输入组号（1-12）"
-        value="{{teamNumber}}"
-        bindinput="onTeamNumberInput"
-        maxlength="2"
+        placeholder="请输入8位员工号"
+        value="{{employeeId}}"
+        bindinput="onEmployeeIdInput"
+        maxlength="8"
       />
     </view>
 
-    <view class="form-item">
-      <text class="label">队员姓名（最多5人）</text>
-      <view class="members-list">
-        <input 
-          wx:for="{{members}}" 
-          wx:key="index"
-          class="input member-input"
-          placeholder="队员{{index + 1}}（选填）"
-          value="{{item}}"
-          bindinput="onMemberInput"
-          data-index="{{index}}"
-          maxlength="20"
-        />
-      </view>
-    </view>
-
-    <button 
-      class="btn-primary login-btn" 
+    <button
+      class="btn-primary login-btn"
       bindtap="handleLogin"
       loading="{{loading}}"
       disabled="{{loading}}"
     >
-      开始寻密
+      登录
     </button>
   </view>
 
   <view class="tips">
     <text class="tip-text">💡 温馨提示</text>
-    <text class="tip-content">1. 每个组号对应不同的寻密路线</text>
-    <text class="tip-content">2. 需到达景点附近10米内才能打卡</text>
-    <text class="tip-content">3. 收集3个数字即可组成最终密令</text>
+    <text class="tip-content">1. 请使用公司8位员工号登录</text>
+    <text class="tip-content">2. 登录后可查看可参与的游戏</text>
+    <text class="tip-content">3. 系统将根据部门自动分组</text>
   </view>
 </view>

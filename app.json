@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/login/login",
+    "pages/games/games",
+    "pages/create-game/create-game",
     "pages/index/index",
     "pages/handbook/handbook",
     "pages/checkin/checkin",
@@ -22,6 +24,12 @@
     "borderStyle": "black",
     "list": [
       {
+        "pagePath": "pages/games/games",
+        "text": "游戏",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
         "pagePath": "pages/index/index",
         "text": "首页",
         "iconPath": "images/home.png",
@@ -32,12 +40,6 @@
         "text": "地图",
         "iconPath": "images/map.png",
         "selectedIconPath": "images/map-active.png"
-      },
-      {
-        "pagePath": "pages/handbook/handbook",
-        "text": "手册",
-        "iconPath": "images/handbook.png",
-        "selectedIconPath": "images/handbook-active.png"
       },
       {
         "pagePath": "pages/progress/progress",

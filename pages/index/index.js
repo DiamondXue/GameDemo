@@ -1,8 +1,8 @@
 // pages/index/index.js
 Page({
   data: {
-    teamInfo: null,
-    gameConfig: null,
+    userInfo: null,
+    currentGame: null,
     progress: 0,
     collectedCount: 0,
     totalSpots: 3,
@@ -11,62 +11,50 @@ Page({
 
   onLoad: function() {
     this.checkLogin()
-    this.loadGameData()
   },
 
   onShow: function() {
-    if (this.data.teamInfo) {
+    // 每次显示页面时，从 storage 重新读取 currentGame，避免缓存问题
+    const currentGame = wx.getStorageSync('currentGame')
+    if (currentGame) {
+      this.setData({ currentGame })
       this.loadProgress()
+    } else {
+      wx.switchTab({ url: '/pages/games/games' })
     }
   },
 
-  // 检查登录状态
   checkLogin: function() {
-    const teamInfo = wx.getStorageSync('teamInfo')
-    if (!teamInfo) {
-      wx.redirectTo({
-        url: '/pages/login/login'
-      })
+    const userInfo = wx.getStorageSync('userInfo')
+    if (!userInfo) {
+      wx.redirectTo({ url: '/pages/login/login' })
       return
     }
-    this.setData({ teamInfo })
+
+    const currentGame = wx.getStorageSync('currentGame')
+    if (!currentGame) {
+      wx.switchTab({ url: '/pages/games/games' })
+      return
+    }
+
+    this.setData({ userInfo, currentGame })
   },
 
-  // 加载游戏数据
-  loadGameData: function() {
-    wx.showLoading({ title: '加载中...' })
-    
-    wx.cloud.callFunction({
-      name: 'getGameConfig',
-      success: res => {
-        wx.hideLoading()
-        if (res.result.success) {
-          this.setData({
-            gameConfig: res.result.config,
-            isGameActive: res.result.config.isActive
-          })
-        }
-      },
-      fail: err => {
-        wx.hideLoading()
-        console.error('加载游戏配置失败:', err)
-      }
-    })
-  },
-
-  // 加载进度
   loadProgress: function() {
-    const teamNumber = this.data.teamInfo.teamNumber
-    
+    const { currentGame, userInfo } = this.data
+
     wx.cloud.callFunction({
       name: 'getTeamProgress',
-      data: { teamNumber },
+      data: {
+        gameId: currentGame.gameId,
+        teamNumber: currentGame.groupNumber
+      },
       success: res => {
         if (res.result.success) {
           const collectedCount = res.result.collectedCount
-          const totalSpots = res.result.totalSpots || 3
+          const totalSpots = currentGame.spotsPerGroup || res.result.totalSpots || 3
           const progress = Math.round((collectedCount / totalSpots) * 100)
-          
+
           this.setData({
             collectedCount,
             totalSpots,
@@ -80,35 +68,27 @@ Page({
     })
   },
 
-  // 前往打卡
   goToCheckIn: function() {
-    wx.navigateTo({
-      url: '/pages/checkin/checkin'
-    })
+    wx.navigateTo({ url: '/pages/checkin/checkin' })
   },
 
-  // 查看手册
   goToHandbook: function() {
-    wx.switchTab({
-      url: '/pages/handbook/handbook'
-    })
+    wx.navigateTo({ url: '/pages/handbook/handbook' })
   },
 
-  // 查看地图
   goToMap: function() {
-    wx.switchTab({
-      url: '/pages/map/map'
-    })
+    wx.switchTab({ url: '/pages/map/map' })
   },
 
-  // 查看进度
   goToProgress: function() {
-    wx.switchTab({
-      url: '/pages/progress/progress'
-    })
+    wx.switchTab({ url: '/pages/progress/progress' })
   },
 
-  // 分享到好友
+  // 返回游戏列表
+  backToGames: function() {
+    wx.switchTab({ url: '/pages/games/games' })
+  },
+
   onShareAppMessage: function() {
     return {
       title: '六景寻密令 - 一起来探索六景之美！',
@@ -117,7 +97,6 @@ Page({
     }
   },
 
-  // 分享到朋友圈
   onShareTimeline: function() {
     return {
       title: '六景寻密令 - 探索六景之美',

@@ -1,7 +1,7 @@
 // pages/result/result.js
 Page({
   data: {
-    teamInfo: null,
+    currentGame: null,
     finalCode: '',
     inputCode: '',
     verified: false,
@@ -15,30 +15,30 @@ Page({
   },
 
   checkLogin: function() {
-    const teamInfo = wx.getStorageSync('teamInfo')
-    if (!teamInfo) {
-      wx.redirectTo({
-        url: '/pages/login/login'
-      })
+    const currentGame = wx.getStorageSync('currentGame')
+    if (!currentGame) {
+      wx.redirectTo({ url: '/pages/login/login' })
       return
     }
-    this.setData({ teamInfo })
+    this.setData({ currentGame })
   },
 
-  // 加载最终密令
   loadFinalCode: function() {
-    const teamNumber = this.data.teamInfo.teamNumber
+    const { currentGame } = this.data
 
     wx.cloud.callFunction({
       name: 'getTeamProgress',
-      data: { teamNumber },
+      data: {
+        gameId: currentGame.gameId,
+        teamNumber: currentGame.groupNumber
+      },
       success: res => {
         if (res.result.success) {
           this.setData({
             finalCode: res.result.finalCode || '',
             collectedDigits: res.result.collectedDigits || []
           })
-          
+
           if (!res.result.finalCode) {
             wx.showModal({
               title: '提示',
@@ -57,30 +57,15 @@ Page({
     })
   },
 
-  // 输入密令
   onCodeInput: function(e) {
-    this.setData({
-      inputCode: e.detail.value
-    })
+    this.setData({ inputCode: e.detail.value })
   },
 
-  // 验证密令
   verifyCode: function() {
-    const { inputCode, teamInfo } = this.data
+    const { inputCode, currentGame } = this.data
 
     if (!inputCode) {
-      wx.showToast({
-        title: '请输入密令',
-        icon: 'none'
-      })
-      return
-    }
-
-    if (inputCode.length !== 3) {
-      wx.showToast({
-        title: '密令必须是3位数字',
-        icon: 'none'
-      })
+      wx.showToast({ title: '请输入密令', icon: 'none' })
       return
     }
 
@@ -89,27 +74,23 @@ Page({
     wx.cloud.callFunction({
       name: 'verifyFinalCode',
       data: {
-        teamNumber: teamInfo.teamNumber,
+        gameId: currentGame.gameId,
+        teamNumber: currentGame.groupNumber,
         submittedCode: inputCode
       },
       success: res => {
         this.setData({ verifying: false })
-        
         if (res.result.success) {
           this.setData({ verified: true })
-          
           wx.showModal({
-            title: '🎊 恭喜！',
+            title: '恭喜！',
             content: '密令正确！您已成功完成寻密游戏！',
             showCancel: false,
-            confirmText: '太棒了',
-            success: () => {
-              // 可以跳转到成功页面或返回首页
-            }
+            confirmText: '太棒了'
           })
         } else {
           wx.showModal({
-            title: '❌ 密令错误',
+            title: '密令错误',
             content: res.result.message || '请检查密令是否正确',
             showCancel: false,
             confirmText: '重试'
@@ -118,57 +99,17 @@ Page({
       },
       fail: err => {
         this.setData({ verifying: false })
-        console.error('验证失败:', err)
-        wx.showToast({
-          title: '验证失败，请重试',
-          icon: 'none'
-        })
+        wx.showToast({ title: '验证失败，请重试', icon: 'none' })
       }
     })
   },
 
-  // 查看答案
-  showAnswer: function() {
-    wx.showModal({
-      title: '密令答案',
-      content: `正确密令：${this.data.finalCode}`,
-      showCancel: false
-    })
-  },
-
-  // 分享到好友
   onShareAppMessage: function() {
-    const { verified, finalCode } = this.data
-    if (verified) {
-      return {
-        title: '六景寻密令 - 我已成功破解密令！',
-        path: '/pages/login/login',
-        imageUrl: '/images/logo.png'
-      }
-    } else {
-      return {
-        title: '六景寻密令 - 来挑战密令验证！',
-        path: '/pages/login/login',
-        imageUrl: '/images/logo.png'
-      }
-    }
-  },
-
-  // 分享到朋友圈
-  onShareTimeline: function() {
     const { verified } = this.data
-    if (verified) {
-      return {
-        title: '六景寻密令 - 我已成功破解！',
-        query: '',
-        imageUrl: '/images/logo.png'
-      }
-    } else {
-      return {
-        title: '六景寻密令 - 密令验证挑战',
-        query: '',
-        imageUrl: '/images/logo.png'
-      }
+    return {
+      title: verified ? '六景寻密令 - 我已成功破解密令！' : '六景寻密令 - 来挑战密令验证！',
+      path: '/pages/login/login',
+      imageUrl: '/images/logo.png'
     }
   }
 })

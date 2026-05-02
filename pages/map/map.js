@@ -3,7 +3,7 @@ const { calculateDistance, formatDistance } = require('../../utils/distance.js')
 
 Page({
   data: {
-    teamInfo: null,
+    currentGame: null,
     spots: [],
     markers: [],
     centerLat: 22.75398,
@@ -18,23 +18,20 @@ Page({
   },
 
   onShow: function() {
-    if (this.data.teamInfo) {
+    if (this.data.currentGame) {
       this.loadSpots()
     }
   },
 
   checkLogin: function() {
-    const teamInfo = wx.getStorageSync('teamInfo')
-    if (!teamInfo) {
-      wx.redirectTo({
-        url: '/pages/login/login'
-      })
+    const currentGame = wx.getStorageSync('currentGame')
+    if (!currentGame) {
+      wx.redirectTo({ url: '/pages/login/login' })
       return
     }
-    this.setData({ teamInfo })
+    this.setData({ currentGame })
   },
 
-  // 获取用户位置
   getUserLocation: function() {
     wx.getLocation({
       type: 'gcj02',
@@ -53,12 +50,12 @@ Page({
     })
   },
 
-  // 加载景点
   loadSpots: function() {
     wx.cloud.callFunction({
       name: 'getScenicSpots',
       data: {
-        teamNumber: this.data.teamInfo.teamNumber
+        gameId: this.data.currentGame.gameId,
+        teamNumber: this.data.currentGame.groupNumber
       },
       success: res => {
         if (res.result.success) {
@@ -74,7 +71,6 @@ Page({
     })
   },
 
-  // 创建地图标记
   createMarkers: function(spots) {
     const markers = spots.map(spot => ({
       id: spot.spotId,
@@ -85,11 +81,9 @@ Page({
       width: 30,
       height: 30
     }))
-    
     this.setData({ markers })
   },
 
-  // 计算距离
   calculateDistances: function() {
     const { spots, userLocation } = this.data
     if (!userLocation || !spots.length) return
@@ -101,21 +95,14 @@ Page({
         spot.latitude,
         spot.longitude
       )
-      return {
-        ...spot,
-        distance: distance,
-        distanceText: formatDistance(distance)
-      }
+      return { ...spot, distance, distanceText: formatDistance(distance) }
     })
-
     this.setData({ spots: updatedSpots })
   },
 
-  // 点击标记
   onMarkerTap: function(e) {
     const markerId = e.detail.markerId
     const spot = this.data.spots.find(s => s.spotId === markerId)
-    
     if (spot) {
       wx.showModal({
         title: spot.name,
@@ -123,16 +110,14 @@ Page({
         confirmText: '导航',
         cancelText: '关闭',
         success: (res) => {
-          if (res.confirm) {
-            this.navigateToSpot(spot)
-          }
+          if (res.confirm) this.navigateToSpot(spot)
         }
       })
     }
   },
 
-  // 导航到景点
-  navigateToSpot: function(spot) {
+  navigateToSpot: function(e) {
+    const spot = e.currentTarget.dataset.spot || e
     wx.openLocation({
       latitude: spot.latitude,
       longitude: spot.longitude,
@@ -142,34 +127,19 @@ Page({
     })
   },
 
-  // 刷新位置
   refreshLocation: function() {
     wx.showLoading({ title: '定位中...' })
     this.getUserLocation()
     setTimeout(() => {
       wx.hideLoading()
-      wx.showToast({
-        title: '位置已更新',
-        icon: 'success'
-      })
+      wx.showToast({ title: '位置已更新', icon: 'success' })
     }, 1000)
   },
 
-  // 分享到好友
   onShareAppMessage: function() {
-    const teamNumber = this.data.teamInfo ? this.data.teamInfo.teamNumber : ''
     return {
       title: '六景寻密令 - 快来一起探索景点吧！',
       path: '/pages/login/login',
-      imageUrl: '/images/logo.png'
-    }
-  },
-
-  // 分享到朋友圈
-  onShareTimeline: function() {
-    return {
-      title: '六景寻密令 - 景点探索之旅',
-      query: '',
       imageUrl: '/images/logo.png'
     }
   }

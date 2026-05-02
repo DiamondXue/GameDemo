@@ -1,10 +1,16 @@
 <!--pages/index/index.wxml-->
 <view class="index-container">
-  <!-- 顶部欢迎区域 -->
+  <!-- 顶部信息 -->
   <view class="welcome-section card">
+    <view class="game-name-section">
+      <text class="game-name">{{currentGame.name}}</text>
+      <view class="back-btn" bindtap="backToGames">
+        <text class="back-text">返回列表</text>
+      </view>
+    </view>
     <view class="team-info">
-      <text class="team-number">第 {{teamInfo.teamNumber}} 组</text>
-      <text class="welcome-text">欢迎参加寻密游戏！</text>
+      <text class="team-number">第 {{currentGame.groupNumber}} 组</text>
+      <text class="welcome-text">{{userInfo.department}} · {{userInfo.name || userInfo.employeeId}}</text>
     </view>
     <view class="progress-section">
       <view class="progress-info">
@@ -20,26 +26,22 @@
   <!-- 游戏规则 -->
   <view class="rules-section card">
     <view class="section-header">
-      <text class="section-title">🎮 游戏规则</text>
+      <text class="section-title">游戏规则</text>
     </view>
     <view class="rule-item">
       <text class="rule-number">1</text>
-      <text class="rule-text">前往6个景点中的任意3个景点打卡</text>
+      <text class="rule-text">前往景点打卡，解锁对应数字</text>
     </view>
     <view class="rule-item">
       <text class="rule-number">2</text>
-      <text class="rule-text">每个景点解锁一个数字（1-6）</text>
-    </view>
-    <view class="rule-item">
-      <text class="rule-number">3</text>
       <text class="rule-text">根据诗句线索找到正确的景点</text>
     </view>
     <view class="rule-item">
-      <text class="rule-number">4</text>
-      <text class="rule-text">按顺序组成3位数字密令</text>
+      <text class="rule-number">3</text>
+      <text class="rule-text">收集{{totalSpots}}个数字组成密令</text>
     </view>
     <view class="rule-item">
-      <text class="rule-number">5</text>
+      <text class="rule-number">4</text>
       <text class="rule-text">验证密令完成游戏</text>
     </view>
   </view>
@@ -79,11 +81,5 @@
         <text class="action-desc">查看已解锁</text>
       </view>
     </view>
-  </view>
-
-  <!-- 游戏状态提示 -->
-  <view class="status-tip card" wx:if="{{!isGameActive}}">
-    <text class="tip-icon">⚠️</text>
-    <text class="tip-text">游戏暂未开始或已结束</text>
   </view>
 </view>
