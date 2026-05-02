@@ -8,7 +8,7 @@
 
 .header {
   text-align: center;
-  margin-bottom: 80rpx;
+  margin-bottom: 60rpx;
 }
 
 .logo {
@@ -32,11 +32,120 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* 地理位置验证区域 */
+.location-section {
+  background-color: #ffffff;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  margin-bottom: 30rpx;
+}
+
+.location-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.location-icon {
+  font-size: 40rpx;
+  margin-right: 16rpx;
+}
+
+.location-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+}
+
+.location-info {
+  margin-bottom: 24rpx;
+}
+
+.location-name {
+  display: block;
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+
+.location-detail {
+  display: block;
+  font-size: 24rpx;
+  color: #888888;
+  margin-bottom: 8rpx;
+}
+
+.location-radius {
+  display: block;
+  font-size: 24rpx;
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
+.location-status {
+  background-color: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.status-text {
+  display: block;
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 1.6;
+}
+
+.status-text.located {
+  color: #52c41a;
+  font-weight: 500;
+}
+
+.status-text.not_in_range {
+  color: #ff4d4f;
+  font-weight: 500;
+}
+
+.status-text.error {
+  color: #ff4d4f;
+}
+
+.status-text.locating {
+  color: #1890ff;
+}
+
+.status-text.init {
+  color: #999999;
+}
+
+.btn-location {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #f0f0f0;
+  color: #333333;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+  border: none;
+  padding: 0;
+}
+
+.btn-location::after {
+  border: none;
+}
+
+.btn-location[disabled] {
+  background-color: #f0f0f0;
+  color: #999999;
+}
+
+/* 登录表单 */
 .login-form {
   background-color: #ffffff;
   border-radius: 24rpx;
   padding: 50rpx 40rpx;
-  margin-bottom: 40rpx;
+  margin-bottom: 30rpx;
 }
 
 .form-item {
@@ -82,6 +191,7 @@
   padding: 0;
 }
 
+/* 提示 */
 .tips {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 16rpx;

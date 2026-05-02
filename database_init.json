@@ -82,6 +82,20 @@
         "totalSpots": 6
       }
     ],
+    "activity_location": [
+      {
+        "_id": "default-location",
+        "name": "南沙天后宫",
+        "latitude": 22.747206,
+        "longitude": 113.617671,
+        "radius": 500,
+        "description": "六景寻密令活动地点",
+        "isActive": false,
+        "createdBy": "system",
+        "createdAt": "2026-05-02T00:00:00.000Z",
+        "updatedAt": "2026-05-02T00:00:00.000Z"
+      }
+    ],
     "team_spot_mapping": [
       {
         "_id": "team-1-sequence-1",

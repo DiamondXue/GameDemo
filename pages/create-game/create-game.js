@@ -227,6 +227,14 @@ Page({
     })
   },
 
+  // 跳转到活动地点管理
+  goToLocationAdmin: function() {
+    wx.navigateTo({
+      url: '/pages/admin-location/admin-location'
+    })
+  },
+
+  // 分享到好友
   onShareAppMessage: function() {
     return {
       title: '六景寻密令',

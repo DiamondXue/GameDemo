@@ -1,0 +1,116 @@
+<!--pages/admin-location/admin-location.wxml-->
+<view class="admin-container">
+  <!-- 当前活动配置状态 -->
+  <view class="current-status card" wx:if="{{currentLocation && currentLocation.isActive}}">
+    <view class="status-header">
+      <text class="status-badge active">当前生效中</text>
+      <text class="status-name">{{currentLocation.name}}</text>
+    </view>
+    <view class="status-details">
+      <text class="detail-item">坐标：{{currentLocation.latitude}}, {{currentLocation.longitude}}</text>
+      <text class="detail-item">范围：{{currentLocation.radius}}米</text>
+      <text class="detail-item" wx:if="{{currentLocation.description}}">说明：{{currentLocation.description}}</text>
+    </view>
+  </view>
+
+  <view class="current-status card" wx:if="{{!currentLocation || !currentLocation.isActive}}">
+    <view class="status-header">
+      <text class="status-badge inactive">未设置活动地点</text>
+    </view>
+    <text class="status-desc">当前未配置活动地点，用户无需定位即可登录</text>
+  </view>
+
+  <!-- 地图预览 -->
+  <view class="map-section card" wx:if="{{showMap}}">
+    <map
+      id="locationMap"
+      class="location-map"
+      latitude="{{mapLatitude}}"
+      longitude="{{mapLongitude}}"
+      markers="{{markers}}"
+      scale="16"
+      bindregionchange="onRegionChange"
+    ></map>
+    <text class="map-tip">拖动地图可更新坐标</text>
+  </view>
+
+  <!-- 配置表单 -->
+  <view class="config-section card">
+    <text class="section-title">设置活动地点</text>
+
+    <view class="form-group">
+      <text class="form-label">地点名称</text>
+      <input class="form-input" placeholder="如：南沙天后宫" value="{{name}}" bindinput="onNameInput" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">坐标</text>
+      <view class="coord-row">
+        <input class="form-input coord-input" placeholder="纬度" value="{{latitude}}" bindinput="onLatitudeInput" type="digit" />
+        <input class="form-input coord-input" placeholder="经度" value="{{longitude}}" bindinput="onLongitudeInput" type="digit" />
+      </view>
+      <view class="action-btns">
+        <button class="btn-small" bindtap="useCurrentLocation">使用当前位置</button>
+        <button class="btn-small" bindtap="toggleMap">{{showMap ? '关闭地图' : '地图选点'}}</button>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">有效范围</text>
+      <view class="radius-row">
+        <button class="btn-minus" data-action="minus" bindtap="changeRadius">-</button>
+        <text class="radius-value">{{radius}}米</text>
+        <button class="btn-plus" data-action="plus" bindtap="changeRadius">+</button>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">说明（选填）</text>
+      <textarea class="form-textarea" placeholder="补充说明，如：请从南门进入" value="{{description}}" bindinput="onDescInput" maxlength="200" />
+    </view>
+
+    <button
+      class="btn-primary save-btn"
+      bindtap="handleSave"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+    >
+      保存并启用
+    </button>
+  </view>
+
+  <!-- 快捷预设 -->
+  <view class="preset-section card">
+    <text class="section-title">快捷预设</text>
+    <view class="preset-list">
+      <button
+        class="preset-btn"
+        wx:for="{{presetLocations}}"
+        wx:key="name"
+        data-index="{{index}}"
+        bindtap="selectPreset"
+      >{{item.name}}</button>
+    </view>
+  </view>
+
+  <!-- 历史配置 -->
+  <view class="history-section card" wx:if="{{historyList.length > 0}}">
+    <text class="section-title">历史配置</text>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{historyList}}" wx:key="_id">
+        <view class="history-info" data-location="{{item}}" bindtap="applyHistory">
+          <text class="history-name">{{item.name}}</text>
+          <text class="history-detail">{{item.latitude}}, {{item.longitude}} | {{item.radius}}米</text>
+          <text class="history-time">{{item.updatedAt}}</text>
+          <text class="history-badge {{item.isActive ? 'active' : 'inactive'}}">{{item.isActive ? '生效中' : '已停用'}}</text>
+        </view>
+        <button
+          class="btn-disable"
+          wx:if="{{item.isActive}}"
+          data-id="{{item._id}}"
+          bindtap="handleDisable"
+        >停用</button>
+      </view>
+    </view>
+  </view>
+</view>

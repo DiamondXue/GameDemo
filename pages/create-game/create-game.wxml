@@ -1,5 +1,17 @@
 <!--pages/create-game/create-game.wxml-->
 <view class="create-container">
+  <!-- 管理入口 -->
+  <view class="section card admin-entry">
+    <view class="admin-link" bindtap="goToLocationAdmin">
+      <text class="admin-icon">📍</text>
+      <view class="admin-text">
+        <text class="admin-title">活动地点管理</text>
+        <text class="admin-desc">配置登录时的活动地点限制</text>
+      </view>
+      <text class="admin-arrow">></text>
+    </view>
+  </view>
+
   <!-- 游戏基本信息 -->
   <view class="section card">
     <text class="section-title">游戏信息</text>

@@ -6,6 +6,30 @@
     <text class="game-subtitle">集齐数字，破解密令</text>
   </view>
 
+  <!-- 地理位置验证区域 -->
+  <view class="location-section card" wx:if="{{activityLocation}}">
+    <view class="location-header">
+      <text class="location-icon">{{locationStatus === 'located' ? '✅' : locationStatus === 'not_in_range' ? '⛔' : locationStatus === 'locating' ? '⏳' : locationStatus === 'error' ? '❌' : '📍'}}</text>
+      <text class="location-title">活动地点验证</text>
+    </view>
+    <view class="location-info">
+      <text class="location-name">活动地点：{{activityLocation.name}}</text>
+      <text class="location-detail" wx:if="{{activityLocation.description}}">{{activityLocation.description}}</text>
+      <text class="location-radius">要求范围：{{locationRadius}}米内</text>
+    </view>
+    <view class="location-status">
+      <text class="status-text {{locationStatus}}">{{locationText}}</text>
+    </view>
+    <button
+      class="btn-location"
+      bindtap="getCurrentLocation"
+      disabled="{{locationStatus === 'locating'}}"
+      loading="{{locationStatus === 'locating'}}"
+    >
+      {{locationStatus === 'located' ? '重新定位' : locationStatus === 'locating' ? '定位中...' : '获取当前位置'}}
+    </button>
+  </view>
+
   <view class="login-form card">
     <view class="form-item">
       <text class="label">员工号登录</text>
@@ -30,9 +54,11 @@
   </view>
 
   <view class="tips">
-    <text class="tip-text">💡 温馨提示</text>
+    <text class="tip-text">温馨提示</text>
     <text class="tip-content">1. 请使用公司8位员工号登录</text>
-    <text class="tip-content">2. 登录后可查看可参与的游戏</text>
-    <text class="tip-content">3. 系统将根据部门自动分组</text>
+    <text class="tip-content" wx:if="{{activityLocation}}">2. 需要在活动地点{{locationRadius}}米范围内才能登录</text>
+    <text class="tip-content" wx:else>2. 登录后可查看可参与的游戏</text>
+    <text class="tip-content" wx:if="{{activityLocation}}">3. 登录后可查看可参与的游戏</text>
+    <text class="tip-content" wx:if="{{!activityLocation}}">3. 系统将根据部门自动分组</text>
   </view>
 </view>
