@@ -65,6 +65,7 @@
 
       <!-- 管理员控制按钮 -->
       <view class="admin-actions" wx:if="{{userInfo.isAdmin}}" catchtap="stopProp">
+        <!-- 待开始：显示开始和取消 -->
         <view
           class="admin-btn btn-start"
           wx:if="{{item.status === 'pending'}}"
@@ -74,6 +75,17 @@
         >
           <text>开始游戏</text>
         </view>
+        <view
+          class="admin-btn btn-cancel"
+          wx:if="{{item.status === 'pending'}}"
+          bindtap="onGameAction"
+          data-gameid="{{item.gameId}}"
+          data-action="cancel"
+        >
+          <text>取消</text>
+        </view>
+        
+        <!-- 进行中：显示结束和取消 -->
         <view
           class="admin-btn btn-finish"
           wx:if="{{item.status === 'active'}}"
@@ -85,12 +97,23 @@
         </view>
         <view
           class="admin-btn btn-cancel"
-          wx:if="{{item.status !== 'finished' && item.status !== 'cancelled'}}"
+          wx:if="{{item.status === 'active'}}"
           bindtap="onGameAction"
           data-gameid="{{item.gameId}}"
           data-action="cancel"
         >
           <text>取消</text>
+        </view>
+        
+        <!-- 已结束/已取消：显示删除 -->
+        <view
+          class="admin-btn btn-delete"
+          wx:if="{{item.status === 'finished' || item.status === 'cancelled'}}"
+          bindtap="onGameAction"
+          data-gameid="{{item.gameId}}"
+          data-action="delete"
+        >
+          <text>删除</text>
         </view>
       </view>
     </view>

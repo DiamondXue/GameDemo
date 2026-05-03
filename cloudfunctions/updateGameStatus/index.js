@@ -41,6 +41,15 @@ exports.main = async (event, context) => {
       newStatus = 'finished'
     } else if (action === 'cancel') {
       newStatus = 'cancelled'
+    } else if (action === 'delete') {
+      // 删除游戏：只能删除已结束或已取消的游戏
+      if (game.status !== 'finished' && game.status !== 'cancelled') {
+        return { success: false, message: '只能删除已结束或已取消的游戏' }
+      }
+      // 删除游戏记录和参与者记录
+      await db.collection('games').doc(gameId).remove()
+      await db.collection('participants').where({ gameId: gameId }).remove()
+      return { success: true, message: '游戏已删除' }
     } else {
       return { success: false, message: '未知操作' }
     }

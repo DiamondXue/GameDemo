@@ -58,8 +58,10 @@ Page({
   // 管理员操作游戏状态
   onGameAction: function (e) {
     const { gameid, action } = e.currentTarget.dataset
-    const actionText = action === 'start' ? '开始' : action === 'finish' ? '结束' : '取消'
-    const confirmText = action === 'finish'
+    const actionText = action === 'start' ? '开始' : action === 'finish' ? '结束' : action === 'cancel' ? '取消' : '删除'
+    const confirmText = action === 'delete'
+      ? '确定删除该游戏？删除后无法恢复'
+      : action === 'finish'
       ? '确定结束游戏？结束后参与者将不能继续打卡'
       : action === 'cancel'
       ? '确定取消游戏？取消后无法恢复'
