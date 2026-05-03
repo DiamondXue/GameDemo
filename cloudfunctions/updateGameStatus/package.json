@@ -1,0 +1,9 @@
+{
+  "name": "updateGameStatus",
+  "version": "1.0.0",
+  "description": "更新游戏状态（开始/结束/取消）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

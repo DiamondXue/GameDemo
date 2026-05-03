@@ -5,8 +5,7 @@ Page({
   data: {
     employeeId: '',
     loading: false,
-    // 地理位置相关
-    locationStatus: 'init', // init | locating | located | not_in_range | error | disabled
+    locationStatus: 'init',
     locationText: '点击下方按钮获取位置',
     userLatitude: null,
     userLongitude: null,
@@ -15,21 +14,16 @@ Page({
     locationRadius: 500
   },
 
-  onLoad: function() {
-    // 检查是否已登录
+  onLoad: function () {
     const userInfo = wx.getStorageSync('userInfo')
     if (userInfo) {
-      wx.switchTab({
-        url: '/pages/games/games'
-      })
+      wx.switchTab({ url: '/pages/games/games' })
       return
     }
-    // 自动获取活动地点配置
     this.getActivityLocation()
   },
 
-  // 获取管理员配置的活动地点
-  getActivityLocation: function() {
+  getActivityLocation: function () {
     wx.cloud.callFunction({
       name: 'activityLocation',
       data: { action: 'get' },
@@ -41,7 +35,6 @@ Page({
             locationText: '点击下方按钮获取位置'
           })
         } else {
-          // 没有配置活动地点，不做位置限制
           this.setData({
             locationStatus: 'disabled',
             locationText: '未配置活动地点，无需定位'
@@ -58,8 +51,7 @@ Page({
     })
   },
 
-  // 获取当前位置
-  getCurrentLocation: function() {
+  getCurrentLocation: function () {
     this.setData({
       locationStatus: 'locating',
       locationText: '定位中...'
@@ -84,7 +76,6 @@ Page({
           return
         }
 
-        // 计算距离
         const distance = calculateDistance(
           latitude, longitude,
           activityLocation.latitude, activityLocation.longitude
@@ -114,59 +105,45 @@ Page({
           locationStatus: 'error',
           locationText: errorMsg
         })
-        wx.showToast({
-          title: errorMsg,
-          icon: 'none'
-        })
+        wx.showToast({ title: errorMsg, icon: 'none' })
       }
     })
   },
 
-  // 输入员工号
-  onEmployeeIdInput: function(e) {
-    let value = e.detail.value.replace(/\D/g, '') // 只允许数字
+  onEmployeeIdInput: function (e) {
+    let value = e.detail.value.replace(/\D/g, '')
     if (value.length > 8) value = value.slice(0, 8)
     this.setData({ employeeId: value })
   },
 
-  // 登录
-  handleLogin: function() {
-    const { employeeId, locationStatus, activityLocation, locationRadius } = this.data
+  handleLogin: function () {
+    const { employeeId, locationStatus, activityLocation } = this.data
 
-    // 验证员工号
     if (!employeeId || employeeId.length !== 8) {
-      wx.showToast({
-        title: '请输入8位员工号',
-        icon: 'none'
-      })
+      wx.showToast({ title: '请输入8位员工号', icon: 'none' })
       return
     }
 
-    // 地理位置校验：如果已配置活动地点且尚未成功定位
     if (activityLocation && locationStatus !== 'located' && locationStatus !== 'disabled') {
       if (locationStatus === 'not_in_range') {
         wx.showToast({
           title: `请前往${activityLocation.name}附近再登录`,
-          icon: 'none',
-          duration: 3000
+          icon: 'none', duration: 3000
         })
       } else {
-        wx.showToast({
-          title: '请先完成定位',
-          icon: 'none'
-        })
+        wx.showToast({ title: '请先完成定位', icon: 'none' })
       }
       return
     }
 
     this.setData({ loading: true })
 
-    // 测试账号 00000000 跳过云函数验证
     if (employeeId === '00000000') {
       const userInfo = {
         employeeId: '00000000',
         name: '测试用户',
-        department: '测试部'
+        department: '测试部',
+        isAdmin: true  // 测试账号默认是管理员
       }
       wx.setStorageSync('userInfo', userInfo)
       this.setData({ loading: false })
@@ -177,50 +154,34 @@ Page({
       return
     }
 
-    // 调用云函数登录
     wx.cloud.callFunction({
       name: 'employeeLogin',
-      data: {
-        employeeId: employeeId
-      },
+      data: { employeeId: employeeId },
       success: res => {
         this.setData({ loading: false })
         if (res.result.success) {
-          // 保存登录信息
           const userInfo = res.result.userInfo
           wx.setStorageSync('userInfo', userInfo)
-
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success'
-          })
-
+          wx.showToast({ title: '登录成功', icon: 'success' })
           setTimeout(() => {
-            wx.switchTab({
-              url: '/pages/games/games'
-            })
+            wx.switchTab({ url: '/pages/games/games' })
           }, 1000)
         } else {
           wx.showToast({
             title: res.result.message || '登录失败',
-            icon: 'none',
-            duration: 3000
+            icon: 'none', duration: 3000
           })
         }
       },
       fail: err => {
         this.setData({ loading: false })
         console.error('登录失败:', err)
-        wx.showToast({
-          title: '登录失败，请检查网络',
-          icon: 'none'
-        })
+        wx.showToast({ title: '登录失败，请检查网络', icon: 'none' })
       }
     })
   },
 
-  // 分享到好友
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
       title: '六景寻密令 - 探索六景，收集密令！',
       path: '/pages/login/login',
@@ -228,8 +189,7 @@ Page({
     }
   },
 
-  // 分享到朋友圈
-  onShareTimeline: function() {
+  onShareTimeline: function () {
     return {
       title: '六景寻密令 - 寻密探索游戏',
       query: '',
