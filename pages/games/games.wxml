@@ -15,6 +15,9 @@
     <view class="action-btn" bindtap="goToCreateGame" wx:if="{{userInfo.isAdmin}}">
       <text class="action-text">+ 创建游戏</text>
     </view>
+    <view class="action-btn secondary" bindtap="goToPendingLogin" wx:if="{{userInfo.isAdmin}}">
+      <text class="action-text">未登录员工</text>
+    </view>
   </view>
 
   <!-- 游戏列表 -->

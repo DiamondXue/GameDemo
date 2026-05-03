@@ -57,6 +57,12 @@
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 40rpx;
   padding: 16rpx 32rpx;
+  display: inline-block;
+}
+
+.action-btn.secondary {
+  background-color: rgba(255, 255, 255, 0.15);
+  margin-left: 16rpx;
 }
 
 .action-text {

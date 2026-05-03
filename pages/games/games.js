@@ -98,6 +98,11 @@ Page({
     wx.navigateTo({ url: '/pages/create-game/create-game' })
   },
 
+  // 前往未登录员工页面（仅管理员）
+  goToPendingLogin: function () {
+    wx.navigateTo({ url: '/pages/admin-pending-login/admin-pending-login' })
+  },
+
   // 阻止事件冒泡
   stopProp: function () {},
 

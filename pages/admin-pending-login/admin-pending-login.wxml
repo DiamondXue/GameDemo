@@ -1,0 +1,50 @@
+<view class="page">
+  <view class="header">
+    <view class="title">未登录员工</view>
+    <view class="subtitle">共 {{total}} 人尚未登录小程序</view>
+  </view>
+
+  <view class="search-bar">
+    <input class="search-input" placeholder="搜索员工号/姓名" value="{{keyword}}" bindinput="onSearchInput" />
+    <button class="refresh-btn" bindtap="loadData">刷新</button>
+  </view>
+
+  <view class="stats-bar">
+    <view class="stat-item">
+      <text class="stat-num">{{total}}</text>
+      <text class="stat-label">未登录</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-num">{{loggedInCount}}</text>
+      <text class="stat-label">已登录</text>
+    </view>
+  </view>
+
+  <view class="dept-tabs">
+    <view class="dept-tab {{currentDept === '全部' ? 'active' : ''}}" data-dept="全部" bindtap="selectDept">全部</view>
+    <view wx:for="{{departments}}" wx:key="*this" 
+          class="dept-tab {{currentDept === item ? 'active' : ''}}" 
+          data-dept="{{item}}" bindtap="selectDept">
+      {{item}}
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="empty" wx:elif="{{filteredEmployees.length === 0}}">
+    <text>🎉 太棒了！所有员工都已登录！</text>
+  </view>
+
+  <view class="employee-list">
+    <view wx:for="{{filteredEmployees}}" wx:key="_id" class="employee-item">
+      <view class="emp-info">
+        <text class="emp-name">{{item.name || '未设置姓名'}}</text>
+        <text class="emp-id">{{item.employeeId}}</text>
+        <text class="emp-dept">{{item.department}}</text>
+      </view>
+      <text class="emp-status">未登录</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,5 @@
+{
+  "name": "getPendingLoginEmployees",
+  "version": "1.0.0",
+  "description": "获取尚未登录的员工列表"
+}
