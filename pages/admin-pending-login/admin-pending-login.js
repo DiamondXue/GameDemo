@@ -30,59 +30,33 @@ Page({
   loadData: function() {
     this.setData({ loading: true })
 
-    // 同时获取未登录和已登录数量
-    Promise.all([
-      this.loadPendingEmployees(),
-      this.loadLoggedInCount()
-    ]).then(() => {
-      this.setData({ loading: false })
-    }).catch(() => {
-      this.setData({ loading: false })
-    })
-  },
-
-  loadPendingEmployees: function() {
-    return new Promise((resolve, reject) => {
-      wx.cloud.callFunction({
-        name: 'getPendingLoginEmployees',
-        data: {
-          keyword: this.data.keyword,
-          department: this.data.currentDept !== '全部' ? this.data.currentDept : ''
-        },
-        success: res => {
-          if (res.result.success) {
-            this.setData({
-              employees: res.result.employees,
-              departments: res.result.departments,
-              deptMap: res.result.deptMap,
-              total: res.result.total,
-              filteredEmployees: res.result.employees
-            })
-          }
-          resolve()
-        },
-        fail: err => {
-          console.error('加载未登录员工失败:', err)
-          wx.showToast({ title: '加载失败', icon: 'none' })
-          reject(err)
+    wx.cloud.callFunction({
+      name: 'getPendingLoginEmployees',
+      data: {
+        keyword: this.data.keyword,
+        department: this.data.currentDept !== '全部' ? this.data.currentDept : ''
+      },
+      success: res => {
+        this.setData({ loading: false })
+        if (res.result.success) {
+          this.setData({
+            employees: res.result.employees,
+            departments: res.result.departments,
+            deptMap: res.result.deptMap,
+            total: res.result.total,
+            filteredEmployees: res.result.employees,
+            loggedInCount: res.result.loggedInCount || 0
+          })
+        } else {
+          console.error('加载失败:', res.result)
+          wx.showToast({ title: res.result.message || '加载失败', icon: 'none' })
         }
-      })
-    })
-  },
-
-  loadLoggedInCount: function() {
-    return new Promise((resolve) => {
-      wx.cloud.callFunction({
-        name: 'getEmployeeList',
-        data: { onlyLoggedIn: true },
-        success: res => {
-          if (res.result.success) {
-            this.setData({ loggedInCount: res.result.total })
-          }
-          resolve()
-        },
-        fail: () => resolve()
-      })
+      },
+      fail: err => {
+        this.setData({ loading: false })
+        console.error('加载未登录员工失败:', err)
+        wx.showToast({ title: '加载失败', icon: 'none' })
+      }
     })
   },
 
