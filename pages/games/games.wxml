@@ -12,7 +12,6 @@
         <text class="admin-badge" wx:if="{{userInfo.isAdmin}}">管理员</text>
       </view>
     </view>
-    <!-- 仅管理员显示"创建游戏"按钮 -->
     <view class="action-btn" bindtap="goToCreateGame" wx:if="{{userInfo.isAdmin}}">
       <text class="action-text">+ 创建游戏</text>
     </view>
@@ -30,7 +29,7 @@
 
   <view class="games-section" wx:elif="{{games.length > 0}}">
     <view
-      class="game-card card {{item.status === 'active' ? 'game-active' : 'game-inactive'}}"
+      class="game-card card {{item.status}}"
       wx:for="{{games}}"
       wx:key="gameId"
       bindtap="enterGame"
@@ -38,7 +37,10 @@
     >
       <view class="game-header">
         <view class="game-status {{item.status}}">
-          <text>{{item.status === 'active' ? '进行中' : item.status === 'finished' ? '已结束' : '已取消'}}</text>
+          <text wx:if="{{item.status === 'pending'}}">待开始</text>
+          <text wx:elif="{{item.status === 'active'}}">进行中</text>
+          <text wx:elif="{{item.status === 'finished'}}">已结束</text>
+          <text wx:else>已取消</text>
         </view>
         <text class="game-date">{{item.createdAt}}</text>
       </view>
@@ -47,27 +49,30 @@
       <text class="game-desc" wx:if="{{item.description}}">{{item.description}}</text>
 
       <view class="game-footer">
-        <view class="game-tag">
+        <view class="game-tag" wx:if="{{item.status === 'pending'}}">
+          <text class="tag-text">待确认分组</text>
+        </view>
+        <view class="game-tag" wx:else>
           <text class="tag-text">第 {{item.groupNumber}} 组</text>
         </view>
         <view class="game-tag">
           <text class="tag-text">{{item.participantCount}} 人</text>
         </view>
         <view class="game-tag">
-          <text class="tag-text">{{item.groupCount}} 个组</text>
+          <text class="tag-text">{{item.groupCount}} 组</text>
         </view>
       </view>
 
       <!-- 管理员控制按钮 -->
-      <view class="admin-actions" wx:if="{{userInfo.isAdmin && item.status !== 'finished' && item.status !== 'cancelled'}}">
+      <view class="admin-actions" wx:if="{{userInfo.isAdmin}}">
         <view
           class="admin-btn btn-start"
-          wx:if="{{item.status !== 'active'}}"
+          wx:if="{{item.status === 'pending'}}"
           bindtap="onGameAction"
           data-gameid="{{item.gameId}}"
           data-action="start"
         >
-          <text>开始</text>
+          <text>开始游戏</text>
         </view>
         <view
           class="admin-btn btn-finish"
@@ -76,10 +81,11 @@
           data-gameid="{{item.gameId}}"
           data-action="finish"
         >
-          <text>结束</text>
+          <text>结束游戏</text>
         </view>
         <view
           class="admin-btn btn-cancel"
+          wx:if="{{item.status !== 'finished' && item.status !== 'cancelled'}}"
           bindtap="onGameAction"
           data-gameid="{{item.gameId}}"
           data-action="cancel"

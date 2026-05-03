@@ -48,7 +48,7 @@ Page({
   enterGame: function (e) {
     const game = e.currentTarget.dataset.game
     if (game.status !== 'active') {
-      wx.showToast({ title: '该游戏未开始或已结束', icon: 'none' })
+      wx.showToast({ title: game.status === 'pending' ? '游戏未开始' : '该游戏已结束', icon: 'none' })
       return
     }
     wx.setStorageSync('currentGame', game)
@@ -63,7 +63,7 @@ Page({
       ? '确定结束游戏？结束后参与者将不能继续打卡'
       : action === 'cancel'
       ? '确定取消游戏？取消后无法恢复'
-      : '确定开始游戏？'
+      : '确定开始游戏？开始后参与者即可打卡'
 
     wx.showModal({
       title: '确认' + actionText,
@@ -93,7 +93,6 @@ Page({
 
   // 前往创建游戏（仅管理员）
   goToCreateGame: function () {
-    // 已在 wxml 通过 isAdmin 限制显示，这里直接跳转
     wx.navigateTo({ url: '/pages/create-game/create-game' })
   },
 

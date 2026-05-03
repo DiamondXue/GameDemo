@@ -56,7 +56,7 @@ exports.main = async (event, context) => {
       name: name,
       description: description || '',
       creatorId: creatorId,
-      status: 'active', // active, finished, cancelled
+      status: 'pending', // pending: 待开始, active: 进行中, finished: 已结束, cancelled: 已取消
       groupCount: groupCount,
       memberPerGroup: memberPerGroup,
       spotIds: spotIds || [], // 关联的景点ID列表
