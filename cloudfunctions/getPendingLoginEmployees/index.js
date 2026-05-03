@@ -18,9 +18,13 @@ exports.main = async (event, context) => {
         regexp: keyword,
         options: 'i'
       })
-      query = db.command.or([
-        { employeeId: reg },
-        { name: reg }
+      // 合并条件：没有lastLoginAt AND (employeeId匹配 OR name匹配)
+      query = db.command.and([
+        { lastLoginAt: db.command.exists(false) },
+        db.command.or([
+          { employeeId: reg },
+          { name: reg }
+        ])
       ])
     }
 
