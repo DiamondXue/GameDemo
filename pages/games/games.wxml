@@ -64,7 +64,7 @@
       </view>
 
       <!-- 管理员控制按钮 -->
-      <view class="admin-actions" wx:if="{{userInfo.isAdmin}}">
+      <view class="admin-actions" wx:if="{{userInfo.isAdmin}}" catchtap="stopProp">
         <view
           class="admin-btn btn-start"
           wx:if="{{item.status === 'pending'}}"

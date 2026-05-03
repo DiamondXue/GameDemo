@@ -96,6 +96,9 @@ Page({
     wx.navigateTo({ url: '/pages/create-game/create-game' })
   },
 
+  // 阻止事件冒泡
+  stopProp: function () {},
+
   onShareAppMessage: function () {
     return {
       title: '六景寻密令 - 一起来探索六景之美！',
