@@ -28,7 +28,9 @@ Page({
       name: 'activityLocation',
       data: { action: 'get' },
       success: res => {
+        console.log('[活动地点] 云函数返回:', res.result)
         if (res.result.success && res.result.location) {
+          console.log('[活动地点] 配置:', res.result.location)
           this.setData({
             activityLocation: res.result.location,
             locationRadius: res.result.location.radius || 500,
@@ -63,6 +65,10 @@ Page({
         const { latitude, longitude } = res
         const { activityLocation, locationRadius } = this.data
 
+        // 调试日志
+        console.log('[定位] 用户位置:', latitude, longitude)
+        console.log('[定位] 活动地点:', activityLocation)
+
         this.setData({
           userLatitude: latitude,
           userLongitude: longitude
@@ -76,10 +82,14 @@ Page({
           return
         }
 
+        console.log('[定位] 活动地点坐标:', activityLocation.latitude, activityLocation.longitude)
+
         const distance = calculateDistance(
           latitude, longitude,
           activityLocation.latitude, activityLocation.longitude
         )
+
+        console.log('[定位] 计算距离:', distance, '米')
 
         this.setData({ distance })
 
