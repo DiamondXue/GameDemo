@@ -23,13 +23,18 @@ exports.main = async (event, context) => {
 
     const employee = empRes.data[0]
 
+    // 记录最后登录时间（用于创建游戏时筛选已登录员工）
+    await db.collection('employees').doc(employee._id).update({
+      data: { lastLoginAt: new Date() }
+    })
+
     return {
       success: true,
       userInfo: {
         employeeId: employee.employeeId,
         department: employee.department,
         name: employee.name || '',
-        isAdmin: employee.isAdmin || false  // 新增：是否管理员
+        isAdmin: employee.isAdmin || false
       }
     }
   } catch (err) {

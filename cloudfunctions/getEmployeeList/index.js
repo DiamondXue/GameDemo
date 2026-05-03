@@ -6,21 +6,30 @@ cloud.init({
 const db = cloud.database()
 
 exports.main = async (event, context) => {
-  const { keyword, department } = event
+  const { keyword, department, onlyLoggedIn } = event
 
   try {
     let query = {}
+
+    // 只显示已登录过的员工
+    if (onlyLoggedIn !== false) {
+      query.lastLoginAt = db.command.exists(true)
+    }
+
     if (keyword) {
-      // 支持按员工号或姓名模糊搜索
       const reg = db.RegExp({
         regexp: keyword,
         options: 'i'
       })
-      query = db.command.or([
-        { employeeId: reg },
-        { name: reg }
-      ])
+      query = {
+        ...query,
+        ...db.command.or([
+          { employeeId: reg },
+          { name: reg }
+        ])
+      }
     }
+
     if (department) {
       query.department = department
     }
@@ -28,7 +37,6 @@ exports.main = async (event, context) => {
     const MAX_LIMIT = 100
     let employees = []
 
-    // 分页获取
     let countRes = await db.collection('employees').where(query).count()
     const total = countRes.total
     const batchTimes = Math.ceil(total / MAX_LIMIT)
@@ -53,8 +61,7 @@ exports.main = async (event, context) => {
       deptMap[dept].push(emp)
     })
 
-    // 获取所有部门列表
-    const departments = Object.keys(deptMap)
+    const departments = Object.keys(deptMap).sort()
 
     return {
       success: true,
