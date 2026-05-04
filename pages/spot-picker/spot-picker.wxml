@@ -1,0 +1,81 @@
+<!--pages/spot-picker/spot-picker.wxml-->
+<view class="picker-container">
+  <!-- 地图 -->
+  <map
+    id="spotMap"
+    class="spot-map"
+    latitude="{{mapLatitude}}"
+    longitude="{{mapLongitude}}"
+    markers="{{markers}}"
+    scale="14"
+    bindlongpress="onMapLongPress"
+  ></map>
+
+  <view class="tip">长按地图添加打卡点</view>
+
+  <!-- 打卡点列表 -->
+  <view class="spot-list-section">
+    <view class="list-header">
+      <text class="list-title">打卡点列表（已选 {{selectedSpotIds.length}} 个）</text>
+      <text class="select-all" bindtap="toggleSelectAll">全选/取消</text>
+    </view>
+
+    <view
+      class="spot-item {{selectedSpotIds.indexOf(item.spotId) > -1 ? 'selected' : ''}}"
+      wx:for="{{spots}}"
+      wx:key="spotId"
+      bindtap="toggleSpot"
+      data-spot-id="{{item.spotId}}"
+    >
+      <view class="spot-check">
+        <text wx:if="{{selectedSpotIds.indexOf(item.spotId) > -1}}">✓</text>
+      </view>
+      <view class="spot-info">
+        <text class="spot-name">{{item.name}}</text>
+        <text class="spot-coord">{{item.geoPoint.coordinates[1]}}, {{item.geoPoint.coordinates[0]}}</text>
+        <text class="spot-radius">范围：{{item.radius}}米</text>
+      </view>
+      <text class="spot-custom" wx:if="{{item.isCustom}}">自定义</text>
+    </view>
+
+    <view class="empty" wx:if="{{spots.length === 0}}">
+      <text>暂无打卡点，请长按地图添加</text>
+    </view>
+  </view>
+
+  <!-- 确认按钮 -->
+  <view class="confirm-section">
+    <button class="btn-primary confirm-btn" bindtap="confirmSelection">
+      确认选择（{{selectedSpotIds.length}} 个打卡点）
+    </button>
+  </view>
+
+  <!-- 添加打卡点弹窗 -->
+  <view class="modal-mask" wx:if="{{showAddModal}}">
+    <view class="modal-content">
+      <text class="modal-title">添加打卡点</text>
+      <view class="modal-body">
+        <view class="form-group">
+          <text class="form-label">名称 *</text>
+          <input class="form-input" placeholder="输入打卡点名称" value="{{newSpotName}}" bindinput="onNewSpotNameInput" />
+        </view>
+        <view class="form-group">
+          <text class="form-label">范围（米）</text>
+          <view class="stepper">
+            <view class="stepper-btn" bindtap="changeNewSpotRadius" data-action="minus">-</view>
+            <text class="stepper-value">{{newSpotRadius}}</text>
+            <view class="stepper-btn" bindtap="changeNewSpotRadius" data-action="plus">+</view>
+          </view>
+        </view>
+        <view class="form-group">
+          <text class="form-label">坐标</text>
+          <text class="coord-text">{{newSpotLat}}, {{newSpotLng}}</text>
+        </view>
+      </view>
+      <view class="modal-footer">
+        <button class="btn-cancel" bindtap="cancelAddSpot">取消</button>
+        <button class="btn-primary" bindtap="confirmAddSpot">确认添加</button>
+      </view>
+    </view>
+  </view>
+</view>

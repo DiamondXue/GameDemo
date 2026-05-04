@@ -12,6 +12,18 @@
     </view>
   </view>
 
+  <!-- 打卡点设置 -->
+  <view class="section card spot-entry">
+    <view class="spot-link" bindtap="goToSpotPicker">
+      <text class="spot-icon">📍</text>
+      <view class="spot-text">
+        <text class="spot-title">打卡点设置</text>
+        <text class="spot-desc">{{selectedSpotIds.length > 0 ? '已选' + selectedSpotIds.length + '个打卡点' : '点击选择打卡点'}}</text>
+      </view>
+      <text class="spot-arrow">></text>
+    </view>
+  </view>
+
   <!-- 游戏基本信息 -->
   <view class="section card">
     <text class="section-title">游戏信息</text>

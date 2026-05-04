@@ -6,6 +6,7 @@ Page({
     groupCount: 4,
     memberPerGroup: 5,
     spotsPerGroup: 3,
+    selectedSpotIds: [],
     employees: [],
     departments: [],
     deptMap: {},
@@ -198,7 +199,7 @@ Page({
         participantIds: selectedIds,
         groupCount: groupCount,
         memberPerGroup: memberPerGroup,
-        spotIds: [1, 2, 3, 4, 5, 6], // 默认6个景点
+        spotIds: this.data.selectedSpotIds.length > 0 ? this.data.selectedSpotIds : [1, 2, 3, 4, 5, 6],
         spotsPerGroup: spotsPerGroup
       },
       success: res => {
@@ -231,6 +232,14 @@ Page({
   goToLocationAdmin: function() {
     wx.navigateTo({
       url: '/pages/admin-location/admin-location'
+    })
+  },
+
+  // 选择打卡点
+  goToSpotPicker: function() {
+    const selectedSpotIds = encodeURIComponent(JSON.stringify(this.data.selectedSpotIds))
+    wx.navigateTo({
+      url: `/pages/spot-picker/spot-picker?selectedSpotIds=${selectedSpotIds}`
     })
   },
 

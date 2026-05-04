@@ -10,7 +10,8 @@
     "pages/progress/progress",
     "pages/result/result",
     "pages/admin-location/admin-location",
-    "pages/admin-pending-login/admin-pending-login"
+    "pages/admin-pending-login/admin-pending-login",
+    "pages/spot-picker/spot-picker"
   ],
   "window": {
     "backgroundTextStyle": "light",

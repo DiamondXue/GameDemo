@@ -306,3 +306,42 @@
   justify-content: center;
   padding: 0;
 }
+/* 打卡点入口 */
+.spot-entry {
+  padding: 0;
+  overflow: hidden;
+}
+
+.spot-link {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+}
+
+.spot-icon {
+  font-size: 44rpx;
+  margin-right: 20rpx;
+}
+
+.spot-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.spot-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.spot-desc {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.spot-arrow {
+  font-size: 28rpx;
+  color: #ccc;
+}
