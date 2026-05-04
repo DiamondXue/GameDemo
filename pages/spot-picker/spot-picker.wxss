@@ -31,6 +31,12 @@
   margin-bottom: 12px;
 }
 
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 .list-title {
   font-size: 15px;
   font-weight: 500;
@@ -39,6 +45,14 @@
 .select-all {
   font-size: 13px;
   color: #1890ff;
+}
+
+.add-spot {
+  font-size: 13px;
+  color: #fff;
+  background: #1890ff;
+  padding: 4px 12px;
+  border-radius: 4px;
 }
 
 .spot-item {

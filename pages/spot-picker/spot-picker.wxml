@@ -17,7 +17,10 @@
   <view class="spot-list-section">
     <view class="list-header">
       <text class="list-title">打卡点列表（已选 {{selectedSpotIds.length}} 个）</text>
-      <text class="select-all" bindtap="toggleSelectAll">全选/取消</text>
+      <view class="header-actions">
+        <text class="add-spot" bindtap="showAddModal">添加</text>
+        <text class="select-all" bindtap="toggleSelectAll">全选/取消</text>
+      </view>
     </view>
 
     <view

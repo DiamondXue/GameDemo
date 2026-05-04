@@ -70,6 +70,33 @@ Page({
     })
   },
 
+  // 点击"添加"按钮，使用地图中心坐标
+  showAddModal: function() {
+    // 获取地图中心坐标
+    const mapCtx = wx.createMapContext('spotMap')
+    mapCtx.getCenterLocation({
+      success: res => {
+        this.setData({
+          showAddModal: true,
+          newSpotLat: res.latitude,
+          newSpotLng: res.longitude,
+          newSpotName: '',
+          newSpotRadius: 20
+        })
+      },
+      fail: () => {
+        // 如果获取失败，使用默认坐标
+        this.setData({
+          showAddModal: true,
+          newSpotLat: this.data.mapLatitude,
+          newSpotLng: this.data.mapLongitude,
+          newSpotName: '',
+          newSpotRadius: 20
+        })
+      }
+    })
+  },
+
   // 输入新打卡点名称
   onNewSpotNameInput: function(e) {
     this.setData({ newSpotName: e.detail.value })
