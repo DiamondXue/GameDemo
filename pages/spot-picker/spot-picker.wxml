@@ -24,18 +24,22 @@
       class="spot-item {{item.isSelected ? 'selected' : ''}}"
       wx:for="{{spots}}"
       wx:key="spotId"
-      bindtap="toggleSpot"
-      data-spot-id="{{item.spotId}}"
     >
-      <view class="spot-check">
-        <text wx:if="{{item.isSelected}}">✓</text>
+      <view class="spot-main" bindtap="toggleSpot" data-spot-id="{{item.spotId}}">
+        <view class="spot-check">
+          <text wx:if="{{item.isSelected}}">✓</text>
+        </view>
+        <view class="spot-info">
+          <text class="spot-name">{{item.name}}</text>
+          <text class="spot-coord">{{item.geoPoint.coordinates[1]}}, {{item.geoPoint.coordinates[0]}}</text>
+          <text class="spot-radius">范围：{{item.radius}}米</text>
+        </view>
+        <text class="spot-custom" wx:if="{{item.isCustom}}">自定义</text>
       </view>
-      <view class="spot-info">
-        <text class="spot-name">{{item.name}}</text>
-        <text class="spot-coord">{{item.geoPoint.coordinates[1]}}, {{item.geoPoint.coordinates[0]}}</text>
-        <text class="spot-radius">范围：{{item.radius}}米</text>
+      <view class="spot-actions">
+        <text class="action-edit" bindtap="editSpot" data-spot-id="{{item.spotId}}">编辑</text>
+        <text class="action-delete" bindtap="deleteSpot" data-spot-id="{{item.spotId}}">删除</text>
       </view>
-      <text class="spot-custom" wx:if="{{item.isCustom}}">自定义</text>
     </view>
 
     <view class="empty" wx:if="{{spots.length === 0}}">
@@ -75,6 +79,31 @@
       <view class="modal-footer">
         <button class="btn-cancel" bindtap="cancelAddSpot">取消</button>
         <button class="btn-primary" bindtap="confirmAddSpot">确认添加</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 编辑打卡点弹窗 -->
+  <view class="modal-mask" wx:if="{{showEditModal}}">
+    <view class="modal-content">
+      <text class="modal-title">编辑打卡点</text>
+      <view class="modal-body">
+        <view class="form-group">
+          <text class="form-label">名称 *</text>
+          <input class="form-input" placeholder="输入打卡点名称" value="{{editSpotName}}" bindinput="onEditSpotNameInput" />
+        </view>
+        <view class="form-group">
+          <text class="form-label">范围（米）</text>
+          <view class="stepper">
+            <view class="stepper-btn" bindtap="changeEditSpotRadius" data-action="minus">-</view>
+            <text class="stepper-value">{{editSpotRadius}}</text>
+            <view class="stepper-btn" bindtap="changeEditSpotRadius" data-action="plus">+</view>
+          </view>
+        </view>
+      </view>
+      <view class="modal-footer">
+        <button class="btn-cancel" bindtap="cancelEditSpot">取消</button>
+        <button class="btn-primary" bindtap="confirmEditSpot">确认修改</button>
       </view>
     </view>
   </view>

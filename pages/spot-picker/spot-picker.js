@@ -13,7 +13,12 @@ Page({
     newSpotName: '',
     newSpotRadius: 20,
     newSpotLat: 0,
-    newSpotLng: 0
+    newSpotLng: 0,
+    // 编辑打卡点弹窗
+    showEditModal: false,
+    editSpotId: 0,
+    editSpotName: '',
+    editSpotRadius: 20
   },
 
   onLoad: function(options) {
@@ -112,6 +117,98 @@ Page({
   // 取消添加
   cancelAddSpot: function() {
     this.setData({ showAddModal: false })
+  },
+
+  // 编辑打卡点
+  editSpot: function(e) {
+    const spotId = parseInt(e.currentTarget.dataset.spotId)
+    const spot = this.data.spots.find(s => s.spotId === spotId)
+    if (!spot) return
+
+    this.setData({
+      showEditModal: true,
+      editSpotId: spotId,
+      editSpotName: spot.name,
+      editSpotRadius: spot.radius || 20
+    })
+  },
+
+  // 输入编辑打卡点名称
+  onEditSpotNameInput: function(e) {
+    this.setData({ editSpotName: e.detail.value })
+  },
+
+  // 调整编辑打卡点范围
+  changeEditSpotRadius: function(e) {
+    const action = e.currentTarget.dataset.action
+    let val = this.data.editSpotRadius + (action === 'plus' ? 5 : -5)
+    if (val < 5) val = 5
+    if (val > 200) val = 200
+    this.setData({ editSpotRadius: val })
+  },
+
+  // 确认编辑打卡点
+  confirmEditSpot: function() {
+    const { editSpotId, editSpotName, editSpotRadius } = this.data
+    if (!editSpotName.trim()) {
+      wx.showToast({ title: '请输入打卡点名称', icon: 'none' })
+      return
+    }
+
+    wx.cloud.callFunction({
+      name: 'manageSpots',
+      data: {
+        action: 'update',
+        spotId: editSpotId,
+        name: editSpotName.trim(),
+        radius: editSpotRadius
+      },
+      success: res => {
+        if (res.result.success) {
+          wx.showToast({ title: '修改成功', icon: 'success' })
+          this.setData({ showEditModal: false })
+          this.loadSpots()
+        } else {
+          wx.showToast({ title: res.result.message, icon: 'none' })
+        }
+      }
+    })
+  },
+
+  // 取消编辑
+  cancelEditSpot: function() {
+    this.setData({ showEditModal: false })
+  },
+
+  // 删除打卡点
+  deleteSpot: function(e) {
+    const spotId = parseInt(e.currentTarget.dataset.spotId)
+    const spot = this.data.spots.find(s => s.spotId === spotId)
+    if (!spot) return
+
+    wx.showModal({
+      title: '确认删除',
+      content: `确定要删除打卡点"${spot.name}"吗？`,
+      success: res => {
+        if (res.confirm) {
+          wx.cloud.callFunction({
+            name: 'manageSpots',
+            data: {
+              action: 'delete',
+              spotId: spotId
+            },
+            success: res => {
+              if (res.result.success) {
+                wx.showToast({ title: '删除成功', icon: 'success' })
+                this.loadSpots()
+              } else {
+                wx.showToast({ title: res.result.message, icon: 'none' })
+              }
+            }
+          })
+        }
+      }
+    })
   },
 
   // 切换打卡点选中状态

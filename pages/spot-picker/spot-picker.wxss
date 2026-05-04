@@ -44,6 +44,7 @@
 .spot-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 12px;
   margin-bottom: 8px;
   border-radius: 8px;
@@ -54,6 +55,12 @@
 .spot-item.selected {
   border-color: #1890ff;
   background: #e6f7ff;
+}
+
+.spot-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
 }
 
 .spot-check {
@@ -103,6 +110,29 @@
   border: 1px solid #ff4d4f;
   border-radius: 4px;
   padding: 2px 6px;
+}
+
+.spot-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.action-edit {
+  font-size: 12px;
+  color: #1890ff;
+  padding: 4px 8px;
+  border: 1px solid #1890ff;
+  border-radius: 4px;
+}
+
+.action-delete {
+  font-size: 12px;
+  color: #ff4d4f;
+  padding: 4px 8px;
+  border: 1px solid #ff4d4f;
+  border-radius: 4px;
 }
 
 .confirm-section {
