@@ -17,9 +17,10 @@ Page({
   },
 
   onLoad: function(options) {
-    // 接收已选中的 spotIds
+    // 接收已选中的 spotIds，确保是数字数组
     if (options.selectedSpotIds) {
       const selectedSpotIds = JSON.parse(decodeURIComponent(options.selectedSpotIds))
+        .map(id => parseInt(id))
       this.setData({ selectedSpotIds })
     }
     this.loadSpots()
@@ -32,7 +33,11 @@ Page({
       data: { action: 'list' },
       success: res => {
         if (res.result.success) {
-          const spots = res.result.spots
+          const selectedSpotIds = this.data.selectedSpotIds
+          const spots = res.result.spots.map(spot => ({
+            ...spot,
+            isSelected: selectedSpotIds.includes(spot.spotId)
+          }))
           const markers = spots.map(spot => ({
             id: spot.spotId,
             latitude: spot.geoPoint.coordinates[1],
@@ -111,25 +116,48 @@ Page({
 
   // 切换打卡点选中状态
   toggleSpot: function(e) {
-    const spotId = e.currentTarget.dataset.spotId
-    let { selectedSpotIds } = this.data
-    const index = selectedSpotIds.indexOf(spotId)
-    if (index > -1) {
-      selectedSpotIds.splice(index, 1)
-    } else {
-      selectedSpotIds.push(spotId)
-    }
-    this.setData({ selectedSpotIds })
+    const spotId = parseInt(e.currentTarget.dataset.spotId)  // 转换为数字
+    const { spots, selectedSpotIds } = this.data
+    
+    // 更新spots中对应项的isSelected
+    const updatedSpots = spots.map(spot => {
+      if (spot.spotId === spotId) {
+        return { ...spot, isSelected: !spot.isSelected }
+      }
+      return spot
+    })
+    
+    // 重新计算selectedSpotIds
+    const newSelectedSpotIds = updatedSpots
+      .filter(spot => spot.isSelected)
+      .map(spot => spot.spotId)
+    
+    this.setData({ 
+      spots: updatedSpots, 
+      selectedSpotIds: newSelectedSpotIds 
+    })
   },
 
   // 全选/取消全选
   toggleSelectAll: function() {
     const { spots, selectedSpotIds } = this.data
+    let newSelectedSpotIds
+    let updatedSpots
+    
     if (selectedSpotIds.length === spots.length) {
-      this.setData({ selectedSpotIds: [] })
+      // 取消全选
+      newSelectedSpotIds = []
+      updatedSpots = spots.map(spot => ({ ...spot, isSelected: false }))
     } else {
-      this.setData({ selectedSpotIds: spots.map(s => s.spotId) })
+      // 全选
+      newSelectedSpotIds = spots.map(s => s.spotId)
+      updatedSpots = spots.map(spot => ({ ...spot, isSelected: true }))
     }
+    
+    this.setData({ 
+      spots: updatedSpots, 
+      selectedSpotIds: newSelectedSpotIds 
+    })
   },
 
   // 确认选择，返回创建页

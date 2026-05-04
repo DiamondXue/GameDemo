@@ -7,11 +7,12 @@ const db = cloud.database()
 
 exports.main = async (event, context) => {
   const { gameId, teamNumber, spotId, location } = event
+  const spotIdNum = parseInt(spotId)  // 确保spotId是数字类型
 
   try {
     // 1. 获取景点信息
     const spotRes = await db.collection('scenic_spots')
-      .where({ spotId: spotId })
+      .where({ spotId: spotIdNum })
       .get()
 
     if (spotRes.data.length === 0) {
@@ -40,7 +41,7 @@ exports.main = async (event, context) => {
       .where({
         gameId: gameId,
         teamNumber: teamNumber,
-        spotId: spotId
+        spotId: spotIdNum
       })
       .get()
 
@@ -53,7 +54,7 @@ exports.main = async (event, context) => {
       .where({
         gameId: gameId,
         teamNumber: teamNumber,
-        spotId: spotId
+        spotId: spotIdNum
       })
       .get()
 
@@ -69,7 +70,7 @@ exports.main = async (event, context) => {
       data: {
         gameId: gameId,
         teamNumber: teamNumber,
-        spotId: spotId,
+        spotId: spotIdNum,
         checkInTime: new Date(),
         location: new db.Geo.Point(location.lon, location.lat),
         distance: distance,

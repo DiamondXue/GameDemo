@@ -21,14 +21,14 @@
     </view>
 
     <view
-      class="spot-item {{selectedSpotIds.indexOf(item.spotId) > -1 ? 'selected' : ''}}"
+      class="spot-item {{item.isSelected ? 'selected' : ''}}"
       wx:for="{{spots}}"
       wx:key="spotId"
       bindtap="toggleSpot"
       data-spot-id="{{item.spotId}}"
     >
       <view class="spot-check">
-        <text wx:if="{{selectedSpotIds.indexOf(item.spotId) > -1}}">✓</text>
+        <text wx:if="{{item.isSelected}}">✓</text>
       </view>
       <view class="spot-info">
         <text class="spot-name">{{item.name}}</text>
