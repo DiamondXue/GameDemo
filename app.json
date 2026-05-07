@@ -11,7 +11,8 @@
     "pages/result/result",
     "pages/admin-location/admin-location",
     "pages/admin-pending-login/admin-pending-login",
-    "pages/spot-picker/spot-picker"
+    "pages/spot-picker/spot-picker",
+    "pages/admin-dashboard/admin-dashboard"
   ],
   "window": {
     "backgroundTextStyle": "light",

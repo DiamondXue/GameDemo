@@ -57,7 +57,9 @@ Page({
     this.setData({
       selectedSpotId: spotId,
       showPhotoSection: !!spot && !spot.checked,
-      selectedSpotChecked: !!spot && spot.checked
+      selectedSpotChecked: !!spot && spot.checked,
+      teamPhoto: null,
+      teamPhotoTempPath: null
     })
   },
 

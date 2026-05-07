@@ -1,0 +1,102 @@
+<!--pages/admin-dashboard/admin-dashboard.wxml-->
+<view class="admin-container">
+  <view class="header-section card">
+    <text class="header-title">管理仪表盘</text>
+    <text class="header-subtitle" wx:if="{{gameName}}">{{gameName}}</text>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="content" wx:else>
+    <!-- Tab 切换 -->
+    <view class="tab-bar">
+      <view class="tab-item {{activeTab === 'leaderboard' ? 'active' : ''}}" data-tab="leaderboard" bindtap="switchTab">
+        <text>排行榜</text>
+      </view>
+      <view class="tab-item {{activeTab === 'teams' ? 'active' : ''}}" data-tab="teams" bindtap="switchTab">
+        <text>各组情况</text>
+      </view>
+    </view>
+
+    <!-- 排行榜 -->
+    <view wx:if="{{activeTab === 'leaderboard'}}">
+      <view class="section-card card">
+        <text class="section-title">完成排行榜</text>
+        <text class="section-desc" wx:if="{{leaderboard.length === 0}}">暂无完成全部打卡的队伍</text>
+
+        <view class="leaderboard-list" wx:else>
+          <view class="lb-header row">
+            <text class="lb-col rank-col">排名</text>
+            <text class="lb-col team-col">组号</text>
+            <text class="lb-col time-col">总用时</text>
+            <text class="lb-col done-col">完成时间</text>
+          </view>
+          <view class="lb-row {{index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : ''}}"
+            wx:for="{{leaderboard}}" wx:key="rank"
+          >
+            <view class="lb-col rank-col">
+              <text class="rank-badge">{{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : item.rank}}</text>
+            </view>
+            <text class="lb-col team-col">第 {{item.teamNumber}} 组</text>
+            <text class="lb-col time-col">{{item.totalDurationText}}</text>
+            <text class="lb-col done-col">{{item.completionTime}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 各组情况 -->
+    <view wx:if="{{activeTab === 'teams'}}">
+      <view class="section-card card" wx:for="{{teams}}" wx:key="teamNumber">
+        <view class="team-header">
+          <text class="team-title">第 {{item.teamNumber}} 组</text>
+          <view class="team-progress">
+            <text class="progress-text">{{item.checkedCount}}/{{item.totalSpots}}</text>
+            <text class="completed-badge" wx:if="{{item.isCompleted}}">已完成</text>
+          </view>
+        </view>
+
+        <!-- 打卡详情 -->
+        <view class="checkin-details">
+          <view class="detail-row header">
+            <text class="detail-col seq-col">序号</text>
+            <text class="detail-col name-col">景点</text>
+            <text class="detail-col digit-col">数字</text>
+            <text class="detail-col time-col">打卡时间</text>
+            <text class="detail-col photo-col">合照</text>
+          </view>
+          <view class="detail-row {{spot.checked ? '' : 'unchecked'}}"
+            wx:for="{{item.details}}" wx:for-item="spot" wx:key="sequence"
+          >
+            <text class="detail-col seq-col">{{spot.sequence}}</text>
+            <text class="detail-col name-col">{{spot.spotName}}</text>
+            <text class="detail-col digit-col">{{spot.unlockedDigit || '-'}}</text>
+            <text class="detail-col time-col">{{spot.checkInTime || '-'}}</text>
+            <view class="detail-col photo-col">
+              <image
+                wx:if="{{spot.teamPhotoFileID}}"
+                class="photo-thumb"
+                src="{{spot.teamPhotoFileID}}"
+                mode="aspectFill"
+                data-photoid="{{spot.teamPhotoFileID}}"
+                bindtap="previewPhoto"
+              ></image>
+              <text wx:else class="no-photo">-</text>
+            </view>
+          </view>
+        </view>
+
+        <text class="team-duration" wx:if="{{item.totalDurationText}}">
+          总用时：{{item.totalDurationText}}
+        </text>
+      </view>
+
+      <view class="empty-state" wx:if="{{teams.length === 0}}">
+        <text class="empty-icon">📭</text>
+        <text class="empty-text">暂无打卡数据</text>
+      </view>
+    </view>
+  </view>
+</view>

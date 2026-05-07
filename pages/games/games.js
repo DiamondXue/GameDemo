@@ -103,6 +103,31 @@ Page({
     wx.navigateTo({ url: '/pages/admin-pending-login/admin-pending-login' })
   },
 
+  // 前往数据面板（全局入口，需选择游戏）
+  goToDashboard: function () {
+    var activeGame = null
+    for (var i = 0; i < this.data.games.length; i++) {
+      if (this.data.games[i].status === 'active') {
+        activeGame = this.data.games[i]
+        break
+      }
+    }
+    if (!activeGame) {
+      wx.showToast({ title: '没有进行中的游戏', icon: 'none' })
+      return
+    }
+    wx.setStorageSync('currentGame', activeGame)
+    wx.navigateTo({ url: '/pages/admin-dashboard/admin-dashboard' })
+  },
+
+  // 查看指定游戏的数据面板
+  viewDashboard: function (e) {
+    var game = e.currentTarget.dataset.game
+    if (!game) return
+    wx.setStorageSync('currentGame', game)
+    wx.navigateTo({ url: '/pages/admin-dashboard/admin-dashboard' })
+  },
+
   // 阻止事件冒泡
   stopProp: function () {},
 

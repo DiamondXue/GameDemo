@@ -1,0 +1,9 @@
+{
+  "name": "getAdminDashboard",
+  "version": "1.0.0",
+  "description": "管理员仪表盘：获取所有组打卡情况及排行榜",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

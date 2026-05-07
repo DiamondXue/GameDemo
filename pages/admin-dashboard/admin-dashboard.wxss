@@ -1,0 +1,286 @@
+/* pages/admin-dashboard/admin-dashboard.wxss */
+.admin-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20rpx;
+  padding-bottom: 40rpx;
+}
+
+.header-section {
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  color: #ffffff;
+  padding: 36rpx 32rpx;
+  border-radius: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.header-title {
+  display: block;
+  font-size: 38rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+.loading {
+  text-align: center;
+  padding: 120rpx 0;
+  color: #999999;
+  font-size: 28rpx;
+}
+
+/* Tab 栏 */
+.tab-bar {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 28rpx;
+  color: #666666;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.tab-item.active {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60rpx;
+  height: 6rpx;
+  background-color: #ff6b6b;
+  border-radius: 3rpx;
+}
+
+/* 通用卡片 */
+.section-card {
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+
+.section-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+/* 排行榜 */
+.leaderboard-list {
+  margin-top: 10rpx;
+}
+
+.lb-header.row {
+  display: flex;
+  padding: 16rpx 8rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+  font-size: 24rpx;
+  color: #999999;
+  font-weight: bold;
+}
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 8rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  font-size: 26rpx;
+  color: #333333;
+}
+
+.lb-row.gold {
+  background-color: #fff8e1;
+  border-radius: 12rpx;
+}
+
+.lb-row.silver {
+  background-color: #f5f5f5;
+  border-radius: 12rpx;
+}
+
+.lb-row.bronze {
+  background-color: #fff3e0;
+  border-radius: 12rpx;
+}
+
+.lb-col {
+  text-align: center;
+}
+
+.rank-col {
+  width: 100rpx;
+}
+
+.team-col {
+  flex: 1;
+  text-align: left;
+}
+
+.time-col {
+  width: 200rpx;
+}
+
+.done-col {
+  width: 260rpx;
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.rank-badge {
+  font-size: 36rpx;
+}
+
+/* 各组情况 */
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.team-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333333;
+}
+
+.team-progress {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.progress-text {
+  font-size: 26rpx;
+  color: #666666;
+}
+
+.completed-badge {
+  font-size: 22rpx;
+  color: #4ecdc4;
+  font-weight: bold;
+}
+
+/* 打卡详情表格 */
+.checkin-details {
+  margin-top: 10rpx;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 4rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  font-size: 24rpx;
+}
+
+.detail-row.header {
+  font-weight: bold;
+  color: #999999;
+  font-size: 22rpx;
+  border-bottom: 2rpx solid #e0e0e0;
+}
+
+.detail-row.unchecked {
+  opacity: 0.5;
+}
+
+.detail-col {
+  text-align: center;
+}
+
+.seq-col {
+  width: 60rpx;
+}
+
+.name-col {
+  flex: 1;
+  text-align: left;
+  font-size: 22rpx;
+}
+
+.digit-col {
+  width: 80rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.time-col {
+  width: 220rpx;
+  font-size: 20rpx;
+  color: #999999;
+}
+
+.photo-col {
+  width: 100rpx;
+}
+
+.photo-thumb {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 8rpx;
+}
+
+.no-photo {
+  font-size: 24rpx;
+  color: #cccccc;
+}
+
+.team-duration {
+  display: block;
+  text-align: right;
+  font-size: 24rpx;
+  color: #4ecdc4;
+  font-weight: bold;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 0;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999999;
+}
