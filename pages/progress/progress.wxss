@@ -98,9 +98,7 @@
 .digit-card {
   width: 140rpx;
   height: 140rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   background: linear-gradient(135deg, #feca57, #ff6b6b);
   border-radius: 20rpx;
   margin-bottom: 16rpx;
@@ -113,12 +111,21 @@
 }
 
 .digit-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 68rpx;
   font-weight: bold;
   color: #ffffff;
+  text-align: center;
 }
 
 .digit-lock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 56rpx;
 }
 

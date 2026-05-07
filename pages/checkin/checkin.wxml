@@ -10,9 +10,9 @@
   </view>
 
   <view class="spots-section" wx:else>
-    <view 
+    <view
       class="spot-item card {{selectedSpotId === item.spotId ? 'selected' : ''}} {{item.checked ? 'checked' : ''}}"
-      wx:for="{{spots}}" 
+      wx:for="{{spots}}"
       wx:key="spotId"
       bindtap="selectSpot"
       data-spot-id="{{item.spotId}}"
@@ -38,12 +38,35 @@
     </view>
   </view>
 
+  <view class="photo-section card" wx:if="{{showPhotoSection}}">
+    <text class="photo-title">📸 团队合照</text>
+    <text class="photo-desc">请在景点处拍摄团队合照后上传</text>
+
+    <view class="photo-area" wx:if="{{!teamPhoto && !teamPhotoTempPath}}" bindtap="choosePhoto">
+      <text class="photo-placeholder-icon">📷</text>
+      <text class="photo-placeholder-text">点击拍照或从相册选择</text>
+    </view>
+
+    <view class="photo-preview" wx:else>
+      <image
+        class="photo-image"
+        src="{{teamPhotoTempPath || teamPhoto}}"
+        mode="aspectFill"
+        bindtap="previewPhoto"
+      ></image>
+      <view class="photo-remove" bindtap="removePhoto">
+        <text class="photo-remove-icon">✕</text>
+      </view>
+      <text class="photo-reselect" bindtap="choosePhoto">重新选择</text>
+    </view>
+  </view>
+
   <view class="checkin-action">
-    <button 
-      class="btn-primary checkin-btn" 
+    <button
+      class="btn-primary checkin-btn"
       bindtap="handleCheckIn"
       loading="{{checking}}"
-      disabled="{{checking || !selectedSpotId}}"
+      disabled="{{checking || !selectedSpotId || (!teamPhoto && !teamPhotoTempPath) || selectedSpotChecked}}"
     >
       {{checking ? '打卡中...' : '确认打卡'}}
     </button>
@@ -51,6 +74,10 @@
 
   <view class="tips-section card">
     <text class="tips-title">💡 打卡提示</text>
+    <view class="tip-item">
+      <text class="tip-icon">📸</text>
+      <text class="tip-text">需上传一张景点处的团队合照</text>
+    </view>
     <view class="tip-item">
       <text class="tip-icon">📌</text>
       <text class="tip-text">请确保已到达景点附近20米范围内</text>

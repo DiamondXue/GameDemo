@@ -60,7 +60,16 @@ Page({
       success: res => {
         if (res.result.success) {
           const spots = res.result.spots
-          this.setData({ spots })
+          // 地图中心定位到第一个景点
+          if (spots.length > 0) {
+            this.setData({
+              spots,
+              centerLat: spots[0].latitude,
+              centerLon: spots[0].longitude
+            })
+          } else {
+            this.setData({ spots })
+          }
           this.createMarkers(spots)
           this.calculateDistances()
         }

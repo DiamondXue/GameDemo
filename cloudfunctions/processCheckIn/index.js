@@ -6,7 +6,7 @@ cloud.init({
 const db = cloud.database()
 
 exports.main = async (event, context) => {
-  const { gameId, teamNumber, spotId, location } = event
+  const { gameId, teamNumber, spotId, location, teamPhotoFileID } = event
   const spotIdNum = parseInt(spotId)  // 确保spotId是数字类型
 
   try {
@@ -66,17 +66,22 @@ exports.main = async (event, context) => {
     const unlockedDigit = mapping.digit
 
     // 6. 记录打卡
+    const recordData = {
+      gameId: gameId,
+      teamNumber: teamNumber,
+      spotId: spotIdNum,
+      checkInTime: new Date(),
+      location: new db.Geo.Point(location.lon, location.lat),
+      distance: distance,
+      unlockedDigit: unlockedDigit,
+      sequence: mapping.sequence
+    }
+    if (teamPhotoFileID) {
+      recordData.teamPhotoFileID = teamPhotoFileID
+    }
+
     await db.collection('checkin_records').add({
-      data: {
-        gameId: gameId,
-        teamNumber: teamNumber,
-        spotId: spotIdNum,
-        checkInTime: new Date(),
-        location: new db.Geo.Point(location.lon, location.lat),
-        distance: distance,
-        unlockedDigit: unlockedDigit,
-        sequence: mapping.sequence
-      }
+      data: recordData
     })
 
     // 7. 检查已收集数字数量

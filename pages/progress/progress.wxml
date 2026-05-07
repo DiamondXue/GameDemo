@@ -31,10 +31,10 @@
         <block wx:for="{{[1,2,3,4,5,6]}}" wx:key="*this">
           <view class="digit-item {{item <= totalSpots ? '' : 'hidden'}} {{collectedDigits[item - 1] ? '' : 'locked'}}" wx:if="{{item <= totalSpots}}">
             <view class="digit-card">
-              <text class="digit-number" wx:if="{{collectedDigits[item - 1]}}">
+              <view class="digit-number" wx:if="{{collectedDigits[item - 1]}}">
                 {{collectedDigits[item - 1].digit}}
-              </text>
-              <text class="digit-lock" wx:else>🔒</text>
+              </view>
+              <view class="digit-lock" wx:else>🔒</view>
             </view>
             <text class="digit-label">第 {{item}} 个</text>
             <text class="digit-spot" wx:if="{{collectedDigits[item - 1]}}">
