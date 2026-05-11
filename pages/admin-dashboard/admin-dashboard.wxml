@@ -58,6 +58,21 @@
           </view>
         </view>
 
+        <!-- 队员名单 -->
+        <view class="member-list">
+          <text class="member-list-title">队员名单（{{item.members.length}}人）</text>
+          <view class="member-row header">
+            <text class="member-id">工号</text>
+            <text class="member-name">姓名</text>
+            <text class="member-dept">部门</text>
+          </view>
+          <view class="member-row" wx:for="{{item.members}}" wx:for-item="member" wx:key="employeeId">
+            <text class="member-id">{{member.employeeId}}</text>
+            <text class="member-name">{{member.name}}</text>
+            <text class="member-dept">{{member.department}}</text>
+          </view>
+        </view>
+
         <!-- 打卡详情 -->
         <view class="checkin-details">
           <view class="detail-row header">

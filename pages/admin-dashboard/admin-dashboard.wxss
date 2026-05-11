@@ -284,3 +284,49 @@
   font-size: 28rpx;
   color: #999999;
 }
+
+/* 队员名单 */
+.member-list {
+  margin-bottom: 20rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.member-list-title {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.member-row {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 4rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  font-size: 24rpx;
+}
+
+.member-row.header {
+  font-weight: bold;
+  color: #999;
+  font-size: 22rpx;
+  border-bottom: 2rpx solid #e0e0e0;
+}
+
+.member-id {
+  width: 180rpx;
+  color: #333;
+}
+
+.member-name {
+  flex: 1;
+  color: #333;
+}
+
+.member-dept {
+  width: 180rpx;
+  color: #666;
+  font-size: 22rpx;
+}

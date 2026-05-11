@@ -58,7 +58,24 @@ exports.main = async (event, context) => {
       })
     }
 
-    // 5. 按组汇总
+    // 5. 获取本游戏所有参与队员信息
+    const participantsRes = await db.collection('game_participants')
+      .where({ gameId: gameId })
+      .limit(500)
+      .get()
+
+    const participantsByGroup = {}
+    participantsRes.data.forEach(p => {
+      const g = p.groupNumber
+      if (!participantsByGroup[g]) participantsByGroup[g] = []
+      participantsByGroup[g].push({
+        employeeId: p.employeeId,
+        name: p.name || p.employeeId,
+        department: p.department || '未设置'
+      })
+    })
+
+    // 6. 按组汇总打卡记录
     const teamMap = {}
 
     allRecords.forEach(record => {
@@ -119,9 +136,13 @@ exports.main = async (event, context) => {
       }
     }
 
-    // 7. 补全每组信息
-    const teams = Object.values(teamMap).map(tInfo => {
-      const checkedCount = Object.keys(tInfo.checkedSpots).length
+    // 7. 构建所有组的完整信息（包括未打卡的组）
+    const teams = Object.keys(participantsByGroup).map(groupNumber => {
+      const gNum = Number(groupNumber)
+      const tInfo = teamMap[gNum] || {}
+      const checkedSpots = tInfo.checkedSpots || {}
+
+      const checkedCount = Object.keys(checkedSpots).length
       const isCompleted = checkedCount >= totalSpots
       let totalDuration = null
       if (isCompleted && tInfo.firstCheckInTime && tInfo.lastCheckInTime) {
@@ -132,10 +153,10 @@ exports.main = async (event, context) => {
       const details = []
       for (let seq = 1; seq <= totalSpots; seq++) {
         const mapping = Object.values(mappingMap).find(
-          m => m.teamNumber === tInfo.teamNumber && m.sequence === seq
+          m => m.teamNumber === gNum && m.sequence === seq
         )
         if (mapping) {
-          const record = tInfo.checkedSpots[mapping.spotId]
+          const record = checkedSpots[mapping.spotId]
           details.push({
             sequence: seq,
             spotId: mapping.spotId,
@@ -152,15 +173,16 @@ exports.main = async (event, context) => {
       }
 
       return {
-        teamNumber: tInfo.teamNumber,
+        teamNumber: gNum,
         checkedCount,
         totalSpots,
         isCompleted,
         totalDuration,
         totalDurationText: totalDuration ? formatDuration(totalDuration) : '',
         firstCheckInTime: tInfo.firstCheckInTime ? formatTime(tInfo.firstCheckInTime) : '',
-        lastCheckInTime: tInfo.lastCheckInTime,
-        details
+        lastCheckInTime: tInfo.lastCheckInTime || null,
+        details,
+        members: participantsByGroup[groupNumber]
       }
     })
 
