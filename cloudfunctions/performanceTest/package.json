@@ -1,0 +1,9 @@
+{
+  "name": "performanceTest",
+  "version": "1.0.0",
+  "description": "GameDemo 性能测试 - 模拟200用户登录并查看分组",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

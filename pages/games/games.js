@@ -3,7 +3,9 @@ Page({
   data: {
     userInfo: null,
     games: [],
-    loading: true
+    loading: true,
+    testRunning: false,
+    testResult: null
   },
 
   onLoad: function () {
@@ -130,6 +132,46 @@ Page({
 
   // 阻止事件冒泡
   stopProp: function () {},
+
+  // 性能测试
+  runPerformanceTest: function () {
+    if (this.data.testRunning) return
+
+    wx.showModal({
+      title: '性能测试',
+      content: '模拟200个员工登录并创建游戏分组，可能需要1-2分钟。确认执行？',
+      success: res => {
+        if (!res.confirm) return
+        this.setData({ testRunning: true, testResult: null })
+        wx.showLoading({ title: '测试中...', mask: true })
+
+        wx.cloud.callFunction({
+          name: 'performanceTest',
+          data: { secret: 'gamedemo-test-2026', action: 'full' },
+          success: cloudRes => {
+            wx.hideLoading()
+            this.setData({ testRunning: false })
+            if (cloudRes.result.success) {
+              this.setData({ testResult: cloudRes.result })
+              wx.showToast({ title: '测试完成', icon: 'success' })
+            } else {
+              wx.showToast({ title: cloudRes.result.message || '测试失败', icon: 'none', duration: 3000 })
+            }
+          },
+          fail: err => {
+            wx.hideLoading()
+            this.setData({ testRunning: false })
+            console.error('性能测试失败:', err)
+            wx.showToast({ title: '调用失败，请确认云函数已部署', icon: 'none', duration: 3000 })
+          }
+        })
+      }
+    })
+  },
+
+  dismissTestResult: function () {
+    this.setData({ testResult: null })
+  },
 
   onShareAppMessage: function () {
     return {

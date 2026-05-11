@@ -18,6 +18,9 @@
     <view class="action-btn secondary" bindtap="goToPendingLogin" wx:if="{{userInfo.isAdmin}}">
       <text class="action-text">未登录员工</text>
     </view>
+    <view class="action-btn test" bindtap="runPerformanceTest" wx:if="{{userInfo.isAdmin}}">
+      <text class="action-text">性能测试</text>
+    </view>
   </view>
 
   <!-- 游戏列表 -->
@@ -133,5 +136,80 @@
     <text class="empty-icon">🎮</text>
     <text class="empty-text">暂无可参与的游戏</text>
     <text class="empty-hint" wx:if="{{userInfo.isAdmin}}">点击上方"创建游戏"开始新游戏</text>
+  </view>
+
+  <!-- 性能测试结果 -->
+  <view class="test-result card" wx:if="{{testResult && testResult.success}}">
+    <view class="test-header">
+      <text class="test-title">性能测试结果</text>
+      <text class="test-close" bindtap="dismissTestResult">✕</text>
+    </view>
+
+    <!-- 登录测试 -->
+    <view class="test-section" wx:if="{{testResult.loginTest}}">
+      <text class="test-section-title">登录测试 (200人并发)</text>
+      <view class="test-stats">
+        <view class="stat-item">
+          <text class="stat-value {{testResult.loginTest.failCount > 0 ? 'warn' : 'good'}}">{{testResult.loginTest.successCount}}/{{testResult.loginTest.successCount + testResult.loginTest.failCount}}</text>
+          <text class="stat-label">成功/总数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.loginTest.totalTime}}ms</text>
+          <text class="stat-label">总耗时</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.loginTest.avgTime}}ms</text>
+          <text class="stat-label">平均响应</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.loginTest.p95}}ms</text>
+          <text class="stat-label">P95</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.loginTest.maxTime}}ms</text>
+          <text class="stat-label">最慢</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 分组测试 -->
+    <view class="test-section" wx:if="{{testResult.groupingTest && testResult.groupingTest.success}}">
+      <text class="test-section-title">分组测试</text>
+      <view class="test-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.groupingTest.groupCount}}</text>
+          <text class="stat-label">分组数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.groupingTest.participantCount}}</text>
+          <text class="stat-label">参与人数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.groupingTest.createTime}}ms</text>
+          <text class="stat-label">创建耗时</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.groupingTest.groupSizes.min}}-{{testResult.groupingTest.groupSizes.max}}</text>
+          <text class="stat-label">每组人数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{testResult.groupingTest.groupSizes.stdDev}}</text>
+          <text class="stat-label">标准差</text>
+        </view>
+      </view>
+      <text class="test-game-id">gameId: {{testResult.groupingTest.gameId}}</text>
+    </view>
+
+    <!-- 分组预览 -->
+    <view class="test-section" wx:if="{{testResult.groupingTest && testResult.groupingTest.fullGrouping}}">
+      <text class="test-section-title">分组预览</text>
+      <scroll-view scroll-y class="test-groups-scroll" style="max-height: 600rpx;">
+        <view class="test-group-row" wx:for="{{testResult.groupingTest.fullGrouping}}" wx:key="index" wx:for-item="group">
+          <text class="test-group-num">第{{index}}组</text>
+          <text class="test-group-count">{{group.count}}人</text>
+          <text class="test-group-members">{{group.members[0]}}...{{group.members[group.count - 1]}}</text>
+        </view>
+      </scroll-view>
+    </view>
   </view>
 </view>
