@@ -5,7 +5,8 @@ Page({
     games: [],
     loading: true,
     testRunning: false,
-    testResult: null
+    testResult: null,
+    expandedGroups: {}
   },
 
   onLoad: function () {
@@ -170,7 +171,13 @@ Page({
   },
 
   dismissTestResult: function () {
-    this.setData({ testResult: null })
+    this.setData({ testResult: null, expandedGroups: {} })
+  },
+
+  toggleGroupMembers: function (e) {
+    const idx = e.currentTarget.dataset.idx
+    const key = `expandedGroups[${idx}]`
+    this.setData({ [key]: !this.data.expandedGroups[idx] })
   },
 
   onShareAppMessage: function () {

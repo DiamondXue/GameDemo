@@ -202,12 +202,21 @@
 
     <!-- 分组预览 -->
     <view class="test-section" wx:if="{{testResult.groupingTest && testResult.groupingTest.fullGrouping}}">
-      <text class="test-section-title">分组预览</text>
-      <scroll-view scroll-y class="test-groups-scroll" style="max-height: 600rpx;">
-        <view class="test-group-row" wx:for="{{testResult.groupingTest.fullGrouping}}" wx:key="index" wx:for-item="group">
-          <text class="test-group-num">第{{index}}组</text>
-          <text class="test-group-count">{{group.count}}人</text>
-          <text class="test-group-members">{{group.members[0]}}...{{group.members[group.count - 1]}}</text>
+      <text class="test-section-title">分组详情（共{{testResult.groupingTest.groupCount}}组，点击组号展开成员）</text>
+      <scroll-view scroll-y class="test-groups-scroll">
+        <view
+          class="test-group-row"
+          wx:for="{{testResult.groupingTest.fullGrouping}}"
+          wx:key="groupNumber"
+          bindtap="toggleGroupMembers"
+          data-idx="{{index}}"
+        >
+          <text class="test-group-num">第{{item.groupNumber}}组</text>
+          <text class="test-group-count">{{item.count}}人</text>
+          <text class="test-group-toggle">{{expandedGroups[index] ? '收起' : '展开'}}</text>
+          <view class="test-group-members" wx:if="{{expandedGroups[index]}}">
+            <text class="member-id" wx:for="{{item.members}}" wx:key="*this" wx:for-item="mid">{{mid}}</text>
+          </view>
         </view>
       </scroll-view>
     </view>
