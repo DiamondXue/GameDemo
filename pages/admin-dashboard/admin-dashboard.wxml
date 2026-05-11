@@ -76,11 +76,11 @@
             <text class="detail-col time-col">{{spot.checkInTime || '-'}}</text>
             <view class="detail-col photo-col">
               <image
-                wx:if="{{spot.teamPhotoFileID}}"
+                wx:if="{{spot.teamPhotoUrl}}"
                 class="photo-thumb"
-                src="{{spot.teamPhotoFileID}}"
+                src="{{spot.teamPhotoUrl}}"
                 mode="aspectFill"
-                data-photoid="{{spot.teamPhotoFileID}}"
+                data-photoid="{{spot.teamPhotoUrl}}"
                 bindtap="previewPhoto"
               ></image>
               <text wx:else class="no-photo">-</text>

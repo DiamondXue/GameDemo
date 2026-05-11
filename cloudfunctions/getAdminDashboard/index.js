@@ -85,7 +85,41 @@ exports.main = async (event, context) => {
       }
     })
 
-    // 6. 补全每组信息
+    // 6. 收集所有 teamPhotoFileID，返回给前端转换
+    const photoFileIDs = []
+    Object.values(teamMap).forEach(tInfo => {
+      Object.values(tInfo.checkedSpots).forEach(record => {
+        if (record.teamPhotoFileID) {
+          photoFileIDs.push(record.teamPhotoFileID)
+        }
+      })
+    })
+
+    const photoUrlMap = {}
+    if (photoFileIDs.length > 0) {
+      try {
+        // 分批处理，每批最多50个
+        const batchSize = 50
+        for (let i = 0; i < photoFileIDs.length; i += batchSize) {
+          const batch = photoFileIDs.slice(i, i + batchSize)
+          const tempUrlRes = await cloud.getTempFileURL({
+            fileList: batch,
+            maxAge: 7200
+          })
+          if (tempUrlRes.fileList) {
+            tempUrlRes.fileList.forEach(item => {
+              if (item.tempFileURL) {
+                photoUrlMap[item.fileID] = item.tempFileURL
+              }
+            })
+          }
+        }
+      } catch (e) {
+        console.error('获取照片临时链接失败:', e)
+      }
+    }
+
+    // 7. 补全每组信息
     const teams = Object.values(teamMap).map(tInfo => {
       const checkedCount = Object.keys(tInfo.checkedSpots).length
       const isCompleted = checkedCount >= totalSpots
@@ -109,7 +143,9 @@ exports.main = async (event, context) => {
             checked: !!record,
             checkInTime: record ? formatTime(record.checkInTime) : '',
             unlockedDigit: record ? record.unlockedDigit : null,
-            teamPhotoFileID: record ? record.teamPhotoFileID || '' : '',
+            teamPhotoUrl: record && record.teamPhotoFileID
+              ? photoUrlMap[record.teamPhotoFileID] || record.teamPhotoFileID
+              : '',
             distance: record ? record.distance : null
           })
         }
@@ -128,7 +164,7 @@ exports.main = async (event, context) => {
       }
     })
 
-    // 7. 排行榜：已完成组按完成时间升序（最先验证成功的排第一）
+    // 8. 排行榜：已完成组按完成时间升序（最先验证成功的排第一）
     const leaderboard = teams
       .filter(t => t.isCompleted && t.lastCheckInTime)
       .sort((a, b) => a.lastCheckInTime - b.lastCheckInTime)
@@ -141,7 +177,7 @@ exports.main = async (event, context) => {
         firstCheckInTime: t.firstCheckInTime
       }))
 
-    // 8. 按组号排序
+    // 9. 按组号排序
     teams.sort((a, b) => a.teamNumber - b.teamNumber)
 
     return {

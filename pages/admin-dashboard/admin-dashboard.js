@@ -45,6 +45,8 @@ Page({
             gameName: res.result.gameName,
             totalSpots: res.result.totalSpots
           })
+          // 转换照片链接
+          this.resolvePhotoUrls(res.result.teams)
         } else {
           wx.showToast({ title: res.result.message || '加载失败', icon: 'none' })
         }
@@ -63,11 +65,49 @@ Page({
   },
 
   previewPhoto: function(e) {
-    const fileID = e.currentTarget.dataset.photoid
-    if (!fileID) return
+    const url = e.currentTarget.dataset.photoid
+    if (!url) return
     wx.previewImage({
-      current: fileID,
-      urls: [fileID]
+      current: url,
+      urls: [url]
+    })
+  },
+
+  resolvePhotoUrls: function(teams) {
+    // 收集所有需要转换的 fileID（teamPhotoUrl 为空但原始数据可能有 fileID）
+    // 云函数已用 getTempFileURL 转换，这里作为 fallback
+    // 如果照片仍显示不出来，用小程序端再转一次
+    const photoFileIDs = []
+    teams.forEach(team => {
+      team.details.forEach(spot => {
+        if (spot.teamPhotoUrl && spot.teamPhotoUrl.indexOf('cloud://') === 0) {
+          photoFileIDs.push(spot.teamPhotoUrl)
+        }
+      })
+    })
+
+    if (photoFileIDs.length === 0) return
+
+    wx.cloud.getTempFileURL({
+      fileList: photoFileIDs,
+      success: res => {
+        const urlMap = {}
+        res.fileList.forEach(item => {
+          if (item.tempFileURL) {
+            urlMap[item.fileID] = item.tempFileURL
+          }
+        })
+        const updatedTeams = this.data.teams.map(team => {
+          const details = team.details.map(spot => {
+            if (spot.teamPhotoUrl && urlMap[spot.teamPhotoUrl]) {
+              return Object.assign({}, spot, { teamPhotoUrl: urlMap[spot.teamPhotoUrl] })
+            }
+            return spot
+          })
+          return Object.assign({}, team, { details })
+        })
+        this.setData({ teams: updatedTeams })
+      }
     })
   },
 
