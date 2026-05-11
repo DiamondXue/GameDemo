@@ -20,18 +20,22 @@ exports.main = async (event, context) => {
       return { success: false, message: '每组人数至少为1' }
     }
 
-    // 查询参与员工信息
-    const empRes = await db.collection('employees')
-      .where({
-        employeeId: db.command.in(participantIds)
-      })
-      .get()
-
-    if (empRes.data.length !== participantIds.length) {
-      return { success: false, message: '部分员工号不存在' }
+    // 查询参与员工信息（分批查询，每批20条，突破默认limit限制）
+    const participants = []
+    for (let i = 0; i < participantIds.length; i += 20) {
+      const batch = participantIds.slice(i, i + 20)
+      const empRes = await db.collection('employees')
+        .where({ employeeId: db.command.in(batch) })
+        .get()
+      participants.push(...empRes.data)
     }
 
-    const participants = empRes.data
+    // 检查是否有员工号不存在
+    const foundIds = new Set(participants.map(e => e.employeeId))
+    const missingIds = participantIds.filter(id => !foundIds.has(id))
+    if (missingIds.length > 0) {
+      return { success: false, message: `以下员工号不存在: ${missingIds.slice(0, 5).join(', ')}${missingIds.length > 5 ? ' 等' + missingIds.length + '人' : ''}` }
+    }
     const totalSlots = groupCount * memberPerGroup
 
     // 检查参与者人数
