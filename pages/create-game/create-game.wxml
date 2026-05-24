@@ -40,33 +40,88 @@
   <!-- 分组设置 -->
   <view class="section card">
     <text class="section-title">分组设置</text>
-    <view class="setting-row">
-      <text class="setting-label">组数</text>
-      <view class="stepper">
-        <view class="stepper-btn" bindtap="changeGroupCount" data-action="minus">-</view>
-        <text class="stepper-value">{{groupCount}}</text>
-        <view class="stepper-btn" bindtap="changeGroupCount" data-action="plus">+</view>
-      </view>
+
+    <!-- 分组模式切换 -->
+    <view class="mode-switch">
+      <view class="mode-tab {{groupMode === 'random' ? 'active' : ''}}" bindtap="switchMode" data-mode="random">随机分组</view>
+      <view class="mode-tab {{groupMode === 'custom' ? 'active' : ''}}" bindtap="switchMode" data-mode="custom">自定义分组</view>
     </view>
-    <view class="setting-row">
-      <text class="setting-label">每组人数</text>
-      <view class="stepper">
-        <view class="stepper-btn" bindtap="changeMemberPerGroup" data-action="minus">-</view>
-        <text class="stepper-value">{{memberPerGroup}}</text>
-        <view class="stepper-btn" bindtap="changeMemberPerGroup" data-action="plus">+</view>
+
+    <!-- 随机分组 -->
+    <block wx:if="{{groupMode === 'random'}}">
+      <view class="setting-row">
+        <text class="setting-label">组数</text>
+        <view class="stepper">
+          <view class="stepper-btn" bindtap="changeGroupCount" data-action="minus">-</view>
+          <text class="stepper-value">{{groupCount}}</text>
+          <view class="stepper-btn" bindtap="changeGroupCount" data-action="plus">+</view>
+        </view>
       </view>
-    </view>
-    <view class="setting-row">
-      <text class="setting-label">每组景点数</text>
-      <view class="stepper">
-        <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="minus">-</view>
-        <text class="stepper-value">{{spotsPerGroup}}</text>
-        <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="plus">+</view>
+      <view class="setting-row">
+        <text class="setting-label">每组人数</text>
+        <view class="stepper">
+          <view class="stepper-btn" bindtap="changeMemberPerGroup" data-action="minus">-</view>
+          <text class="stepper-value">{{memberPerGroup}}</text>
+          <view class="stepper-btn" bindtap="changeMemberPerGroup" data-action="plus">+</view>
+        </view>
       </view>
-    </view>
-    <view class="capacity-info">
-      <text>容量上限：{{groupCount * memberPerGroup}} 人</text>
-      <text class="capacity-current {{selectedIds.length > groupCount * memberPerGroup ? 'over' : ''}}">已选：{{selectedIds.length}} 人</text>
+      <view class="setting-row">
+        <text class="setting-label">每组景点数</text>
+        <view class="stepper">
+          <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="minus">-</view>
+          <text class="stepper-value">{{spotsPerGroup}}</text>
+          <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="plus">+</view>
+        </view>
+      </view>
+      <view class="capacity-info">
+        <text>容量上限：{{groupCount * memberPerGroup}} 人</text>
+        <text class="capacity-current {{selectedIds.length > groupCount * memberPerGroup ? 'over' : ''}}">已选：{{selectedIds.length}} 人</text>
+      </view>
+    </block>
+
+    <!-- 自定义分组 -->
+    <block wx:if="{{groupMode === 'custom'}}">
+      <view class="setting-row">
+        <text class="setting-label">组数</text>
+        <view class="stepper">
+          <view class="stepper-btn" bindtap="changeCustomGroupCount" data-action="minus">-</view>
+          <text class="stepper-value">{{customGroupCount}}</text>
+          <view class="stepper-btn" bindtap="changeCustomGroupCount" data-action="plus">+</view>
+        </view>
+      </view>
+      <view class="setting-row">
+        <text class="setting-label">每组景点数</text>
+        <view class="stepper">
+          <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="minus">-</view>
+          <text class="stepper-value">{{spotsPerGroup}}</text>
+          <view class="stepper-btn" bindtap="changeSpotsPerGroup" data-action="plus">+</view>
+        </view>
+      </view>
+      <!-- 分组摘要 -->
+      <view class="custom-group-summary" wx:if="{{selectedIds.length > 0}}">
+        <block wx:for="{{customGroupSummary}}" wx:key="groupNumber">
+          <text class="summary-item {{item.count === 0 ? 'empty' : ''}}">第{{item.groupNumber}}组: {{item.count}}人</text>
+        </block>
+      </view>
+    </block>
+  </view>
+
+  <!-- 自定义分组分配（仅自定义模式 + 已选人时显示） -->
+  <view class="section card" wx:if="{{groupMode === 'custom' && selectedIds.length > 0}}">
+    <text class="section-title">分组分配</text>
+    <text class="assignment-desc">为每位参与者指定分组编号（范围 1 ~ {{customGroupCount}}）</text>
+    <view class="assignment-list">
+      <view class="assignment-item" wx:for="{{selectedEmployees}}" wx:key="employeeId">
+        <view class="assignment-left">
+          <text class="assignment-name">{{item.name || '-'}}</text>
+          <text class="assignment-dept">{{item.department}}</text>
+        </view>
+        <view class="assignment-stepper">
+          <view class="stepper-btn" bindtap="changeGroupAssignment" data-id="{{item.employeeId}}" data-action="minus">-</view>
+          <text class="stepper-value">{{groupAssignments[item.employeeId] || 1}}</text>
+          <view class="stepper-btn" bindtap="changeGroupAssignment" data-id="{{item.employeeId}}" data-action="plus">+</view>
+        </view>
+      </view>
     </view>
   </view>
 

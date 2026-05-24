@@ -133,6 +133,101 @@
   color: #333333;
 }
 
+/* 分组模式切换 */
+.mode-switch {
+  display: flex;
+  background-color: #f0f0f0;
+  border-radius: 12rpx;
+  padding: 6rpx;
+  margin-bottom: 24rpx;
+}
+
+.mode-tab {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 26rpx;
+  color: #999999;
+  border-radius: 10rpx;
+  transition: all 0.2s;
+}
+
+.mode-tab.active {
+  background-color: #ffffff;
+  color: #ff6b6b;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 自定义分组摘要 */
+.custom-group-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.summary-item {
+  background-color: #fff5f5;
+  color: #ff6b6b;
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+
+.summary-item.empty {
+  background-color: #f8f9fa;
+  color: #cccccc;
+}
+
+/* 分组分配 */
+.assignment-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 20rpx;
+}
+
+.assignment-list {
+  max-height: 600rpx;
+  overflow-y: auto;
+}
+
+.assignment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.assignment-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.assignment-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+.assignment-dept {
+  font-size: 22rpx;
+  color: #999999;
+  margin-top: 4rpx;
+}
+
+.assignment-stepper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .capacity-info {
   display: flex;
   justify-content: space-between;

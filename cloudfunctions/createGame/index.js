@@ -6,7 +6,7 @@ cloud.init({
 const db = cloud.database()
 
 exports.main = async (event, context) => {
-  const { name, description, creatorId, participantIds, groupCount, memberPerGroup, spotIds, spotsPerGroup } = event
+  const { name, description, creatorId, participantIds, groupCount, memberPerGroup, spotIds, spotsPerGroup, groupMode, groupAssignments } = event
 
   try {
     // 验证参数
@@ -16,7 +16,7 @@ exports.main = async (event, context) => {
     if (!groupCount || groupCount < 1) {
       return { success: false, message: '组数至少为1' }
     }
-    if (!memberPerGroup || memberPerGroup < 1) {
+    if ((!groupMode || groupMode === 'random') && (!memberPerGroup || memberPerGroup < 1)) {
       return { success: false, message: '每组人数至少为1' }
     }
 
@@ -36,18 +36,26 @@ exports.main = async (event, context) => {
     if (missingIds.length > 0) {
       return { success: false, message: `以下员工号不存在: ${missingIds.slice(0, 5).join(', ')}${missingIds.length > 5 ? ' 等' + missingIds.length + '人' : ''}` }
     }
-    const totalSlots = groupCount * memberPerGroup
-
-    // 检查参与者人数
-    if (participants.length > totalSlots) {
-      return {
-        success: false,
-        message: `参与人数(${participants.length})超出容量(${totalSlots})，请减少参与员工或增加组数/每组人数`
+    // 随机模式：检查容量
+    if (!groupMode || groupMode === 'random') {
+      const totalSlots = groupCount * memberPerGroup
+      if (participants.length > totalSlots) {
+        return {
+          success: false,
+          message: `参与人数(${participants.length})超出容量(${totalSlots})，请减少参与员工或增加组数/每组人数`
+        }
       }
     }
 
-    // 自动分组算法：轮询均匀分配
-    const groups = autoGroup(participants, groupCount, memberPerGroup)
+    // 分组算法
+    let groups
+    if (groupMode === 'custom' && groupAssignments) {
+      // 自定义分组：按 groupAssignments 分配
+      groups = customGroup(participants, groupCount, groupAssignments)
+    } else {
+      // 随机分组：轮询均匀分配
+      groups = autoGroup(participants, groupCount, memberPerGroup)
+    }
 
     console.log('[createGame] 分组结果:', JSON.stringify(groups.map(g => ({
       groupNumber: g.groupNumber,
@@ -62,7 +70,7 @@ exports.main = async (event, context) => {
       creatorId: creatorId,
       status: 'pending', // pending: 待开始, active: 进行中, finished: 已结束, cancelled: 已取消
       groupCount: groupCount,
-      memberPerGroup: memberPerGroup,
+      memberPerGroup: groupMode === 'custom' ? 0 : (memberPerGroup || 0),
       spotIds: spotIds || [], // 关联的景点ID列表
       spotsPerGroup: spotsPerGroup || 3, // 每组需要打卡的景点数
       participantCount: participants.length,
@@ -152,6 +160,32 @@ function autoGroup(participants, groupCount, memberPerGroup) {
     if (minGroup) {
       minGroup.members.push(member)
     }
+  }
+
+  return groups
+}
+
+/**
+ * 自定义分组算法
+ * 按照前端传入的 groupAssignments 分配
+ * @param {Array} participants - 参与者列表
+ * @param {Number} groupCount - 组数
+ * @param {Object} groupAssignments - { employeeId: groupNumber }
+ * @returns {Array} 分组结果
+ */
+function customGroup(participants, groupCount, groupAssignments) {
+  const groups = []
+  for (let i = 0; i < groupCount; i++) {
+    groups.push({
+      groupNumber: i + 1,
+      members: []
+    })
+  }
+
+  for (const member of participants) {
+    const groupNum = groupAssignments[member.employeeId] || 1
+    const idx = Math.min(groupNum - 1, groupCount - 1)
+    groups[idx].members.push(member)
   }
 
   return groups

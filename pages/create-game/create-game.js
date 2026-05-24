@@ -3,14 +3,19 @@ Page({
   data: {
     name: '',
     description: '',
+    groupMode: 'random',       // 'random' | 'custom'
     groupCount: 4,
     memberPerGroup: 5,
     spotsPerGroup: 3,
+    customGroupCount: 4,       // 自定义模式下的组数
+    groupAssignments: {},      // { employeeId: groupNumber }
     selectedSpotIds: [],
     employees: [],
     departments: [],
     deptMap: {},
     selectedIds: [],
+    selectedEmployees: [],     // 已选员工完整信息
+    customGroupSummary: [],    // [{groupNumber, count}]
     showDeptFilter: false,
     currentDept: '全部',
     keyword: '',
@@ -146,6 +151,8 @@ Page({
     }
 
     this.setData({ selectedIds })
+    this.updateSelectedEmployees()
+    this.updateCustomGroupData()
   },
 
   // 全选/取消全选当前筛选结果
@@ -163,11 +170,63 @@ Page({
       const newIds = [...new Set([...selectedIds, ...filteredIds])]
       this.setData({ selectedIds: newIds })
     }
+    this.updateSelectedEmployees()
+    this.updateCustomGroupData()
+  },
+
+  // 切换分组模式
+  switchMode: function(e) {
+    const mode = e.currentTarget.dataset.mode
+    this.setData({ groupMode: mode })
+    if (mode === 'custom') {
+      this.updateCustomGroupData()
+    }
+  },
+
+  // 自定义模式修改组数
+  changeCustomGroupCount: function(e) {
+    const action = e.currentTarget.dataset.action
+    let val = this.data.customGroupCount + (action === 'plus' ? 1 : -1)
+    if (val < 1) val = 1
+    if (val > 30) val = 30
+    this.setData({ customGroupCount: val })
+    this.updateCustomGroupData()
+  },
+
+  // 自定义模式修改某人的分组
+  changeGroupAssignment: function(e) {
+    const { id, action } = e.currentTarget.dataset
+    const max = this.data.customGroupCount
+    let val = (this.data.groupAssignments[id] || 1) + (action === 'plus' ? 1 : -1)
+    if (val < 1) val = 1
+    if (val > max) val = max
+
+    const groupAssignments = { ...this.data.groupAssignments, [id]: val }
+    this.setData({ groupAssignments })
+    this.updateCustomGroupData()
+  },
+
+  // 更新已选员工列表（完整信息）
+  updateSelectedEmployees: function() {
+    const { selectedIds, employees } = this.data
+    const selectedEmployees = employees.filter(e => selectedIds.includes(e.employeeId))
+    this.setData({ selectedEmployees })
+  },
+
+  // 更新自定义分组的摘要和分配
+  updateCustomGroupData: function() {
+    const { selectedIds, customGroupCount, groupAssignments } = this.data
+    const summary = []
+    for (let i = 1; i <= customGroupCount; i++) {
+      const count = selectedIds.filter(id => (groupAssignments[id] || 1) === i).length
+      summary.push({ groupNumber: i, count })
+    }
+    this.setData({ customGroupSummary: summary })
   },
 
   // 提交创建
   handleSubmit: function() {
-    const { name, groupCount, memberPerGroup, spotsPerGroup, selectedIds, userInfo } = this.data
+    const { name, groupMode, groupCount, memberPerGroup, spotsPerGroup, selectedIds, userInfo, customGroupCount, groupAssignments } = this.data
 
     if (!name.trim()) {
       wx.showToast({ title: '请输入游戏名称', icon: 'none' })
@@ -178,30 +237,41 @@ Page({
       return
     }
 
-    const totalSlots = groupCount * memberPerGroup
-    if (selectedIds.length > totalSlots) {
-      wx.showToast({
-        title: `参与人数超出容量(${totalSlots})`,
-        icon: 'none',
-        duration: 3000
-      })
-      return
+    if (groupMode === 'random') {
+      const totalSlots = groupCount * memberPerGroup
+      if (selectedIds.length > totalSlots) {
+        wx.showToast({
+          title: `参与人数超出容量(${totalSlots})`,
+          icon: 'none',
+          duration: 3000
+        })
+        return
+      }
     }
 
     this.setData({ submitting: true })
 
+    const cloudData = {
+      name: name.trim(),
+      description: this.data.description.trim(),
+      creatorId: userInfo.employeeId,
+      participantIds: selectedIds,
+      spotIds: this.data.selectedSpotIds.length > 0 ? this.data.selectedSpotIds : [1, 2, 3, 4, 5, 6],
+      spotsPerGroup: spotsPerGroup,
+      groupMode: groupMode
+    }
+
+    if (groupMode === 'random') {
+      cloudData.groupCount = groupCount
+      cloudData.memberPerGroup = memberPerGroup
+    } else {
+      cloudData.groupCount = customGroupCount
+      cloudData.groupAssignments = groupAssignments
+    }
+
     wx.cloud.callFunction({
       name: 'createGame',
-      data: {
-        name: name.trim(),
-        description: this.data.description.trim(),
-        creatorId: userInfo.employeeId,
-        participantIds: selectedIds,
-        groupCount: groupCount,
-        memberPerGroup: memberPerGroup,
-        spotIds: this.data.selectedSpotIds.length > 0 ? this.data.selectedSpotIds : [1, 2, 3, 4, 5, 6],
-        spotsPerGroup: spotsPerGroup
-      },
+      data: cloudData,
       success: res => {
         this.setData({ submitting: false })
         if (res.result.success) {
