@@ -257,3 +257,53 @@
   padding: 10px;
   text-align: center;
 }
+
+/* 样本图片上传 */
+.img-uploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #999;
+}
+
+.img-upload-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.img-upload-text {
+  font-size: 13px;
+}
+
+.img-preview-wrap {
+  position: relative;
+  width: 100%;
+  height: 120px;
+}
+
+.img-preview {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.img-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -101,6 +101,12 @@ Page({
     }
   },
 
+  // 预览景点样本参考图
+  previewSampleImage: function(e) {
+    const url = e.currentTarget.dataset.url
+    if (url) wx.previewImage({ current: url, urls: [url] })
+  },
+
   removePhoto: function() {
     this.setData({
       teamPhoto: null,

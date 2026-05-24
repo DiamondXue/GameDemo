@@ -30,6 +30,17 @@
           <text wx:else class="status-badge status-pending">未打卡</text>
         </view>
       </view>
+      <!-- 样本参考图 -->
+      <view class="spot-sample" wx:if="{{item.sampleImage}}">
+        <text class="sample-label">📸 参考示例：</text>
+        <image
+          class="sample-img"
+          src="{{item.sampleImage}}"
+          mode="aspectFill"
+          bindtap="previewSampleImage"
+          data-url="{{item.sampleImage}}"
+        />
+      </view>
     </view>
 
     <view class="empty-state" wx:if="{{spots.length === 0}}">

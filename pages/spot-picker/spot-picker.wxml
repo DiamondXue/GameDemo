@@ -78,10 +78,21 @@
           <text class="form-label">坐标</text>
           <text class="coord-text">{{newSpotLat}}, {{newSpotLng}}</text>
         </view>
+        <view class="form-group">
+          <text class="form-label">样本图片（打卡参考）</text>
+          <view class="img-uploader" wx:if="{{!newSpotImage}}" bindtap="chooseNewSpotImage">
+            <text class="img-upload-icon">📷</text>
+            <text class="img-upload-text">点击上传参考图片</text>
+          </view>
+          <view class="img-preview-wrap" wx:else>
+            <image class="img-preview" src="{{newSpotImage}}" mode="aspectFill" bindtap="previewNewSpotImage" />
+            <view class="img-remove" bindtap="removeNewSpotImage">✕</view>
+          </view>
+        </view>
       </view>
       <view class="modal-footer">
         <button class="btn-cancel" bindtap="cancelAddSpot">取消</button>
-        <button class="btn-primary" bindtap="confirmAddSpot">确认添加</button>
+        <button class="btn-primary" loading="{{uploadingNewImage}}" bindtap="confirmAddSpot">确认添加</button>
       </view>
     </view>
   </view>
@@ -103,10 +114,21 @@
             <view class="stepper-btn" bindtap="changeEditSpotRadius" data-action="plus">+</view>
           </view>
         </view>
+        <view class="form-group">
+          <text class="form-label">样本图片（打卡参考）</text>
+          <view class="img-uploader" wx:if="{{!editSpotImage}}" bindtap="chooseEditSpotImage">
+            <text class="img-upload-icon">📷</text>
+            <text class="img-upload-text">点击上传参考图片</text>
+          </view>
+          <view class="img-preview-wrap" wx:else>
+            <image class="img-preview" src="{{editSpotImage}}" mode="aspectFill" bindtap="previewEditSpotImage" />
+            <view class="img-remove" bindtap="removeEditSpotImage">✕</view>
+          </view>
+        </view>
       </view>
       <view class="modal-footer">
         <button class="btn-cancel" bindtap="cancelEditSpot">取消</button>
-        <button class="btn-primary" bindtap="confirmEditSpot">确认修改</button>
+        <button class="btn-primary" loading="{{uploadingEditImage}}" bindtap="confirmEditSpot">确认修改</button>
       </view>
     </view>
   </view>

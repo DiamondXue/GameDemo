@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
       }
 
       case 'add': {
-        const { name, description, latitude, longitude, radius, image } = event
+        const { name, description, latitude, longitude, radius, image, sampleImage } = event
 
         if (!name || latitude === undefined || longitude === undefined) {
           return { success: false, message: '请提供名称 and 坐标' }
@@ -41,6 +41,7 @@ exports.main = async (event, context) => {
           },
           radius: radius || 20,
           image: image || '',
+          sampleImage: sampleImage || '',
           isCustom: true,
           createdAt: new Date()
         }
@@ -55,7 +56,7 @@ exports.main = async (event, context) => {
       }
 
       case 'update': {
-        const { spotId, name, description, latitude, longitude, radius, image } = event
+        const { spotId, name, description, latitude, longitude, radius, image, sampleImage } = event
 
         if (!spotId) {
           return { success: false, message: '请提供 spotId' }
@@ -72,6 +73,7 @@ exports.main = async (event, context) => {
         }
         if (radius !== undefined) updateData.radius = radius
         if (image !== undefined) updateData.image = image
+        if (sampleImage !== undefined) updateData.sampleImage = sampleImage
 
         await db.collection('scenic_spots')
           .where({ spotId: spotId })

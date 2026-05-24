@@ -249,3 +249,24 @@
   color: #666666;
   line-height: 1.6;
 }
+
+/* 景点样本参考图 */
+.spot-sample {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.sample-label {
+  font-size: 24rpx;
+  color: #888;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.sample-img {
+  width: 100%;
+  height: 200rpx;
+  border-radius: 8rpx;
+  object-fit: cover;
+}

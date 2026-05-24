@@ -54,6 +54,7 @@ exports.main = async (event, context) => {
         longitude: spot.geoPoint ? spot.geoPoint.longitude : 0,
         radius: spot.radius || 20,
         image: spot.image || '',
+        sampleImage: spot.sampleImage || '',
         checked: checkedSpotIds.includes(mapping.spotId),
         sequence: mapping.sequence
       }

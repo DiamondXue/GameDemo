@@ -14,11 +14,18 @@ Page({
     newSpotRadius: 20,
     newSpotLat: 0,
     newSpotLng: 0,
+    newSpotImage: '',      // 新增时本地临时路径
+    newSpotImageUrl: '',   // 新增时上传后云存储URL
+    uploadingNewImage: false,
     // 编辑打卡点弹窗
     showEditModal: false,
     editSpotId: 0,
     editSpotName: '',
-    editSpotRadius: 20
+    editSpotRadius: 20,
+    editSpotImage: '',     // 编辑时显示的图片（可能是已有URL或新选临时路径）
+    editSpotImageUrl: '',  // 编辑时最终URL（新上传的或原有的）
+    editSpotImageChanged: false, // 是否更换了图片
+    uploadingEditImage: false
   },
 
   onLoad: function(options) {
@@ -66,7 +73,9 @@ Page({
       newSpotLat: latitude,
       newSpotLng: longitude,
       newSpotName: '',
-      newSpotRadius: 20
+      newSpotRadius: 20,
+      newSpotImage: '',
+      newSpotImageUrl: ''
     })
   },
 
@@ -81,17 +90,20 @@ Page({
           newSpotLat: res.latitude,
           newSpotLng: res.longitude,
           newSpotName: '',
-          newSpotRadius: 20
+          newSpotRadius: 20,
+          newSpotImage: '',
+          newSpotImageUrl: ''
         })
       },
       fail: () => {
-        // 如果获取失败，使用默认坐标
         this.setData({
           showAddModal: true,
           newSpotLat: this.data.mapLatitude,
           newSpotLng: this.data.mapLongitude,
           newSpotName: '',
-          newSpotRadius: 20
+          newSpotRadius: 20,
+          newSpotImage: '',
+          newSpotImageUrl: ''
         })
       }
     })
@@ -111,34 +123,86 @@ Page({
     this.setData({ newSpotRadius: val })
   },
 
+  // 新增：选择样本图片（添加弹窗）
+  chooseNewSpotImage: function() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: res => {
+        const path = res.tempFiles[0].tempFilePath
+        this.setData({ newSpotImage: path, newSpotImageUrl: '' })
+      }
+    })
+  },
+
+  // 新增：预览样本图片（添加弹窗）
+  previewNewSpotImage: function() {
+    const src = this.data.newSpotImage
+    if (src) wx.previewImage({ urls: [src], current: src })
+  },
+
+  // 新增：移除样本图片（添加弹窗）
+  removeNewSpotImage: function() {
+    this.setData({ newSpotImage: '', newSpotImageUrl: '' })
+  },
+
   // 确认添加打卡点
   confirmAddSpot: function() {
-    const { newSpotName, newSpotLat, newSpotLng, newSpotRadius } = this.data
+    const { newSpotName, newSpotLat, newSpotLng, newSpotRadius, newSpotImage } = this.data
     if (!newSpotName.trim()) {
       wx.showToast({ title: '请输入打卡点名称', icon: 'none' })
       return
     }
 
-    wx.cloud.callFunction({
-      name: 'manageSpots',
-      data: {
-        action: 'add',
-        name: newSpotName.trim(),
-        latitude: newSpotLat,
-        longitude: newSpotLng,
-        radius: newSpotRadius,
-        description: ''
-      },
-      success: res => {
-        if (res.result.success) {
-          wx.showToast({ title: '添加成功', icon: 'success' })
-          this.setData({ showAddModal: false })
-          this.loadSpots()
-        } else {
-          wx.showToast({ title: res.result.message, icon: 'none' })
+    const doAdd = (imageUrl) => {
+      wx.cloud.callFunction({
+        name: 'manageSpots',
+        data: {
+          action: 'add',
+          name: newSpotName.trim(),
+          latitude: newSpotLat,
+          longitude: newSpotLng,
+          radius: newSpotRadius,
+          description: '',
+          sampleImage: imageUrl
+        },
+        success: res => {
+          this.setData({ uploadingNewImage: false })
+          if (res.result.success) {
+            wx.showToast({ title: '添加成功', icon: 'success' })
+            this.setData({ showAddModal: false })
+            this.loadSpots()
+          } else {
+            wx.showToast({ title: res.result.message, icon: 'none' })
+          }
+        },
+        fail: () => {
+          this.setData({ uploadingNewImage: false })
+          wx.showToast({ title: '添加失败', icon: 'none' })
         }
-      }
-    })
+      })
+    }
+
+    if (newSpotImage) {
+      // 有图片，先上传到云存储
+      this.setData({ uploadingNewImage: true })
+      const ext = newSpotImage.split('.').pop() || 'jpg'
+      const cloudPath = `spot-samples/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+      wx.cloud.uploadFile({
+        cloudPath,
+        filePath: newSpotImage,
+        success: upRes => {
+          doAdd(upRes.fileID)
+        },
+        fail: () => {
+          this.setData({ uploadingNewImage: false })
+          wx.showToast({ title: '图片上传失败', icon: 'none' })
+        }
+      })
+    } else {
+      doAdd('')
+    }
   },
 
   // 取消添加
@@ -156,13 +220,40 @@ Page({
       showEditModal: true,
       editSpotId: spotId,
       editSpotName: spot.name,
-      editSpotRadius: spot.radius || 20
+      editSpotRadius: spot.radius || 20,
+      editSpotImage: spot.sampleImage || '',
+      editSpotImageUrl: spot.sampleImage || '',
+      editSpotImageChanged: false
     })
   },
 
   // 输入编辑打卡点名称
   onEditSpotNameInput: function(e) {
     this.setData({ editSpotName: e.detail.value })
+  },
+
+  // 新增：选择样本图片（编辑弹窗）
+  chooseEditSpotImage: function() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: res => {
+        const path = res.tempFiles[0].tempFilePath
+        this.setData({ editSpotImage: path, editSpotImageChanged: true })
+      }
+    })
+  },
+
+  // 新增：预览样本图片（编辑弹窗）
+  previewEditSpotImage: function() {
+    const src = this.data.editSpotImage
+    if (src) wx.previewImage({ urls: [src], current: src })
+  },
+
+  // 新增：移除样本图片（编辑弹窗）
+  removeEditSpotImage: function() {
+    this.setData({ editSpotImage: '', editSpotImageUrl: '', editSpotImageChanged: true })
   },
 
   // 调整编辑打卡点范围
@@ -176,30 +267,60 @@ Page({
 
   // 确认编辑打卡点
   confirmEditSpot: function() {
-    const { editSpotId, editSpotName, editSpotRadius } = this.data
+    const { editSpotId, editSpotName, editSpotRadius, editSpotImage, editSpotImageUrl, editSpotImageChanged } = this.data
     if (!editSpotName.trim()) {
       wx.showToast({ title: '请输入打卡点名称', icon: 'none' })
       return
     }
 
-    wx.cloud.callFunction({
-      name: 'manageSpots',
-      data: {
-        action: 'update',
-        spotId: editSpotId,
-        name: editSpotName.trim(),
-        radius: editSpotRadius
-      },
-      success: res => {
-        if (res.result.success) {
-          wx.showToast({ title: '修改成功', icon: 'success' })
-          this.setData({ showEditModal: false })
-          this.loadSpots()
-        } else {
-          wx.showToast({ title: res.result.message, icon: 'none' })
+    const doUpdate = (imageUrl) => {
+      wx.cloud.callFunction({
+        name: 'manageSpots',
+        data: {
+          action: 'update',
+          spotId: editSpotId,
+          name: editSpotName.trim(),
+          radius: editSpotRadius,
+          sampleImage: imageUrl
+        },
+        success: res => {
+          this.setData({ uploadingEditImage: false })
+          if (res.result.success) {
+            wx.showToast({ title: '修改成功', icon: 'success' })
+            this.setData({ showEditModal: false })
+            this.loadSpots()
+          } else {
+            wx.showToast({ title: res.result.message, icon: 'none' })
+          }
+        },
+        fail: () => {
+          this.setData({ uploadingEditImage: false })
+          wx.showToast({ title: '修改失败', icon: 'none' })
         }
-      }
-    })
+      })
+    }
+
+    if (editSpotImageChanged && editSpotImage && !editSpotImage.startsWith('cloud://')) {
+      // 选了新图，需要上传
+      this.setData({ uploadingEditImage: true })
+      const ext = editSpotImage.split('.').pop() || 'jpg'
+      const cloudPath = `spot-samples/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+      wx.cloud.uploadFile({
+        cloudPath,
+        filePath: editSpotImage,
+        success: upRes => {
+          doUpdate(upRes.fileID)
+        },
+        fail: () => {
+          this.setData({ uploadingEditImage: false })
+          wx.showToast({ title: '图片上传失败', icon: 'none' })
+        }
+      })
+    } else {
+      // 没换图，用原有URL（或空）
+      const finalUrl = editSpotImageChanged ? '' : editSpotImageUrl
+      doUpdate(finalUrl)
+    }
   },
 
   // 取消编辑
