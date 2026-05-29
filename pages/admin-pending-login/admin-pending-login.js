@@ -69,5 +69,22 @@ Page({
     const dept = e.currentTarget.dataset.dept
     this.setData({ currentDept: dept })
     this.loadData()
+  },
+
+  // 复制当前列表到剪贴板
+  exportList: function() {
+    const list = this.data.filteredEmployees
+    if (list.length === 0) {
+      wx.showToast({ title: '列表为空', icon: 'none' })
+      return
+    }
+    const lines = list.map((emp, i) =>
+      `${i + 1}. ${emp.name || '未设置姓名'}  ${emp.employeeId}  ${emp.department || ''}`
+    )
+    const header = `未登录员工名单（共 ${list.length} 人）\n${'─'.repeat(30)}\n`
+    wx.setClipboardData({
+      data: header + lines.join('\n'),
+      success: () => wx.showToast({ title: '已复制到剪贴板', icon: 'success' })
+    })
   }
 })

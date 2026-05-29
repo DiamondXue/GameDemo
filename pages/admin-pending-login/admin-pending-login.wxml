@@ -2,6 +2,7 @@
   <view class="header">
     <view class="title">未登录员工</view>
     <view class="subtitle">共 {{total}} 人尚未登录小程序</view>
+    <button class="export-btn" bindtap="exportList">📋 复制名单到剪贴板</button>
   </view>
 
   <view class="search-bar">

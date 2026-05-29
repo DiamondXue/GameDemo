@@ -21,7 +21,28 @@ Page({
     keyword: '',
     loading: false,
     submitting: false,
-    filteredEmployees: []
+    filteredEmployees: [],
+    // 批量分配相关
+    batchMode: false,          // 是否处于批量选择模式
+    batchSelectedIds: [],      // 批量选中的员工ID列表
+    showGroupPicker: false,    // 是否显示组号选择器
+    batchAssignGroup: 1,      // 批量分配的目标组号
+    // 组别颜色（用于区分不同组）
+    groupColors: [
+      '', // index 0 不用
+      '#ff6b6b', // 组1：红色
+      '#4ecdc4', // 组2：青色
+      '#feca57', // 组3：黄色
+      '#a29bfe', // 组4：紫色
+      '#ff9ff3', // 组5：粉色
+      '#54a0ff', // 组6：蓝色
+      '#5f27cd', // 组7：深紫
+      '#01a3a4', // 组8：深青
+      '#f368e0', // 组9：洋红
+      '#ff6348', // 组10：橙红
+      '#7bed9f', // 组11：绿色
+      '#70a1ff', // 组12：浅蓝
+    ]
   },
 
   onLoad: function() {
@@ -218,10 +239,109 @@ Page({
     const { selectedIds, customGroupCount, groupAssignments } = this.data
     const summary = []
     for (let i = 1; i <= customGroupCount; i++) {
-      const count = selectedIds.filter(id => (groupAssignments[id] || 1) === i).length
+      const count = selectedIds.filter(id => groupAssignments[id] === i).length
       summary.push({ groupNumber: i, count })
     }
     this.setData({ customGroupSummary: summary })
+  },
+
+  // ========== 批量分配相关方法 ==========
+  
+  // 切换批量选择模式
+  toggleBatchMode: function() {
+    const batchMode = !this.data.batchMode
+    this.setData({
+      batchMode: batchMode,
+      batchSelectedIds: [] // 退出时清空选择
+    })
+  },
+
+  // 切换单个员工的批量选择状态
+  toggleBatchSelect: function(e) {
+    const empId = e.currentTarget.dataset.id
+    const { batchSelectedIds } = this.data
+    const index = batchSelectedIds.indexOf(empId)
+
+    let newSelected
+    if (index > -1) {
+      newSelected = batchSelectedIds.filter((_, i) => i !== index)
+    } else {
+      newSelected = batchSelectedIds.concat([empId])
+    }
+
+    this.setData({ batchSelectedIds: newSelected })
+  },
+
+  // 全选/取消全选（批量模式）
+  selectAllForBatch: function() {
+    const { selectedEmployees, batchSelectedIds } = this.data
+    const allIds = selectedEmployees.map(e => e.employeeId)
+    const allSelected = allIds.every(id => batchSelectedIds.includes(id))
+
+    if (allSelected) {
+      // 取消全选
+      this.setData({ batchSelectedIds: [] })
+    } else {
+      // 全选
+      this.setData({ batchSelectedIds: allIds })
+    }
+  },
+
+  // 显示组号选择器
+  showBatchAssign: function() {
+    if (this.data.batchSelectedIds.length === 0) {
+      wx.showToast({ title: '请先选择员工', icon: 'none' })
+      return
+    }
+    this.setData({
+      showGroupPicker: true,
+      batchAssignGroup: 1 // 默认分配到第1组
+    })
+  },
+
+  // 隐藏组号选择器
+  hideGroupPicker: function() {
+    this.setData({ showGroupPicker: false })
+  },
+
+  // 选择目标组号
+  selectBatchGroup: function(e) {
+    const group = e.currentTarget.dataset.group
+    this.setData({ batchAssignGroup: group })
+  },
+
+  // 确认批量分配
+  confirmBatchAssign: function() {
+    const { batchSelectedIds, batchAssignGroup, groupAssignments } = this.data
+    
+    if (batchSelectedIds.length === 0) {
+      wx.showToast({ title: '请先选择员工', icon: 'none' })
+      return
+    }
+
+    // 更新分组分配
+    const newAssignments = { ...groupAssignments }
+    batchSelectedIds.forEach(empId => {
+      newAssignments[empId] = batchAssignGroup
+    })
+
+    this.setData({
+      groupAssignments: newAssignments,
+      showGroupPicker: false,
+      batchSelectedIds: [], // 清空批量选择
+    })
+
+    this.updateCustomGroupData()
+
+    wx.showToast({
+      title: `已分配 ${batchSelectedIds.length} 人到第 ${batchAssignGroup} 组`,
+      icon: 'success'
+    })
+  },
+
+  // 阻止冒泡
+  stopProp: function() {
+    // 空函数，用于 catchtap 阻止冒泡
   },
 
   // 提交创建

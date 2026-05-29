@@ -191,8 +191,134 @@
   margin-bottom: 20rpx;
 }
 
+.assignment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.assignment-header .section-title {
+  margin-bottom: 0;
+}
+
+.batch-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.batch-btn {
+  font-size: 24rpx;
+  color: #ff6b6b;
+  font-weight: 500;
+  padding: 8rpx 16rpx;
+  background-color: #fff5f5;
+  border-radius: 8rpx;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.batch-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.batch-count {
+  font-size: 26rpx;
+  color: #333333;
+  font-weight: 500;
+}
+
+.batch-select-all {
+  font-size: 24rpx;
+  color: #ff6b6b;
+}
+
+.batch-assign-btn {
+  background-color: #ff6b6b;
+  color: #ffffff;
+  font-size: 26rpx;
+  font-weight: 500;
+  padding: 12rpx 32rpx;
+  border-radius: 8rpx;
+}
+
+.batch-assign-btn:active {
+  opacity: 0.85;
+}
+
+/* 复选框 */
+.batch-check {
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.batch-checkbox {
+  width: 44rpx;
+  height: 44rpx;
+  border: 2rpx solid #dfe6e9;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #ffffff;
+  transition: all 0.2s;
+}
+
+.batch-checkbox.checked {
+  background-color: #ff6b6b;
+  border-color: #ff6b6b;
+  color: #ffffff;
+}
+
+/* 组号标签 */
+.assignment-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.group-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  flex-shrink: 0;
+}
+
+.group-tag-text {
+  font-size: 20rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* 批量模式下的员工项 */
+.assignment-item.batch-mode {
+  background-color: #fafafa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 12rpx;
+  border-bottom: none;
+}
+
+.assignment-item.batch-mode:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
 .assignment-list {
-  max-height: 600rpx;
+  max-height: 800rpx;
   overflow-y: auto;
 }
 
@@ -226,6 +352,103 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+}
+
+/* 组号选择器弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  width: 80%;
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
+}
+
+.modal-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+.modal-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #666666;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.group-picker-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+
+.group-picker-item {
+  flex: 0 0 calc(33.33% - 12rpx);
+  text-align: center;
+  padding: 20rpx 0;
+  background-color: #f8f9fa;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #666666;
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.group-picker-item.active {
+  background-color: #fff5f5;
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.group-picker-item:active {
+  opacity: 0.85;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 20rpx;
+}
+
+.modal-btn {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.modal-btn.cancel {
+  background-color: #f8f9fa;
+  color: #666666;
+}
+
+.modal-btn.confirm {
+  background-color: #ff6b6b;
+  color: #ffffff;
+}
+
+.modal-btn:active {
+  opacity: 0.85;
 }
 
 .capacity-info {

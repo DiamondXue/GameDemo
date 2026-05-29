@@ -49,16 +49,8 @@
 
     <!-- 各组情况 -->
     <view wx:if="{{activeTab === 'teams'}}">
-      <view class="section-card card" wx:for="{{teams}}" wx:key="teamNumber">
-        <view class="team-header">
-          <text class="team-title">第 {{item.teamNumber}} 组</text>
-          <view class="team-progress">
-            <text class="progress-text">{{item.checkedCount}}/{{item.totalSpots}}</text>
-            <text class="completed-badge" wx:if="{{item.isCompleted}}">已完成</text>
-          </view>
-        </view>
 
-        <!-- 队员名单 -->
+      <view class="section-card card" wx:for="{{teams}}" wx:key="teamNumber"><!-- 队员名单 -->
         <view class="member-list">
           <text class="member-list-title">队员名单（{{item.members.length}}人）</text>
           <view class="member-row header">

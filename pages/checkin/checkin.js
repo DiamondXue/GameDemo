@@ -41,7 +41,36 @@ Page({
       success: res => {
         this.setData({ loading: false })
         if (res.result.success) {
-          this.setData({ spots: res.result.spots })
+          const spots = res.result.spots
+          // 收集所有 cloud:// 开头的示例图 ID
+          const cloudIds = spots
+            .filter(s => s.exampleImage && s.exampleImage.startsWith('cloud://'))
+            .map(s => s.exampleImage)
+
+          if (cloudIds.length > 0) {
+            wx.cloud.getTempFileURL({
+              fileList: cloudIds,
+              success: urlRes => {
+                const urlMap = {}
+                urlRes.fileList.forEach(f => {
+                  if (f.tempFileURL) urlMap[f.fileID] = f.tempFileURL
+                })
+                const updatedSpots = spots.map(s => {
+                  if (urlMap[s.exampleImage]) {
+                    return { ...s, exampleImage: urlMap[s.exampleImage] }
+                  }
+                  return s
+                })
+                this.setData({ spots: updatedSpots })
+              },
+              fail: () => {
+                // 获取临时链接失败，不影响页面其他功能
+                this.setData({ spots })
+              }
+            })
+          } else {
+            this.setData({ spots })
+          }
         }
       },
       fail: err => {

@@ -1,0 +1,9 @@
+{
+  "name": "exportUnchecked",
+  "version": "1.0.0",
+  "description": "导出未签到名单（全部/按组）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

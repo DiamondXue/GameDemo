@@ -102,7 +102,6 @@ Page({
             if (spot.teamPhotoUrl && urlMap[spot.teamPhotoUrl]) {
               return Object.assign({}, spot, { teamPhotoUrl: urlMap[spot.teamPhotoUrl] })
             }
-            return spot
           })
           return Object.assign({}, team, { details })
         })

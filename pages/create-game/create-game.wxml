@@ -108,18 +108,79 @@
 
   <!-- 自定义分组分配（仅自定义模式 + 已选人时显示） -->
   <view class="section card" wx:if="{{groupMode === 'custom' && selectedIds.length > 0}}">
-    <text class="section-title">分组分配</text>
+    <view class="assignment-header">
+      <text class="section-title">分组分配</text>
+      <view class="batch-actions">
+        <text class="batch-btn" bindtap="toggleBatchMode">{{batchMode ? '取消批量' : '批量分配'}}</text>
+      </view>
+    </view>
     <text class="assignment-desc">为每位参与者指定分组编号（范围 1 ~ {{customGroupCount}}）</text>
+    
+    <!-- 批量操作栏 -->
+    <view class="batch-bar" wx:if="{{batchMode}}">
+      <view class="batch-info">
+        <text class="batch-count">已选择 {{batchSelectedIds.length}} 人</text>
+        <text class="batch-select-all" bindtap="selectAllForBatch">全选/取消</text>
+      </view>
+      <view class="batch-assign-btn" bindtap="showBatchAssign" wx:if="{{batchSelectedIds.length > 0}}">
+        <text>分配到组</text>
+      </view>
+    </view>
+    
     <view class="assignment-list">
-      <view class="assignment-item" wx:for="{{selectedEmployees}}" wx:key="employeeId">
-        <view class="assignment-left">
-          <text class="assignment-name">{{item.name || '-'}}</text>
+      <view class="assignment-item {{batchMode ? 'batch-mode' : ''}}" wx:for="{{selectedEmployees}}" wx:key="employeeId">
+        <!-- 批量模式：显示复选框 -->
+        <view class="batch-check" wx:if="{{batchMode}}" catchtap="toggleBatchSelect" data-id="{{item.employeeId}}">
+          <view class="batch-checkbox {{utils.isSelected(batchSelectedIds, item.employeeId) ? 'checked' : ''}}">
+            <text wx:if="{{utils.isSelected(batchSelectedIds, item.employeeId)}}">✓</text>
+          </view>
+        </view>
+        
+        <view class="assignment-left" bindtap="{{batchMode ? 'toggleBatchSelect' : ''}}" data-id="{{item.employeeId}}">
+          <view class="assignment-name-row">
+            <text class="assignment-name">{{item.name || '-'}}</text>
+            <!-- 组号标签 -->
+            <view class="group-tag" style="background-color: {{groupColors[groupAssignments[item.employeeId] || 1]}}" wx:if="{{groupAssignments[item.employeeId]}}">
+              <text class="group-tag-text">第{{groupAssignments[item.employeeId]}}组</text>
+            </view>
+          </view>
           <text class="assignment-dept">{{item.department}}</text>
         </view>
-        <view class="assignment-stepper">
+        
+        <!-- 非批量模式：显示步进器 -->
+        <view class="assignment-stepper" wx:if="{{!batchMode}}">
           <view class="stepper-btn" bindtap="changeGroupAssignment" data-id="{{item.employeeId}}" data-action="minus">-</view>
           <text class="stepper-value">{{groupAssignments[item.employeeId] || 1}}</text>
           <view class="stepper-btn" bindtap="changeGroupAssignment" data-id="{{item.employeeId}}" data-action="plus">+</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 组号选择器弹窗 -->
+  <view class="modal-mask" wx:if="{{showGroupPicker}}" bindtap="hideGroupPicker">
+    <view class="modal-content" catchtap="stopProp">
+      <text class="modal-title">选择组号</text>
+      <text class="modal-desc">将 {{batchSelectedIds.length}} 名员工分配到第几组？</text>
+      
+      <view class="group-picker-grid">
+        <view
+          class="group-picker-item {{batchAssignGroup === item + 1 ? 'active' : ''}}"
+          wx:for="{{customGroupCount}}"
+          wx:key="*this"
+          bindtap="selectBatchGroup"
+          data-group="{{item + 1}}"
+        >
+          <text>第{{item + 1}}组</text>
+        </view>
+      </view>
+      
+      <view class="modal-buttons">
+        <view class="modal-btn cancel" bindtap="hideGroupPicker">
+          <text>取消</text>
+        </view>
+        <view class="modal-btn confirm" bindtap="confirmBatchAssign">
+          <text>确认分配</text>
         </view>
       </view>
     </view>
